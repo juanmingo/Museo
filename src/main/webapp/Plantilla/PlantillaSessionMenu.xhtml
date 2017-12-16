@@ -1,0 +1,155 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html">
+
+    <h:head>
+
+        <link rel="shortcut icon" href="./../images/favicon.ico"/>
+        <script type="text/javascript" src="./../resources/js/common.js"/>
+        <link href="./../resources/css/custom/jquery-ui.css" rel="stylesheet"/>
+        <link href="./../resources/css/common.css" rel="stylesheet"/>
+
+
+        <title>
+            <ui:insert name="titulo">
+                Ayudantías U.T.F.S.M.
+            </ui:insert>
+        </title>
+    </h:head>
+
+    <h:body>
+
+        <f:metadata>
+            <f:event type="preRenderView" listener="#{navegacionUser.validarSession()}"/>
+        </f:metadata>
+
+        <h:panelGrid width="100%" >
+
+            <div id="page">
+
+                <h:form>
+                    <h:panelGrid width="100%" >
+                        <h:graphicImage url="./../images/header_usm_baner_bandera.png" width="100%" height="6px" /> 
+                    </h:panelGrid>
+                    <h:panelGrid  columnClasses="tablaColumnaFirmaHeader1,tablaColumnaFirmaHeader2,tablaColumnaFirmaHeader3,tablaColumnaFirmaHeader3,tablaColumnaFirmaHeader3,tablaColumnaFirmaHeader3"
+                                  columns="6" class="headerFirma" width="100%" style="background-color: #2F5E80; " >
+
+
+                        <h:panelGrid width="2px" />
+
+
+                        <h:outputText value="#{navegacionUser.objIndividuo.indNombres} #{navegacionUser.objIndividuo.indApPaterno} #{navegacionUser.objIndividuo.indApMaterno}" 
+                                      style="color: white; font-size: 12px;" />
+                        <h:panelGrid/>
+                        <h:panelGrid/>
+                        <h:panelGrid/>                           
+                        <p:commandLink id="salir" oncomplete="PF('dlgSalir').show();"  >
+                            <p:graphicImage value="./../images/icon_menu_logout2.png"  style="width: 25px"  />
+                        </p:commandLink>                     
+                    </h:panelGrid>
+                </h:form>
+                <ui:insert name="cabecera">
+
+                    <p:panelGrid columns="2" 
+                                 columnClasses="tablaColumna1,tablaColumna2"
+                                 styleClass="sinBorderPanelGrid" >
+                        <h:graphicImage url="./../images/header_usm_ayudantia.png" height="80px" /> 
+
+                        <h:graphicImage url="./../images/header_years.png" height="60px"  rendered="false" /> 
+                        <h:graphicImage url="./../images/header_years_acreditacion.png" height="60px" rendered="false" /> 
+                        <h:graphicImage url="./../images/header_logo_biblioteca.png" height="75px" /> 
+
+                    </p:panelGrid>      
+
+                </ui:insert>
+
+                <ui:insert name="contenido">
+                </ui:insert>
+
+                <h:panelGrid class="footerFirma" width="100%" style="text-align: left;"  >
+                    <h:outputText value="© Universidad Técnica Federico Santa María" />
+                    <h:panelGrid columns="2" class="footerFirma">
+                        <h:panelGrid width="5px" />
+                        <h:outputText value="Avenida España 1680, Valparaíso." />                           
+                    </h:panelGrid>
+                </h:panelGrid>
+
+                <h:panelGroup id="panelFooter" class="panelFooter" layout="block">
+
+                    <h:panelGroup id="contFooter" layout="block">      
+
+                        <div align="center">
+
+                            <h:panelGrid  columns="5" cellpadding="0" cellspacing="0">
+                                <h:outputLink value="https://usmtransparente.usm.cl/" target="_blank">
+                                    <p:graphicImage value="./../images/footer_usm_transparente.png"  style="height: 40px" />
+                                </h:outputLink> 
+                                <h:panelGrid width="25px" />
+                                <h:outputLink value="http://usm.cl/universidad/acreditacion/" target="_blank">
+                                    <p:graphicImage value="./../images/footer_universidad_acreditada.png"  style="height: 40px" />
+                                </h:outputLink> 
+                                <h:panelGrid width="25px" />
+                                <h:outputLink value="http://redg9.cl/" target="_blank">
+                                    <p:graphicImage value="./../images/footer_g9.png"  style="height: 40px" />
+                                </h:outputLink> 
+                            </h:panelGrid>
+
+                            <br/>
+
+                            <h:panelGrid  columns="9" cellpadding="0" cellspacing="0">
+                                <h:outputLink value="http://www.mecesup.cl/" target="_blank">
+                                    <p:graphicImage value="./../images/footer_mecesup.png"  style="height: 40px" />
+                                </h:outputLink> 
+                                <h:panelGrid width="50px" />
+                                <h:outputLink value="http://www.reuna.cl/" target="_blank">
+                                    <p:graphicImage value="./../images/footer_reuna.png"  style="height: 40px" />
+                                </h:outputLink> 
+                                <h:panelGrid width="50px" />
+                                <h:outputLink value="http://www.universia.cl/" target="_blank">
+                                    <p:graphicImage value="./../images/footer_universia.png"  style="height: 40px" />
+                                </h:outputLink> 
+                                <h:panelGrid width="50px" />
+                                <h:outputLink value="http://www.estudiaenvalparaiso.cl/index.php/es/" target="_blank">
+                                    <p:graphicImage value="./../images/footer_estudia_en_valparaiso.png"  style="height: 40px" />
+                                </h:outputLink>
+                                <h:panelGrid width="50px" />
+                                <h:outputLink value="http://www.auregionales.cl/" target="_blank">
+                                    <p:graphicImage value="./../images/footer_aur.png"  style="height: 40px" />
+                                </h:outputLink>
+                            </h:panelGrid>
+
+                        </div>
+
+                    </h:panelGroup>
+
+                </h:panelGroup>
+
+            </div>
+
+        </h:panelGrid>
+
+        <p:dialog id="dlgSalir" widgetVar="dlgSalir" header="Cerrar Sesión"  focus="btnCancelarSalir"
+                  modal="true" draggable="false" resizable="false" class="dlgSalirCen contenidoformulario" >
+            <p:panel style="border: 0px">                   
+                <div align="center">
+                    <h:panelGrid columns="3" class="contenidoformulario">
+                        <p:commandButton value="Confirmar" icon="ui-icon-check"  actionListener="#{navegacionUser.salir()}" style="width: 150px;"/>
+                        <h:panelGrid width="5px"/>
+                        <p:commandButton id="btnCancelarSalir" value="Cancelar" icon="ui-icon-close" onclick="PF('dlgSalir').hide();" style="width: 150px;"/>
+                    </h:panelGrid>
+                </div>
+            </p:panel> 
+        </p:dialog> 
+
+        <p:dialog id="dlgLoading" widgetVar="dlgLoading"  modal="true" showEffect="explode" hideEffect="explode"  class="dlgLoadingCenter"
+                  closable="false" draggable="false" resizable="false" showHeader="false" style="background: transparent;" >            
+            <h:graphicImage value="./../images/icon_loading_v4.gif" width="50px" height="50px"/>            
+        </p:dialog>
+
+    </h:body>
+
+</html>

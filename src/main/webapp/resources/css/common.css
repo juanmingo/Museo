@@ -1,0 +1,439 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 01-12-2016, 9:52:33
+    Author     : Juan D. Delgado Robles
+*/
+
+/* INI ESTILOS GENERALES ----------------------------------*/
+/* ESTILOS GENERALES ----------------------------------*/
+#page{
+    width: 100%;
+    /*margin: 0 auto;*/
+    font-size   : 14px;
+
+}
+
+table, tr, td {
+    border: 0px solid red;
+    padding: 0cm 0cm 0cm 0cm;
+    margin: 0cm 0cm 0cm 0cm;
+}
+tr.noBorder td {
+    border: 0;
+    padding: 0cm 0cm 0cm 0cm;
+    margin: 0cm 0cm 0cm 0cm;
+}
+
+body { 
+    padding: 0cm 0cm 0cm 0cm;
+    margin: 0cm 0cm 0cm 0cm;
+    border:  0px;
+    display: block;
+    margin: 0px;
+}
+
+#header{
+    width: 100%;
+    border: 0px solid #000;
+    /*margin-bottom:16px;*/
+    margin-bottom:0px;
+    margin:0px;
+    padding-top: 0px;
+}
+
+#headerUserInfo{
+    width: 100%;
+    height:200px;
+    border: 0px solid #000;
+    /*margin-bottom:16px;*/
+    margin-bottom:0px;
+    margin:0px;
+    padding-top: 0px;
+}
+
+#content{
+    width: 100%;
+    height: auto;
+    margin-right:16px;
+    margin-bottom:16px;
+    border: 0px solid #000;
+
+}
+
+#footer{
+    width: 100%;
+    height:100px;
+    border: 0px solid #000;
+}
+/* FIN ESTILOS GENERALES ----------------------------------*/
+
+.center {
+    text-align: center;
+    border: 3px solid green;
+}
+
+.panelFooter {
+    background-color: #FFFFFF;
+    height: 50%;
+    margin-right: auto;
+    margin-left: auto;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    border-bottom-right-radius: 15px;
+    border-bottom-left-radius: 15px;
+}
+
+.contFooter {
+    width       : 50%;
+    margin-right: auto;
+    margin-left : auto;
+    color       : cornsilk;
+    font-size   : 11px;
+    height      : 100%;
+}
+
+.footerFirma {
+    background-color: #EEEEEE;
+    color: #2F5E80;
+    height: 50%;
+
+    font-size: 13px;  
+    text-align: left;
+}
+
+.headerFirma {
+    background-color: #2F5E80;
+    color: white;    
+}
+
+.footerVersion {
+    background-color: #ffffff;
+    color: #2F5E80;
+    height: 50%;
+
+    font-size: 12px;  
+    text-align: left;
+}
+
+.tablaFooterCol1 {
+    width: 24%;
+}
+
+.tablaFooterCol2 {
+    width: 5%;
+}
+
+.tablaFooterCol3, .tablaFooterCol4 {
+    vertical-align: top;
+}
+
+.panelGridLeft td,.panelGridLeft tr {
+    text-align: left;
+}
+
+.sinBorderPanelGrid>tbody>tr{
+    border: none !important;
+}
+.sinBorderPanelGrid>tbody>tr>td{
+    border: none !important;
+}
+
+.tablaColumna1 {
+    width: 100%;
+    text-align: left;
+    vertical-align: top;
+}
+
+.tablaColumna2 {
+    /*
+    width: 50%;
+    */
+    text-align: right;
+    vertical-align: top;
+}
+.tablaColumna3 {
+    width: 2%;
+}
+
+.tablaColumnaFirmaHeader1 {
+    width: 75%;
+    text-align: left;
+}
+
+.tablaColumnaFirmaHeader2 { 
+    width: 25%;
+    text-align: right;
+}
+
+.tablaColumnaFirmaHeader3 { 
+    width: 10%;
+    text-align: right;
+}
+
+.tablaColumnaEnviarDSPAC {
+    width: 80%;
+    text-align: left;
+}
+
+.tablaColumnaBotonesMonografia1 {
+    width: 33%;
+    text-align: left;
+}
+
+.tablaColumnaBotonesMonografia2 {
+    width: 33%;
+    text-align: center;
+}
+
+.tablaColumnaBotonesMonografia3 {
+    width: 33%;
+    text-align: right;
+}
+
+.contenidoformulario {
+    font-size   : 12px;
+}
+
+.contenidoformulario10 {
+    font-size   : 10px;
+}
+
+.ui-selectonemenu .ui-selectonemenu-label
+{
+    font-size   : 12px;
+    vertical-align:top;
+
+}
+
+.ui-selectonemenu-panel .ui-selectonemenu-list {
+    font-size   : 12px;
+    vertical-align:top;
+
+}
+
+.contDatatable {
+    font-size   : 12px;
+}
+
+.contDatatableTit {
+    font-size   : 12px;
+    text-align: center;
+    vertical-align:top;
+}
+
+.contDatatableDer {
+    font-size   : 12px;
+    text-align: right;
+
+}
+
+.contDatatableIzq {
+    font-size   : 12px;
+    text-align: left;    
+}
+
+.contDatatableCen {
+    font-size   : 12px;
+    text-align: center;    
+}
+
+.contDatatable10 {
+    font-size   : 11px;
+}
+
+.contDatatableTit10 {
+    font-size   : 11px;
+    text-align: center;
+    vertical-align:top;
+}
+
+.contDatatableDer10 {
+    font-size   : 11px;
+    text-align: right;
+
+}
+
+.contDatatableIzq10 {
+    font-size   : 11px;
+    text-align: left;    
+}
+
+.contDatatableCen10 {
+    font-size   : 11px;
+    text-align: center;    
+}
+
+.contDatatable9 {
+    font-size   : 10.5px;
+}
+
+.contDatatableTit9 {
+    font-size   : 10.5px;
+    text-align: center;
+    vertical-align:top;
+}
+
+.contDatatableDer9 {
+    font-size   : 10.5px;
+    text-align: right;
+
+}
+
+.contDatatableIzq9 {
+    font-size   : 10.5px;
+    text-align: left;    
+}
+
+.contDatatableCen9 {
+    font-size   : 10.5px;
+    text-align: center;    
+}
+
+.labelNegrita {
+    font-weight: bold;    
+}
+
+
+.dlgLoadingCenter{
+    top: 50% !important;
+    left:50% !important;
+}
+
+.dlgSalirCen{
+    top: 30% !important; 
+}
+
+.dlgCambiosMonografia{
+    top: 50% !important;
+    left:20% !important;
+}
+
+.ui-datatable.borderless thead th,
+.ui-datatable.borderless tbody,
+.ui-datatable.borderless tbody tr,
+.ui-datatable.borderless tbody td {
+    border-style: none;
+}
+
+.tree-table-no-header thead {
+    display: none;
+}
+
+.noCellBorder, table.noBorder thead tr.ui-widget-header, table.noBorder .ui-panelgrid-even, table.noBorder .ui-panelgrid-odd {
+    border: none !important;
+}
+
+.prueba{
+    background: #00C0B1;
+}
+
+
+.alignTop {
+    vertical-align: top;
+}
+
+.alignBottom {
+    vertical-align: bottom; 
+}
+
+.alignCentral {
+    vertical-align: central;
+}
+
+.ui-datagrid-content {
+    border: none;
+}
+
+.ui-accordion .ui-accordion-header {
+    display: block;
+    cursor: pointer;
+    position: relative;
+    margin: 2px 0 0 0;
+    padding: .5em .5em .5em .7em;
+    font-size: 100%;
+    padding-left: 40px;
+    background: #f8b101;
+    color: black;
+    font-weight: bold;
+}
+
+.ui-menubutton {
+    padding:0;
+    position: relative;
+    display: inline-block;
+    width: 200px;
+}
+
+.ui-menubutton .ui-button {
+    margin:0;
+    width: 200px;
+}
+
+.ui-menu.ui-menu-dynamic{
+    width: 200px;
+}
+
+.columnaLeft {
+    text-align: left;
+    vertical-align: top;
+    width: 60%;
+}
+
+.columnaCenter {
+    text-align: center;
+    vertical-align: top;
+    width: 60%;
+}
+
+.columnaRight {
+    text-align: right;
+    vertical-align: top;
+    width: 60%;
+}
+
+
+
+.ui-menubar .ui-menuitem-link {
+    cursor: pointer;
+    position: relative;
+    margin: 2px 0 0 0;
+    padding: .5em .5em .5em .7em;
+    font-size: 100%;
+    padding-left: 20px;
+    color: #685f5f;
+    font-weight: bold;
+
+}
+
+.ui-menubar .ui-menu-child .ui-menuitem-link{
+    width: 80%;
+}
+
+.ui-menu .ui-menu-parent .ui-menu-child{
+    width: 20em;
+    font-size: 96%;
+}
+
+.alingTableLeft table td {
+    text-align: right;
+}
+
+.ui-datatable-hor-scroll .ui-datatable-tablewrapper,.scrolling-div .ui-datatable-tablewrapper{
+    overflow: auto;
+    width: 100%;
+    padding-bottom: 5px;
+}
+
+.ui-panelgrid-cell ui-widget-header thead th,
+.ui-panelgrid-cell ui-widget-header tbody,
+.ui-panelgrid-cell ui-widget-header tbody tr,
+.ui-panelgrid-cell ui-widget-header tbody td {
+    background-color: white;
+}
+
+.noBorderPanelGrid tr,
+.noBorderPanelGrid td { background-color: white; border-style: none; }
