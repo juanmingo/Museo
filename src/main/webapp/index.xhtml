@@ -5,19 +5,11 @@
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"              
                 template="./Plantilla/PlantillaSinSession.xhtml">
-
     <ui:define name="contenido">        
-
-        <h:panelGrid columns="3" columnClasses="alignTop,alignTop,alignTop" style="height: 96%" >
-        
-            <h:form>
-            
-            <p:gmap center="41.381542, 2.122893" zoom="15" type="HYBRID"  />
-            
-            </h:form>
-
-        </h:panelGrid>
+      
+            <f:view contentType="text/html">
+                <p:gmap center="-33.43144133557529, -71.3671875" zoom="6" type="HYBRID" style="width:100%;height:97%" />
+            </f:view>       
 
     </ui:define> 
-
 </ui:composition>
