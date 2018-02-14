@@ -76,7 +76,7 @@ public class MuseoUsuario implements Serializable {
     @Column(name = "correo")
     private String correo;
     @Size(max = 200)
-    @Column(name = "contrase\u00f1a")
+    @Column(name = "contraseña")
     private String contraseña;
     @Size(max = 20)
     @Column(name = "mususu_fono")
