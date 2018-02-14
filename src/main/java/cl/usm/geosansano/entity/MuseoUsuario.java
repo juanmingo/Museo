@@ -42,13 +42,16 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "MuseoUsuario.findByMususuMaterno", query = "SELECT m FROM MuseoUsuario m WHERE m.mususuMaterno = :mususuMaterno")
     , @NamedQuery(name = "MuseoUsuario.findByMususuFechaNac", query = "SELECT m FROM MuseoUsuario m WHERE m.mususuFechaNac = :mususuFechaNac")
     , @NamedQuery(name = "MuseoUsuario.findByCorreo", query = "SELECT m FROM MuseoUsuario m WHERE m.correo = :correo")
-    , @NamedQuery(name = "MuseoUsuario.findByContrase\u00f1a", query = "SELECT m FROM MuseoUsuario m WHERE m.correo = :correo AND m.contrase\u00f1a = :contrase\u00f1a")
     , @NamedQuery(name = "MuseoUsuario.findByMususuFono", query = "SELECT m FROM MuseoUsuario m WHERE m.mususuFono = :mususuFono")
     , @NamedQuery(name = "MuseoUsuario.findByMususuIngreso", query = "SELECT m FROM MuseoUsuario m WHERE m.mususuIngreso = :mususuIngreso")
     , @NamedQuery(name = "MuseoUsuario.findByMususuRol", query = "SELECT m FROM MuseoUsuario m WHERE m.mususuRol = :mususuRol")
     , @NamedQuery(name = "MuseoUsuario.findByMususuRolDv", query = "SELECT m FROM MuseoUsuario m WHERE m.mususuRolDv = :mususuRolDv")
     , @NamedQuery(name = "MuseoUsuario.findByMususuIdUsu", query = "SELECT m FROM MuseoUsuario m WHERE m.mususuIdUsu = :mususuIdUsu")
-    , @NamedQuery(name = "MuseoUsuario.findByFechaModificacion", query = "SELECT m FROM MuseoUsuario m WHERE m.fechaModificacion = :fechaModificacion")})
+    , @NamedQuery(name = "MuseoUsuario.findByFechaModificacion", query = "SELECT m FROM MuseoUsuario m WHERE m.fechaModificacion = :fechaModificacion")
+
+    //Busqueda Cuenta
+    , @NamedQuery(name = "MuseoUsuario.findByCuenta", query = "SELECT m FROM MuseoUsuario m WHERE m.correo = :correo AND m.contrase\u00f1a = :contrase\u00f1a")
+})
 public class MuseoUsuario implements Serializable {
 
     private static final long serialVersionUID = 1L;

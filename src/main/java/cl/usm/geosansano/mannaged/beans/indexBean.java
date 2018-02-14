@@ -31,8 +31,9 @@ public class indexBean implements Serializable {
     private List<TipoRevision> tipoRevisionList;
 
     @EJB
-    private MuseoUsuarioFacadeLocal museoUsuarioListFacade;
+    private MuseoUsuarioFacadeLocal museoUsuarioFacade;
     private List<MuseoUsuario> museoUsuarioList;
+    private MuseoUsuario museoUsuario;
 
     @EJB
     private SedeFacadeLocal sedeListFacade;
@@ -55,8 +56,12 @@ public class indexBean implements Serializable {
         sedeList = sedeListFacade.findAll();
         System.out.println("sedeList: " + sedeList.size());
 
-        museoUsuarioList = museoUsuarioListFacade.findAll();
+        museoUsuarioList = museoUsuarioFacade.findAll();
         System.out.println("museoUsuarioList: " + museoUsuarioList.size());
+
+        museoUsuario = museoUsuarioFacade.findByCuenta("juan.delgado@usm.cl", "A94652AA97C7211BA8954DD15A3CF838_");
+        //museoUsuario = museoUsuarioFacade.findByCuenta("juan.delgado@usm.cl", "A94652AA97C7211BA8954DD15A3CF838");
+        System.out.println("1 - museoUsuario: " + museoUsuario);
 
     }
 
@@ -82,6 +87,14 @@ public class indexBean implements Serializable {
 
     public void setSedeList(List<Sede> sedeList) {
         this.sedeList = sedeList;
+    }
+
+    public MuseoUsuario getMuseoUsuario() {
+        return museoUsuario;
+    }
+
+    public void setMuseoUsuario(MuseoUsuario museoUsuario) {
+        this.museoUsuario = museoUsuario;
     }
 
 }

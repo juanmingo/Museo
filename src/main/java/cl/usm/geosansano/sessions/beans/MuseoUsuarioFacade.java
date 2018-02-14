@@ -6,9 +6,10 @@
 package cl.usm.geosansano.sessions.beans;
 
 import cl.usm.geosansano.entity.MuseoUsuario;
-import java.util.List;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 
 /**
@@ -21,6 +22,9 @@ public class MuseoUsuarioFacade extends AbstractFacade<MuseoUsuario> implements 
     @PersistenceContext(unitName = "USM_GeoSansano_war_1.0PU")
     private EntityManager em;
 
+    @EJB
+    private MuseoUsuarioFacadeLocal museoUsuarioListFacade;
+
     @Override
     protected EntityManager getEntityManager() {
         return em;
@@ -31,8 +35,15 @@ public class MuseoUsuarioFacade extends AbstractFacade<MuseoUsuario> implements 
     }
 
     @Override
-    public List<MuseoUsuario> findByUsuario() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public MuseoUsuario findByCuenta(String correo, String contraseña) {
+        try {
+            return (MuseoUsuario) em.createNamedQuery("MuseoUsuario.findByCuenta")
+                    .setParameter("correo", correo)
+                    .setParameter("contrase\u00f1a", contraseña)
+                    .getSingleResult();
+        } catch (NoResultException nre) {
+            return null;
+        }
     }
-    
+
 }

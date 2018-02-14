@@ -25,12 +25,12 @@ public interface MuseoUsuarioFacadeLocal {
     MuseoUsuario find(Object id);
 
     List<MuseoUsuario> findAll();
-    //findByUsuario
-
-    List<MuseoUsuario> findByUsuario();
 
     List<MuseoUsuario> findRange(int[] range);
 
     int count();
+
+    //Busqueda Cuenta
+    MuseoUsuario findByCuenta(String correo, String contraseña);
 
 }
