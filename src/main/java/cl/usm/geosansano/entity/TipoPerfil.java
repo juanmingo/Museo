@@ -26,47 +26,47 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author Juan
  */
 @Entity
-@Table(name = "tipo_revision")
+@Table(name = "tipo_perfil")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "TipoRevision.findAll", query = "SELECT t FROM TipoRevision t")
-    , @NamedQuery(name = "TipoRevision.findByCodRevision", query = "SELECT t FROM TipoRevision t WHERE t.codRevision = :codRevision")
-    , @NamedQuery(name = "TipoRevision.findByNomRevision", query = "SELECT t FROM TipoRevision t WHERE t.nomRevision = :nomRevision")})
-public class TipoRevision implements Serializable {
+    @NamedQuery(name = "TipoPerfil.findAll", query = "SELECT t FROM TipoPerfil t")
+    , @NamedQuery(name = "TipoPerfil.findByCodPerfil", query = "SELECT t FROM TipoPerfil t WHERE t.codPerfil = :codPerfil")
+    , @NamedQuery(name = "TipoPerfil.findByNomPerfil", query = "SELECT t FROM TipoPerfil t WHERE t.nomPerfil = :nomPerfil")})
+public class TipoPerfil implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
     @NotNull
-    @Column(name = "cod_revision")
-    private Integer codRevision;
+    @Column(name = "cod_perfil")
+    private Integer codPerfil;
     @Size(max = 50)
-    @Column(name = "nom_revision")
-    private String nomRevision;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "codRevision")
+    @Column(name = "nom_perfil")
+    private String nomPerfil;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "codPerfil")
     private List<MuseoUsuario> museoUsuarioList;
 
-    public TipoRevision() {
+    public TipoPerfil() {
     }
 
-    public TipoRevision(Integer codRevision) {
-        this.codRevision = codRevision;
+    public TipoPerfil(Integer codPerfil) {
+        this.codPerfil = codPerfil;
     }
 
-    public Integer getCodRevision() {
-        return codRevision;
+    public Integer getCodPerfil() {
+        return codPerfil;
     }
 
-    public void setCodRevision(Integer codRevision) {
-        this.codRevision = codRevision;
+    public void setCodPerfil(Integer codPerfil) {
+        this.codPerfil = codPerfil;
     }
 
-    public String getNomRevision() {
-        return nomRevision;
+    public String getNomPerfil() {
+        return nomPerfil;
     }
 
-    public void setNomRevision(String nomRevision) {
-        this.nomRevision = nomRevision;
+    public void setNomPerfil(String nomPerfil) {
+        this.nomPerfil = nomPerfil;
     }
 
     @XmlTransient
@@ -81,18 +81,18 @@ public class TipoRevision implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (codRevision != null ? codRevision.hashCode() : 0);
+        hash += (codPerfil != null ? codPerfil.hashCode() : 0);
         return hash;
     }
 
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof TipoRevision)) {
+        if (!(object instanceof TipoPerfil)) {
             return false;
         }
-        TipoRevision other = (TipoRevision) object;
-        if ((this.codRevision == null && other.codRevision != null) || (this.codRevision != null && !this.codRevision.equals(other.codRevision))) {
+        TipoPerfil other = (TipoPerfil) object;
+        if ((this.codPerfil == null && other.codPerfil != null) || (this.codPerfil != null && !this.codPerfil.equals(other.codPerfil))) {
             return false;
         }
         return true;
@@ -100,7 +100,7 @@ public class TipoRevision implements Serializable {
 
     @Override
     public String toString() {
-        return "cl.usm.geosansano.entity.TipoRevision[ codRevision=" + codRevision + " ]";
+        return "cl.usm.geosansano.entity.TipoPerfil[ codPerfil=" + codPerfil + " ]";
     }
     
 }

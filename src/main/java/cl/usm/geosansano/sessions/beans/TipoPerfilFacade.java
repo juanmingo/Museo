@@ -5,7 +5,7 @@
  */
 package cl.usm.geosansano.sessions.beans;
 
-import cl.usm.geosansano.entity.MuseoUsuarioCarrera;
+import cl.usm.geosansano.entity.TipoPerfil;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -15,7 +15,7 @@ import javax.persistence.PersistenceContext;
  * @author Juan
  */
 @Stateless
-public class MuseoUsuarioCarreraFacade extends AbstractFacade<MuseoUsuarioCarrera> implements MuseoUsuarioCarreraFacadeLocal {
+public class TipoPerfilFacade extends AbstractFacade<TipoPerfil> implements TipoPerfilFacadeLocal {
 
     @PersistenceContext(unitName = "USM_GeoSansano_war_1.0PU")
     private EntityManager em;
@@ -25,8 +25,8 @@ public class MuseoUsuarioCarreraFacade extends AbstractFacade<MuseoUsuarioCarrer
         return em;
     }
 
-    public MuseoUsuarioCarreraFacade() {
-        super(MuseoUsuarioCarrera.class);
+    public TipoPerfilFacade() {
+        super(TipoPerfil.class);
     }
     
 }

@@ -6,13 +6,14 @@
 package cl.usm.geosansano.sessions.beans;
 
 import cl.usm.geosansano.entity.MuseoUsuario;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 /**
  *
- * @author Juan Delgado
+ * @author Juan
  */
 @Stateless
 public class MuseoUsuarioFacade extends AbstractFacade<MuseoUsuario> implements MuseoUsuarioFacadeLocal {
@@ -27,6 +28,11 @@ public class MuseoUsuarioFacade extends AbstractFacade<MuseoUsuario> implements 
 
     public MuseoUsuarioFacade() {
         super(MuseoUsuario.class);
+    }
+
+    @Override
+    public List<MuseoUsuario> findByUsuario() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

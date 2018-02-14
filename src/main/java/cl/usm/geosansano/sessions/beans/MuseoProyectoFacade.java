@@ -12,7 +12,7 @@ import javax.persistence.PersistenceContext;
 
 /**
  *
- * @author Juan Delgado
+ * @author Juan
  */
 @Stateless
 public class MuseoProyectoFacade extends AbstractFacade<MuseoProyecto> implements MuseoProyectoFacadeLocal {

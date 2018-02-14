@@ -5,7 +5,7 @@
  */
 package cl.usm.geosansano.sessions.beans;
 
-import cl.usm.geosansano.entity.CarreraImparte;
+import cl.usm.geosansano.entity.TipoPerfil;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -14,19 +14,19 @@ import javax.ejb.Local;
  * @author Juan
  */
 @Local
-public interface CarreraImparteFacadeLocal {
+public interface TipoPerfilFacadeLocal {
 
-    void create(CarreraImparte carreraImparte);
+    void create(TipoPerfil tipoPerfil);
 
-    void edit(CarreraImparte carreraImparte);
+    void edit(TipoPerfil tipoPerfil);
 
-    void remove(CarreraImparte carreraImparte);
+    void remove(TipoPerfil tipoPerfil);
 
-    CarreraImparte find(Object id);
+    TipoPerfil find(Object id);
 
-    List<CarreraImparte> findAll();
+    List<TipoPerfil> findAll();
 
-    List<CarreraImparte> findRange(int[] range);
+    List<TipoPerfil> findRange(int[] range);
 
     int count();
     

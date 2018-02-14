@@ -23,7 +23,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Juan Delgado
+ * @author Juan
  */
 @Entity
 @Table(name = "museo_usuario_proyecto")

@@ -18,7 +18,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Juan Delgado
+ * @author Juan
  */
 @Entity
 @Table(name = "carrera_imparte")

@@ -5,8 +5,11 @@
  */
 package cl.usm.geosansano.mannaged.beans;
 
-
+import cl.usm.geosansano.entity.MuseoUsuario;
+import cl.usm.geosansano.entity.Sede;
 import cl.usm.geosansano.entity.TipoRevision;
+import cl.usm.geosansano.sessions.beans.MuseoUsuarioFacadeLocal;
+import cl.usm.geosansano.sessions.beans.SedeFacadeLocal;
 import cl.usm.geosansano.sessions.beans.TipoRevisionFacadeLocal;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
@@ -27,6 +30,14 @@ public class indexBean implements Serializable {
     private TipoRevisionFacadeLocal tipoRevisionFacade;
     private List<TipoRevision> tipoRevisionList;
 
+    @EJB
+    private MuseoUsuarioFacadeLocal museoUsuarioListFacade;
+    private List<MuseoUsuario> museoUsuarioList;
+
+    @EJB
+    private SedeFacadeLocal sedeListFacade;
+    private List<Sede> sedeList;
+
     /**
      * Creates a new instance of indexBean
      */
@@ -37,7 +48,16 @@ public class indexBean implements Serializable {
     @PostConstruct
     public void init() {
         System.out.println("indexBean");
+
         tipoRevisionList = tipoRevisionFacade.findAll();
+        System.out.println("tipoRevisionList: " + tipoRevisionList.size());
+
+        sedeList = sedeListFacade.findAll();
+        System.out.println("sedeList: " + sedeList.size());
+
+        museoUsuarioList = museoUsuarioListFacade.findAll();
+        System.out.println("museoUsuarioList: " + museoUsuarioList.size());
+
     }
 
     public List<TipoRevision> getTipoRevisionList() {
@@ -46,6 +66,22 @@ public class indexBean implements Serializable {
 
     public void setTipoRevisionList(List<TipoRevision> tipoRevisionList) {
         this.tipoRevisionList = tipoRevisionList;
+    }
+
+    public List<MuseoUsuario> getMuseoUsuarioList() {
+        return museoUsuarioList;
+    }
+
+    public void setMuseoUsuarioList(List<MuseoUsuario> museoUsuarioList) {
+        this.museoUsuarioList = museoUsuarioList;
+    }
+
+    public List<Sede> getSedeList() {
+        return sedeList;
+    }
+
+    public void setSedeList(List<Sede> sedeList) {
+        this.sedeList = sedeList;
     }
 
 }

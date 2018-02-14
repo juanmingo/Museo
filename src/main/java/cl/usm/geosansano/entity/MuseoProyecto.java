@@ -19,7 +19,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.Table; 
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
@@ -29,7 +29,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Juan Delgado
+ * @author Juan
  */
 @Entity
 @Table(name = "museo_proyecto")
@@ -39,7 +39,7 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "MuseoProyecto.findByMusproId", query = "SELECT m FROM MuseoProyecto m WHERE m.musproId = :musproId")
     , @NamedQuery(name = "MuseoProyecto.findByMusproNombre", query = "SELECT m FROM MuseoProyecto m WHERE m.musproNombre = :musproNombre")
     , @NamedQuery(name = "MuseoProyecto.findByMusproDescripcion", query = "SELECT m FROM MuseoProyecto m WHERE m.musproDescripcion = :musproDescripcion")
-    , @NamedQuery(name = "MuseoProyecto.findByMusproAño", query = "SELECT m FROM MuseoProyecto m WHERE m.musproAño = :musproAño")
+    , @NamedQuery(name = "MuseoProyecto.findByMusproA\u00f1o", query = "SELECT m FROM MuseoProyecto m WHERE m.musproA\u00f1o = :musproA\u00f1o")
     , @NamedQuery(name = "MuseoProyecto.findByMususuIdUsu", query = "SELECT m FROM MuseoProyecto m WHERE m.mususuIdUsu = :mususuIdUsu")
     , @NamedQuery(name = "MuseoProyecto.findByFechaModificacion", query = "SELECT m FROM MuseoProyecto m WHERE m.fechaModificacion = :fechaModificacion")})
 public class MuseoProyecto implements Serializable {
@@ -56,7 +56,7 @@ public class MuseoProyecto implements Serializable {
     @Size(max = 4000)
     @Column(name = "muspro_descripcion")
     private String musproDescripcion;
-    @Column(name = "muspro_año")
+    @Column(name = "muspro_a\u00f1o")
     private Integer musproAño;
     @Column(name = "mususu_id_usu")
     private BigInteger mususuIdUsu;

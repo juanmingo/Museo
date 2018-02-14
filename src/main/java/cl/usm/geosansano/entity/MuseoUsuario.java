@@ -29,7 +29,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Juan Delgado
+ * @author Juan
  */
 @Entity
 @Table(name = "museo_usuario")
@@ -42,6 +42,7 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "MuseoUsuario.findByMususuMaterno", query = "SELECT m FROM MuseoUsuario m WHERE m.mususuMaterno = :mususuMaterno")
     , @NamedQuery(name = "MuseoUsuario.findByMususuFechaNac", query = "SELECT m FROM MuseoUsuario m WHERE m.mususuFechaNac = :mususuFechaNac")
     , @NamedQuery(name = "MuseoUsuario.findByCorreo", query = "SELECT m FROM MuseoUsuario m WHERE m.correo = :correo")
+    , @NamedQuery(name = "MuseoUsuario.findByContrase\u00f1a", query = "SELECT m FROM MuseoUsuario m WHERE m.correo = :correo AND m.contrase\u00f1a = :contrase\u00f1a")
     , @NamedQuery(name = "MuseoUsuario.findByMususuFono", query = "SELECT m FROM MuseoUsuario m WHERE m.mususuFono = :mususuFono")
     , @NamedQuery(name = "MuseoUsuario.findByMususuIngreso", query = "SELECT m FROM MuseoUsuario m WHERE m.mususuIngreso = :mususuIngreso")
     , @NamedQuery(name = "MuseoUsuario.findByMususuRol", query = "SELECT m FROM MuseoUsuario m WHERE m.mususuRol = :mususuRol")
@@ -71,6 +72,9 @@ public class MuseoUsuario implements Serializable {
     @Size(max = 200)
     @Column(name = "correo")
     private String correo;
+    @Size(max = 200)
+    @Column(name = "contrase\u00f1a")
+    private String contraseña;
     @Size(max = 20)
     @Column(name = "mususu_fono")
     private String mususuFono;
@@ -88,6 +92,9 @@ public class MuseoUsuario implements Serializable {
     @JoinColumn(name = "cod_pais", referencedColumnName = "cod_pais")
     @ManyToOne
     private Pais codPais;
+    @JoinColumn(name = "cod_perfil", referencedColumnName = "cod_perfil")
+    @ManyToOne(optional = false)
+    private TipoPerfil codPerfil;
     @JoinColumn(name = "cod_revision", referencedColumnName = "cod_revision")
     @ManyToOne(optional = false)
     private TipoRevision codRevision;
@@ -156,6 +163,14 @@ public class MuseoUsuario implements Serializable {
         this.correo = correo;
     }
 
+    public String getContraseña() {
+        return contraseña;
+    }
+
+    public void setContraseña(String contraseña) {
+        this.contraseña = contraseña;
+    }
+
     public String getMususuFono() {
         return mususuFono;
     }
@@ -210,6 +225,14 @@ public class MuseoUsuario implements Serializable {
 
     public void setCodPais(Pais codPais) {
         this.codPais = codPais;
+    }
+
+    public TipoPerfil getCodPerfil() {
+        return codPerfil;
+    }
+
+    public void setCodPerfil(TipoPerfil codPerfil) {
+        this.codPerfil = codPerfil;
     }
 
     public TipoRevision getCodRevision() {
@@ -279,5 +302,5 @@ public class MuseoUsuario implements Serializable {
     public String toString() {
         return "cl.usm.geosansano.entity.MuseoUsuario[ mususuId=" + mususuId + " ]";
     }
-    
+
 }

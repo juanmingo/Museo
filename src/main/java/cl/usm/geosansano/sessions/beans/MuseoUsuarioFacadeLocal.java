@@ -11,7 +11,7 @@ import javax.ejb.Local;
 
 /**
  *
- * @author Juan Delgado
+ * @author Juan
  */
 @Local
 public interface MuseoUsuarioFacadeLocal {
@@ -25,9 +25,12 @@ public interface MuseoUsuarioFacadeLocal {
     MuseoUsuario find(Object id);
 
     List<MuseoUsuario> findAll();
+    //findByUsuario
+
+    List<MuseoUsuario> findByUsuario();
 
     List<MuseoUsuario> findRange(int[] range);
 
     int count();
-    
+
 }

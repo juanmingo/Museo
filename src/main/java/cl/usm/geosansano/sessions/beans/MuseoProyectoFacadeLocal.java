@@ -11,7 +11,7 @@ import javax.ejb.Local;
 
 /**
  *
- * @author Juan Delgado
+ * @author Juan
  */
 @Local
 public interface MuseoProyectoFacadeLocal {

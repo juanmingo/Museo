@@ -13,7 +13,7 @@ import javax.validation.constraints.NotNull;
 
 /**
  *
- * @author Juan Delgado
+ * @author Juan
  */
 @Embeddable
 public class MuseoUsuarioProyectoPK implements Serializable {
