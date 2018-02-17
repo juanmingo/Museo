@@ -1,6 +1,7 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"              
@@ -8,79 +9,107 @@
     <ui:define name="contenido">        
         <h:form id="registro" >
             <p:growl id="growl" sticky="true" showDetail="true"/>
+            <div class="ui-g">
+                <div class="ui-g-2"></div>
+                <div class="ui-g-8">
 
-            <p:wizard   nextLabel="Siguiente" backLabel="Anterior" >
-                <p:tab id="personal" title="Datos Personal">
-                    <p:panel header="Datos Personales">
-                        <p:messages />
-                        <h:panelGrid columns="2" columnClasses="label, value">
-                            <h:outputText value="Nombres: *" />
-                            <p:inputText label="Nombres"/>
 
-                            <h:outputText value="Apellido Paterno: *" />
-                            <p:inputText label="Apellido Paterno"/>
+                    <p:wizard   nextLabel="Siguiente" backLabel="Anterior" >
+                        <p:tab id="personal" title="Datos Personal">
+                            <p:panel header="Datos Personales">
+                                <p:panelGrid columns="4" layout="grid" >
+                                    <h:outputText value="Nombres: *" />
+                                    <p:inputText value="#{registroBean.nombre}" label="Nombres"/>
 
-                            <h:outputText value="Apellido Materno: *" />
-                            <p:inputText  label="Apellido Materno"/>
+                                    <h:outputText value="Apellido Paterno: *" />
+                                    <p:inputText value="#{registroBean.paterno}" label="Apellido Paterno"/>
 
-                            <h:outputText value="Fecha de Nacimiento: " />
-                            <p:inputText   />
+                                    <h:outputText value="Apellido Materno: *" />
+                                    <p:inputText  value="#{registroBean.materno}" label="Apellido Materno"/>
 
-                            <h:outputText value="Fecha de Nacimiento: " />
-                            <p:selectOneMenu    />
+                                    <h:outputText value="Fecha de Nacimiento: " />
+                                    <p:calendar value="#{registroBean.fechaNacimiento}"/>
 
-                        </h:panelGrid>
-                    </p:panel>
-                </p:tab>
-                <p:tab id="institucional" title="Datos Institucionales">
-                    <p:panel header="Datos Institucionales">
-                        <p:messages />
-                        <h:panelGrid columns="2" columnClasses="label, value">
-                            <h:outputText value="Rol USM: *" />
-                            <p:inputText label="Rol USM"/>
+                                </p:panelGrid>
+                            </p:panel>
+                        </p:tab>
+                        <p:tab id="institucional" title="Datos Institucionales">
+                            <p:panel header="Datos Institucionales">
+                                <p:panelGrid   >
+                                    <p:row>
+                                        <p:column>
+                                            <h:outputText value="Rol USM: *" />
+                                        </p:column>
+                                        <p:column colspan="4">
+                                            <p:inputText value="#{registroBean.rol}" label="Rol USM"/>
+                                            <h:outputText value="-" />
+                                            <p:inputText value="#{registroBean.dvRol}" maxlength="1" size="1" label="Rol USM"/>
+                                        </p:column>
 
-                            <h:outputText value="Carrera: *" />
-                            <p:selectOneMenu    />
+                                    </p:row>
+                                    <p:row>
+                                        <p:column>
+                                            <h:outputText value="Carrera: *" />
+                                        </p:column>
+                                        <p:column>
+                                            <p:selectOneMenu    >
 
-                            <h:outputText value="Ingreso a la Carrera: *" />
-                            <p:inputText  />
-                        </h:panelGrid>
-                    </p:panel>
-                </p:tab>
-                <p:tab id="contact" title="Contacto">
-                    <p:panel header="Información de Contacto">
-                        <p:messages />
-                        <h:panelGrid columns="2" columnClasses="label, value">
-                            <h:outputText value="Email: *" />
-                            <p:inputText  label="Email"/>
+                                            </p:selectOneMenu>
+                                        </p:column>
+                                        <p:column>
+                                            <h:outputText value="Ingreso a la Carrera:" />
+                                        </p:column>
+                                        <p:column>
+                                            <p:inputText  maxlength="4" size="4"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:commandButton  update="carreras" icon="fa fa-plus" type="button"/>
+                                        </p:column>
+                                    </p:row>
+                                    <p:row>
+                                        <p:column colspan="5">
+                                            <p:dataTable id="carreras" value="#{registroBean.carreraSeleted}" emptyMessage="No se ha agregado carrera">
 
-                            <h:outputText value="Fono: " />
-                            <p:inputText />
+                                            </p:dataTable>
+                                        </p:column>
+                                    </p:row>
+                                </p:panelGrid>
+                            </p:panel>
+                        </p:tab>
+                        <p:tab id="contact" title="Contacto">
+                            <p:panel header="Información de Contacto">
+                                <p:messages />
+                                <p:panelGrid columns="2" layout="grid" >
+                                    <h:outputText value="Email: *" />
+                                    <p:inputText value="#{registroBean.correo}" label="Email"/>
 
-                        </h:panelGrid>
-                    </p:panel>
-                </p:tab>
+                                    <h:outputText value="Fono: " />
+                                    <p:inputText value="#{registroBean.fono}" />
 
-                <p:tab id="confirm" title="Confirmation">
-                    <p:panel header="Confirmation">
-                        <h:panelGrid id="confirmation" columns="3" columnClasses="grid,grid,grid">
-                            <h:panelGrid columns="2" columnClasses="label, value">
-                                <h:outputText value="Nombres: " />
-                                <h:outputText />
+                                </p:panelGrid>
+                            </p:panel>
+                        </p:tab>
 
-                                <h:outputText value="Apellido Paterno: " />
-                                <h:outputText  />
+                        <p:tab id="confirm" title="Confirmation">
+                            <p:panel header="Confirmation">
+                                <p:panelGrid columns="6"  layout="grid">
+                                    <h:outputText value="Nombres: " />
+                                    <h:outputText />
 
-                                <h:outputText value="Apellido Materno: " />
-                                <h:outputText  />
-                            </h:panelGrid>
+                                    <h:outputText value="Apellido Paterno: " />
+                                    <h:outputText  />
 
-                        </h:panelGrid>
+                                    <h:outputText value="Apellido Materno: " />
+                                    <h:outputText  />
+                                </p:panelGrid>
 
-                        <p:commandButton value="Submit" update="growl" process="@this"/>
-                    </p:panel>
-                </p:tab>
-            </p:wizard>
+                                <p:commandButton value="Confirmar" update="growl" process="@this"/>
+                            </p:panel>
+                        </p:tab>
+                    </p:wizard>
+                </div>
+                <div class="ui-g-2"></div>
+            </div>
         </h:form>
     </ui:define> 
 </ui:composition>
