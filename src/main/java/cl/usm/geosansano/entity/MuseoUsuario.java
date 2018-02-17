@@ -42,7 +42,7 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "MuseoUsuario.findByMususuMaterno", query = "SELECT m FROM MuseoUsuario m WHERE m.mususuMaterno = :mususuMaterno")
     , @NamedQuery(name = "MuseoUsuario.findByMususuFechaNac", query = "SELECT m FROM MuseoUsuario m WHERE m.mususuFechaNac = :mususuFechaNac")
     , @NamedQuery(name = "MuseoUsuario.findByCorreo", query = "SELECT m FROM MuseoUsuario m WHERE m.correo = :correo")
-    , @NamedQuery(name = "MuseoUsuario.findByContraseña", query = "SELECT m FROM MuseoUsuario m WHERE m.correo = :correo AND m.contraseña = :contraseña")
+    , @NamedQuery(name = "MuseoUsuario.findByContraseña", query = "SELECT m FROM MuseoUsuario m WHERE m.contraseña = :contraseña")
     , @NamedQuery(name = "MuseoUsuario.findByMususuFono", query = "SELECT m FROM MuseoUsuario m WHERE m.mususuFono = :mususuFono")
     , @NamedQuery(name = "MuseoUsuario.findByMususuIngreso", query = "SELECT m FROM MuseoUsuario m WHERE m.mususuIngreso = :mususuIngreso")
     , @NamedQuery(name = "MuseoUsuario.findByMususuRol", query = "SELECT m FROM MuseoUsuario m WHERE m.mususuRol = :mususuRol")
