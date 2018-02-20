@@ -64,6 +64,7 @@ public class NavegacionUser implements Serializable {
                     this.mensajeErrorLogin = "¡Usuario y/o Contraseña Incorrectos!";
                 } else {
                     FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("cuentaUsuario", this.cuentaUsuario);
+                    FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("codPerfil", this.museoUsuario.getCodPerfil());
                     FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("isLoggedIn", "yes");
                     this.mensajeErrorLogin = "";
                     Common.redireccionar(Pagina.PAGINA_MENU_CARGAR_DATOS_SANSANO_MAPA);
@@ -95,6 +96,21 @@ public class NavegacionUser implements Serializable {
         if (!Common.isLoggedIn()) {
             Common.redireccionar(Pagina.PAGINA_INDEX);
         }
+    }
+
+    public void redirecionarPagina(int codPagina) {
+        System.out.println("codPagina: " + codPagina);
+        switch (codPagina) {
+            case 1://AGREGAR MARKER
+                Common.redireccionar(Pagina.PAGINA_MENU_CARGAR_DATOS_AGREGAR_PROYECTO);
+                break;
+            default:
+                Common.redireccionar(Pagina.PAGINA_INDEX);
+                break;
+        }
+
+        RequestContext context = RequestContext.getCurrentInstance();
+        context.execute("PF('dlgLoading').hide()");
     }
 
     //<editor-fold defaultstate="collapsed" desc="Getter && Setter">

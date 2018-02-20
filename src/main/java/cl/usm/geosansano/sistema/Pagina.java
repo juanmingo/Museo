@@ -20,4 +20,7 @@ public abstract class Pagina implements Serializable {
     public static final String PAGINA_MENU_CARGAR_DATOS_SANSANO_MAPA = "/sansano/mapacd.jsf";
     public static final String PAGINA_MENU_SANSANO_MAPA = "/sansano/mapa.jsf";
 
+    public static final String PAGINA_MENU_CARGAR_DATOS_AGREGAR_PROYECTO = "/sansano/agregarproyectocd.jsf";
+    public static final String PAGINA_MENU_AGREGAR_PROYECTO = "/sansano/agregarproyecto.jsf";
+
 }
