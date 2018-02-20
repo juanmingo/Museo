@@ -2,7 +2,9 @@ package cl.usm.geosansano.webapp;
 
 //<editor-fold defaultstate="collapsed" desc="Imports">
 import cl.usm.geosansano.entity.MuseoUsuario;
+import cl.usm.geosansano.functions.FuncionCorreo;
 import cl.usm.geosansano.functions.FuncionMD5;
+import cl.usm.geosansano.functions.FuncionTexto;
 import cl.usm.geosansano.sessions.beans.MuseoUsuarioFacadeLocal;
 import cl.usm.geosansano.sistema.Common;
 import cl.usm.geosansano.sistema.Pagina;
@@ -33,39 +35,46 @@ public class NavegacionUser implements Serializable {
     private String cuentaContraseña = "";
     private String mensajeErrorLogin = "";
 
+    public void limpiarVariables() {
+        this.cuentaUsuario = "";
+        this.cuentaContraseña = "";
+        this.mensajeErrorLogin = "";
+    }
+
     public void validarUsuario() {
         RequestContext context = RequestContext.getCurrentInstance();
-
         HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
 
-        System.out.println("INI validarUsuario");
+        this.mensajeErrorLogin = "";
 
-        System.out.println("cuentaUsuario: " + this.cuentaUsuario);
-        System.out.println("cuentaContraseña: " + FuncionMD5.obtenerHash(this.cuentaContraseña));
+        if (!"".equals(FuncionTexto.nvlTexto(this.cuentaUsuario, "")) && !"".equals(FuncionTexto.nvlTexto(this.cuentaContraseña, ""))) {
 
-        //this.museoUsuario = this.museoUsuarioFacade.findByCuenta("juan.delgado@usm.cl", "A94652AA97C7211BA8954DD15A3CF838");
-        this.museoUsuario = this.museoUsuarioFacade.findByCuenta(this.cuentaUsuario, FuncionMD5.obtenerHash(this.cuentaContraseña));
+            if (FuncionCorreo.validarCorreo(this.cuentaUsuario)) {
 
-        System.out.println("this.museoUsuario: " + this.museoUsuario);
+                this.museoUsuario = this.museoUsuarioFacade.findByCuenta(this.cuentaUsuario, FuncionMD5.obtenerHash(this.cuentaContraseña));
 
-        if (this.museoUsuario == null) {
-            this.mensajeErrorLogin = "¡Usuario y/o Contraseña Incorrectos!";
+                if (this.museoUsuario == null) {
+                    this.mensajeErrorLogin = "¡Usuario y/o Contraseña Incorrectos!";
+                } else {
+                    FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("cuentaUsuario", this.cuentaUsuario);
+                    this.mensajeErrorLogin = "";
+                    Common.redireccionar(Pagina.PAGINA_MENU_CARGAR_DATOS_SANSANO_MAPA);
+                }
 
-            context.update("formCuenta:dlgLoginUsuario");
-            context.execute("PF('dlgLoginUsuario').show()");
+            } else {
+                this.mensajeErrorLogin = "¡Formato de Correo Incorrecto!";
+            }
+
         } else {
-            System.out.println("*cuentaUsuario: " + this.cuentaUsuario);
-            
-            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("cuentaUsuario", this.cuentaUsuario);
-
-            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("cuentaUsuario", this.cuentaUsuario);
-            this.mensajeErrorLogin = "";
-            Common.redireccionar(Pagina.PAGINA_MENU_CARGAR_DATOS_SANSANO_MAPA);
+            this.mensajeErrorLogin = "¡Ingrese Usuario y Contraseña!";
         }
 
         this.cuentaUsuario = "";
         this.cuentaContraseña = "";
+        context.update("formCuenta:pnLoginUsuario");
+        context.update("formCuenta:msjError");
+        context.execute("PF('dlgLoginUsuario').show()");
     }
 
     public void salir() {
