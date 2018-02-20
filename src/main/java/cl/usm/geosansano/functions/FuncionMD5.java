@@ -18,7 +18,7 @@ public abstract class FuncionMD5 implements Serializable {
             System.out.println("[Error][FuncionMD5][obtenerHash]:" + e.getMessage());
         }
         md.update(password.getBytes(), 0, password.length());
-        return new BigInteger(1, md.digest()).toString(16);
+        return new BigInteger(1, md.digest()).toString(16).toUpperCase();
     }
 
 }

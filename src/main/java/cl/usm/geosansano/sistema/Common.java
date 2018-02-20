@@ -78,9 +78,9 @@ public class Common implements Serializable {
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("rutUsuario", rutUsuario);
     }
 
-    public static String obtenerRutUsuario() {
+    public static String obtenerCuentaUsuario() {
         HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
-        return (String) session.getAttribute("rutUsuario");
+        return (String) session.getAttribute("cuentaUsuario");
     }
 
     public static String obtenerCodPerfil() {

@@ -37,4 +37,15 @@ public class MuseoUsuarioFacade extends AbstractFacade<MuseoUsuario> implements 
         }
     }
 
+    @Override
+    public MuseoUsuario findByCorreo(String correo) {
+        try {
+            return (MuseoUsuario) em.createNamedQuery("MuseoUsuario.findByCorreo")
+                    .setParameter("correo", correo)
+                    .getSingleResult();
+        } catch (NoResultException nre) {
+            return null;
+        }
+    }
+
 }

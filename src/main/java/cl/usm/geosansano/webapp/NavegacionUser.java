@@ -10,6 +10,9 @@ import java.io.Serializable;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import org.primefaces.context.RequestContext;
 //</editor-fold>
 
@@ -32,13 +35,17 @@ public class NavegacionUser implements Serializable {
 
     public void validarUsuario() {
         RequestContext context = RequestContext.getCurrentInstance();
+
+        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+
         System.out.println("INI validarUsuario");
+
+        System.out.println("cuentaUsuario: " + this.cuentaUsuario);
+        System.out.println("cuentaContraseña: " + FuncionMD5.obtenerHash(this.cuentaContraseña));
 
         //this.museoUsuario = this.museoUsuarioFacade.findByCuenta("juan.delgado@usm.cl", "A94652AA97C7211BA8954DD15A3CF838");
         this.museoUsuario = this.museoUsuarioFacade.findByCuenta(this.cuentaUsuario, FuncionMD5.obtenerHash(this.cuentaContraseña));
-
-        this.cuentaUsuario = "";
-        this.cuentaContraseña = "";
 
         System.out.println("this.museoUsuario: " + this.museoUsuario);
 
@@ -48,10 +55,17 @@ public class NavegacionUser implements Serializable {
             context.update("formCuenta:dlgLoginUsuario");
             context.execute("PF('dlgLoginUsuario').show()");
         } else {
+            System.out.println("*cuentaUsuario: " + this.cuentaUsuario);
+            
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("cuentaUsuario", this.cuentaUsuario);
+
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("cuentaUsuario", this.cuentaUsuario);
             this.mensajeErrorLogin = "";
-            Common.redireccionar(Pagina.PAGINA_INDEX);
+            Common.redireccionar(Pagina.PAGINA_MENU_CARGAR_DATOS_SANSANO_MAPA);
         }
 
+        this.cuentaUsuario = "";
+        this.cuentaContraseña = "";
     }
 
     public void salir() {
