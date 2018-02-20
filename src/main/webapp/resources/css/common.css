@@ -437,3 +437,9 @@ body {
 
 .noBorderPanelGrid tr,
 .noBorderPanelGrid td { background-color: white; border-style: none; }
+
+.formSinBordes {
+    margin-bottom: 0px;
+    display: block;
+    margin-top: 0em;
+}

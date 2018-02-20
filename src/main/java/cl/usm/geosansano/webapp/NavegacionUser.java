@@ -39,6 +39,9 @@ public class NavegacionUser implements Serializable {
         this.cuentaUsuario = "";
         this.cuentaContraseña = "";
         this.mensajeErrorLogin = "";
+        RequestContext context = RequestContext.getCurrentInstance();
+        context.update("formCuenta:pnLoginUsuario");
+        context.update("formCuenta:msjError");
     }
 
     public void validarUsuario() {
@@ -47,6 +50,9 @@ public class NavegacionUser implements Serializable {
         HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
 
         this.mensajeErrorLogin = "";
+
+        this.cuentaUsuario = "juan.delgado@usm.cl";
+        this.cuentaContraseña = "juan";
 
         if (!"".equals(FuncionTexto.nvlTexto(this.cuentaUsuario, "")) && !"".equals(FuncionTexto.nvlTexto(this.cuentaContraseña, ""))) {
 
@@ -58,6 +64,7 @@ public class NavegacionUser implements Serializable {
                     this.mensajeErrorLogin = "¡Usuario y/o Contraseña Incorrectos!";
                 } else {
                     FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("cuentaUsuario", this.cuentaUsuario);
+                    FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("isLoggedIn", "yes");
                     this.mensajeErrorLogin = "";
                     Common.redireccionar(Pagina.PAGINA_MENU_CARGAR_DATOS_SANSANO_MAPA);
                 }
@@ -78,22 +85,15 @@ public class NavegacionUser implements Serializable {
     }
 
     public void salir() {
-        String isLoggedIn = Common.obtenerIsLoggedIn();
-        if (isLoggedIn.equals("yes")) {
+        if (Common.isLoggedIn()) {
             Common.eliminarSession();
-            Common.redireccionar(Pagina.PAGINA_INDEX);
-        } else {
-            Common.redireccionarExterior(Pagina.PAGINA_INDEX);
         }
+        Common.redireccionar(Pagina.PAGINA_INDEX);
     }
 
     public void validarSession() {
-        //System.out.println("validarSession: " + Common.isLoggedIn());
         if (!Common.isLoggedIn()) {
-            //System.out.println("validarSession: SI Redireccion");
             Common.redireccionar(Pagina.PAGINA_INDEX);
-        } else {
-            //System.out.println("validarSession: NO Redireccion");
         }
     }
 
