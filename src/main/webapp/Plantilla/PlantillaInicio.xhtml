@@ -36,7 +36,7 @@
             <h:panelGrid/>
             <h:panelGrid/>
             <h:panelGrid/>
-            <p:commandLink onclick="PF('dlg2').show();"  >
+            <p:commandLink onclick="PF('dlgLoginUsuario').show();"  >
                 <p:graphicImage value="./images/icono_login2.png"  style="width: 30px"  />
             </p:commandLink>                     
             <h:panelGrid width="5px;" />
@@ -52,39 +52,10 @@
             <h:panelGrid/>                      
         </h:panelGrid>
 
-        <p:dialog header="Acceso Geo Museo Sansano" widgetVar="dlg2" modal="true" width="230" height="120" draggable="false" resizable="false">
-
-            <br/>
-
-            <h:panelGrid  columns="3" class="contenidoformulario">
-
-                <p:graphicImage value="./images/icono_login3.png"  style="width: 20px"  />
-                <h:panelGrid width="9px" />
-                <p:inputText id="usuario" value="" size="20" maxlength="100">
-                    <p:tooltip for="usuario" value="Ej: juan.usm@gmail.com" trackMouse="true" style="font-size: 12px" />
-                </p:inputText>
-
-                <h:panelGrid/>
-                <h:panelGrid/>
-                <h:panelGrid/>
-
-                <p:graphicImage value="./images/icono_candado.png"  style="width: 20px"  />
-                <h:panelGrid width="9px" />
-                <p:inputText id="contraseña" value=""   label="Rut" size="20" maxlength="100">
-                    <p:tooltip for="contraseña" value="Contraseña" trackMouse="true" style="font-size: 12px" />
-                </p:inputText>
-
-                <h:panelGrid/>
-                <h:panelGrid/>
-                <h:panelGrid/>
-
-                <h:panelGrid/>
-                <h:panelGrid/>
-                <p:commandButton value="Buscar"  icon="ui-icon-person" 
-                                 onstart="PF('dlgLoading').show();" oncomplete="PF('dlgLoading').hide();"  style="width: 155px;"  />
-
-            </h:panelGrid>
-        </p:dialog>   
+        <p:dialog id="dlgLoading" widgetVar="dlgLoading"  modal="true" showEffect="explode" hideEffect="explode"  class="dlgLoadingCenter"
+                  closable="false" draggable="false" resizable="false" showHeader="false" style="background: transparent;" >            
+            <h:graphicImage value="./../images/icon_loading_v4.gif" width="50px" height="50px"/>            
+        </p:dialog>
 
     </h:body>
 
