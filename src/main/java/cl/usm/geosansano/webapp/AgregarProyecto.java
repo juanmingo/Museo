@@ -66,8 +66,8 @@ public class AgregarProyecto implements Serializable {
             Marker marker = new Marker(new LatLng(latitud, longitud), this.nombreProyecto);
 
             this.museoProyect = new MuseoProyecto(this.museoProyectoFL.newMusproId());
+            this.museoProyect.setMususuId(this.mususuId.longValue());
 
-            this.museoProyect.setMususuIdUsu(BigInteger.ZERO);
             this.museoProyect.setMusproNombre(nombreProyecto);
             this.museoProyect.setCodPais(paisFL.find(0));
             this.museoProyect.setCodVigencia(tipoVigenciaFL.find(0));
@@ -86,8 +86,6 @@ public class AgregarProyecto implements Serializable {
 
             RequestContext context = RequestContext.getCurrentInstance();
             context.execute("PF('dlgAgregarProyecto').hide()");
-
-            //Common.redireccionar(Pagina.PAGINA_MENU_CARGAR_DATOS_SANSANO_MAPA);
         }
     }
 

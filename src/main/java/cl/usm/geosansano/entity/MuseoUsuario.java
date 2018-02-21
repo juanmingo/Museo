@@ -56,6 +56,10 @@ import javax.xml.bind.annotation.XmlTransient;
 })
 public class MuseoUsuario implements Serializable {
 
+    @Lob
+    @Column(name = "mususu_archivo")
+    private byte[] mususuArchivo;
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -89,9 +93,6 @@ public class MuseoUsuario implements Serializable {
     private BigInteger mususuRol;
     @Column(name = "mususu_rol_dv")
     private Short mususuRolDv;
-    @Lob
-    @Column(name = "mususu_archivo")
-    private byte[] mususuArchivo;
     @Column(name = "mususu_id_usu")
     private BigInteger mususuIdUsu;
     @Column(name = "fecha_modificacion")
@@ -307,5 +308,5 @@ public class MuseoUsuario implements Serializable {
     public String toString() {
         return "cl.usm.geosansano.entity.MuseoUsuario[ mususuId=" + mususuId + " ]";
     }
-    
+
 }

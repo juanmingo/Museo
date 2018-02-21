@@ -38,6 +38,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "MuseoProyecto.findAll", query = "SELECT m FROM MuseoProyecto m")
     , @NamedQuery(name = "MuseoProyecto.findByMaxMusproId", query = "SELECT m FROM MuseoProyecto m WHERE m.musproId = (SELECT MAX(m2.musproId) FROM MuseoProyecto m2)")
     , @NamedQuery(name = "MuseoProyecto.findByMusproId", query = "SELECT m FROM MuseoProyecto m WHERE m.musproId = :musproId")
+    , @NamedQuery(name = "MuseoProyecto.findByMususuId", query = "SELECT m FROM MuseoProyecto m WHERE m.mususuId = :mususuId")
     , @NamedQuery(name = "MuseoProyecto.findByMusproNombre", query = "SELECT m FROM MuseoProyecto m WHERE m.musproNombre = :musproNombre")
     , @NamedQuery(name = "MuseoProyecto.findByMusproDescripcion", query = "SELECT m FROM MuseoProyecto m WHERE m.musproDescripcion = :musproDescripcion")
     , @NamedQuery(name = "MuseoProyecto.findByMusproCiudad", query = "SELECT m FROM MuseoProyecto m WHERE m.musproCiudad = :musproCiudad")
@@ -54,6 +55,10 @@ public class MuseoProyecto implements Serializable {
     @NotNull
     @Column(name = "muspro_id")
     private Long musproId;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "mususu_id")
+    private long mususuId;
     @Size(max = 1000)
     @Column(name = "muspro_nombre")
     private String musproNombre;
@@ -93,12 +98,25 @@ public class MuseoProyecto implements Serializable {
         this.musproId = musproId;
     }
 
+    public MuseoProyecto(Long musproId, long mususuId) {
+        this.musproId = musproId;
+        this.mususuId = mususuId;
+    }
+
     public Long getMusproId() {
         return musproId;
     }
 
     public void setMusproId(Long musproId) {
         this.musproId = musproId;
+    }
+
+    public long getMususuId() {
+        return mususuId;
+    }
+
+    public void setMususuId(long mususuId) {
+        this.mususuId = mususuId;
     }
 
     public String getMusproNombre() {
@@ -223,5 +241,5 @@ public class MuseoProyecto implements Serializable {
     public String toString() {
         return "cl.usm.geosansano.entity.MuseoProyecto[ musproId=" + musproId + " ]";
     }
-    
+
 }
