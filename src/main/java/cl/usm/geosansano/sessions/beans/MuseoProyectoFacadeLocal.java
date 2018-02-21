@@ -29,5 +29,9 @@ public interface MuseoProyectoFacadeLocal {
     List<MuseoProyecto> findRange(int[] range);
 
     int count();
-    
+
+    MuseoProyecto findByMaxMusproId();
+
+    long newMusproId();
+
 }

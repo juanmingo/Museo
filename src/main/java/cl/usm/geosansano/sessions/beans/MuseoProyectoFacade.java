@@ -8,6 +8,7 @@ package cl.usm.geosansano.sessions.beans;
 import cl.usm.geosansano.entity.MuseoProyecto;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 
 /**
@@ -28,5 +29,25 @@ public class MuseoProyectoFacade extends AbstractFacade<MuseoProyecto> implement
     public MuseoProyectoFacade() {
         super(MuseoProyecto.class);
     }
-    
+
+    @Override
+    public MuseoProyecto findByMaxMusproId() {
+        try {
+            return (MuseoProyecto) em.createNamedQuery("MuseoProyecto.findByMaxMusproId")
+                    .getSingleResult();
+        } catch (NoResultException nre) {
+            return null;
+        }
+    }
+
+    @Override
+    public long newMusproId() {
+        MuseoProyecto museoProyecto = findByMaxMusproId();
+        if (museoProyecto != null) {
+            return museoProyecto.getMusproId() + 1;
+        } else {
+            return 1;
+        }
+    }
+
 }

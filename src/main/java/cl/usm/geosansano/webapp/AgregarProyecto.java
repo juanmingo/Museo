@@ -1,13 +1,11 @@
 package cl.usm.geosansano.webapp;
 
 //<editor-fold defaultstate="collapsed" desc="Imports">
-import cl.usm.geosansano.entity.MuseoUsuario;
-import cl.usm.geosansano.functions.FuncionMD5;
-import cl.usm.geosansano.functions.FuncionTexto;
+import cl.usm.geosansano.entity.MuseoProyecto;
+import cl.usm.geosansano.sessions.beans.MuseoProyectoFacadeLocal;
 import cl.usm.geosansano.sessions.beans.MuseoUsuarioFacadeLocal;
 import cl.usm.geosansano.sistema.Common;
 import cl.usm.geosansano.sistema.Pagina;
-import java.awt.event.ActionEvent;
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -16,7 +14,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import org.primefaces.context.RequestContext;
-import org.primefaces.event.map.PointSelectEvent;
 import org.primefaces.model.map.DefaultMapModel;
 import org.primefaces.model.map.LatLng;
 import org.primefaces.model.map.MapModel;
@@ -32,8 +29,11 @@ import org.primefaces.model.map.Marker;
 public class AgregarProyecto implements Serializable {
 
     @EJB
-    private MuseoUsuarioFacadeLocal museoUsuarioFacade;
-
+    private MuseoProyectoFacadeLocal museoProyectoFL;
+    //
+    private MuseoProyecto museoProyect;
+    private MuseoProyecto museoProyectMax;
+    //
     private MapModel mapModel;
     private String nombreProyecto;
     private double latitud;
@@ -52,6 +52,10 @@ public class AgregarProyecto implements Serializable {
 
         if (!"".equals(this.nombreProyecto)) {
             Marker marker = new Marker(new LatLng(latitud, longitud), this.nombreProyecto);
+
+            this.museoProyect = new MuseoProyecto(this.museoProyectoFL.newMusproId());
+            //this.museoProyect.set
+
             this.mapModel.addOverlay(marker);
 
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, this.nombreProyecto, "Latitud:" + this.latitud + ", Longitud:" + this.longitud));
@@ -63,6 +67,7 @@ public class AgregarProyecto implements Serializable {
         }
     }
 
+    //<editor-fold defaultstate="collapsed" desc="Getter && Setter">
     public MapModel getMapModel() {
         return mapModel;
     }
@@ -94,5 +99,5 @@ public class AgregarProyecto implements Serializable {
     public void setLongitud(double longitud) {
         this.longitud = longitud;
     }
-
+//</editor-fold>
 }

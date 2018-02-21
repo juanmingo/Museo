@@ -36,6 +36,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "MuseoProyecto.findAll", query = "SELECT m FROM MuseoProyecto m")
+    , @NamedQuery(name = "MuseoProyecto.findByMaxMusproId", query = "SELECT m FROM MuseoProyecto m WHERE m.musproId = (SELECT MAX(m2.musproId) FROM MuseoProyecto m2)")
     , @NamedQuery(name = "MuseoProyecto.findByMusproId", query = "SELECT m FROM MuseoProyecto m WHERE m.musproId = :musproId")
     , @NamedQuery(name = "MuseoProyecto.findByMusproNombre", query = "SELECT m FROM MuseoProyecto m WHERE m.musproNombre = :musproNombre")
     , @NamedQuery(name = "MuseoProyecto.findByMusproDescripcion", query = "SELECT m FROM MuseoProyecto m WHERE m.musproDescripcion = :musproDescripcion")
@@ -198,5 +199,5 @@ public class MuseoProyecto implements Serializable {
     public String toString() {
         return "cl.usm.geosansano.entity.MuseoProyecto[ musproId=" + musproId + " ]";
     }
-    
+
 }

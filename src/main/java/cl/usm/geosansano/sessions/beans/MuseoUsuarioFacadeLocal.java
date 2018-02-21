@@ -32,6 +32,7 @@ public interface MuseoUsuarioFacadeLocal {
 
     //Busqueda Cuenta
     MuseoUsuario findByCuenta(String correo, String contraseña);
+
     MuseoUsuario findByCorreo(String correo);
 
 }
