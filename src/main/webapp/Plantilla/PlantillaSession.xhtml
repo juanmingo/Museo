@@ -5,68 +5,63 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:h="http://java.sun.com/jsf/html">
+
     <h:head>
+        <link rel="shortcut icon" href="./images/favicon.ico"/>
+        <script type="text/javascript" src="./resources/js/common.js"/>
+        <link href="./resources/css/custom/jquery-ui.css" rel="stylesheet"/>
+        <link href="./resources/css/common.css" rel="stylesheet"/>
+
         <link rel="shortcut icon" href="./../images/favicon.ico"/>
         <script type="text/javascript" src="./../resources/js/common.js"/>
         <link href="./../resources/css/custom/jquery-ui.css" rel="stylesheet"/>
         <link href="./../resources/css/common.css" rel="stylesheet"/>
+
+        <script src="http://maps.google.com/maps/api/js?key=AIzaSyAD7njfN3y6S1zftC8tjVRD4tdwvn2HuR8" type="text/javascript"/>
+
         <title>
             <ui:insert name="titulo">
-                Sistema Alerta Temprana  U.T.F.S.M.
+                Geo Museo Sansano
             </ui:insert>
         </title>
     </h:head>
+
     <h:body>
+
         <f:metadata>
             <f:event type="preRenderView" listener="#{navegacionUser.validarSession()}"/>
         </f:metadata>
-        <h:form id="formMensaje" >
-            <p:growl id="mensaje" showDetail="true" sticky="false" life="5000" /> 
-        </h:form> 
-        <h:form>
+
+        
+
             <h:graphicImage url="./../images/header_usm_baner_bandera.png" width="100%" height="6px" /> 
             <h:panelGrid  columnClasses="tablaColumnaFirmaHeader1,tablaColumnaFirmaHeader2,tablaColumnaFirmaHeader3,tablaColumnaFirmaHeader3,tablaColumnaFirmaHeader3,tablaColumnaFirmaHeader3"
-                          columns="6" class="headerFirma" width="100%" style="background-color: #2F5E80;" >
-                <h:panelGrid columns="3" >
-                    <h:outputText value="SISTEMA ALERTA TEMPRANA" style="color: white; font-size: 12px;" />
-                    <h:panelGrid width="5" />
-                    <h:outputText value="U.T.F.S.M." style="color: white; font-size: 12px;" />
-                </h:panelGrid>
-
-                <h:outputText value="#{navegacionUser.objIndividuo.indNombres} #{navegacionUser.objIndividuo.indApPaterno} #{navegacionUser.objIndividuo.indApMaterno}" 
-                              style="color: white; font-size: 12px;" />
+                          columns="6" class="headerFirma" width="100%"  style="background-color: #2F5E80;" >
                 <h:panelGrid width="2px" />
-                <p:commandLink oncomplete="PF('dlgLoading').show();" 
-                               onstart="PF('dlgLoading').show();" rendered="#{navegacionUser.isRenderHomeMenu}"
-                               actionListener="#{navegacionUser.redirecionarMenuPerfil(-1)}">
-                    <p:graphicImage value="./../images/icon_menu_home.png"  style="width: 25px" />
+                <h:outputText value="#{sansanoMapa.nombreUsuario}" style="color: white; font-size: 12px;" />
+                <h:panelGrid width="5" />
+                <p:commandLink id="cdlAddmarker" actionListener="#{navegacionUser.redirecionarPagina(1)}"  >
+                    <p:graphicImage value="./../images/icon_add_marker.png"  style="width: 23px"  />
+                    <p:tooltip for="cdlAddmarker" value="Agregar Proyecto" trackMouse="true" style="font-size: 12px" />
                 </p:commandLink>
-                <h:panelGrid/>                           
-                <p:commandLink id="salir" oncomplete="PF('dlgSalir').show();"  >
+                <h:panelGrid width="5" />      
+                <p:commandLink id="cdlSalir" onclick="PF('dlgSalir').show();"  >
                     <p:graphicImage value="./../images/icon_menu_logout2.png"  style="width: 25px"  />
-                </p:commandLink>                     
+                    <p:tooltip for="cdlSalir" value="Cerrar Sesión" trackMouse="true" style="font-size: 12px" />
+                </p:commandLink>
+                <h:panelGrid width="5px;" />
             </h:panelGrid>
-            <p:menubar model="#{navegacionUser.menuModel}" style="border: 0px ;font-size: 11px; background-color: #EEEEEE;"  />
-        </h:form>
-        <ui:insert name="cabecera">         
-        </ui:insert>
+
+       
+
 
         <ui:insert name="contenido">
         </ui:insert>
 
-        <h:panelGrid  width="100%" class="contenidoformulario" rendered="false" >
-            <h:panelGrid class="footerFirma" width="100%" style="text-align: left;"  >
-                <h:outputText value="© Universidad Técnica Federico Santa María" />
-                <h:panelGrid columns="3" class="footerFirma">
-                    <h:panelGrid width="5px" />
-                    <h:outputText value="Avenida España 1680, Valparaíso · +56 32 2654263 · " />  
-                    <h:outputLink value="mailto:direccion.estudios@usm.cl" >
-                        <f:param name="subject" value="" />
-                        <f:param name="body" value="" />
-                        <h:outputText value="direccion.estudios@usm.cl" />
-                    </h:outputLink>
-                </h:panelGrid>
-            </h:panelGrid>
+        <h:graphicImage url="./../images/header_usm_baner_bandera.png" width="100%" height="6px" /> 
+        <h:panelGrid  columnClasses="tablaColumnaFirmaHeader1,tablaColumnaFirmaHeader2,tablaColumnaFirmaHeader3,tablaColumnaFirmaHeader3,tablaColumnaFirmaHeader3,tablaColumnaFirmaHeader3"
+                      columns="6" class="headerFirma" width="100%" style="background-color: #2F5E80;" >
+            <h:panelGrid/>                      
         </h:panelGrid>
 
         <p:dialog id="dlgSalir" widgetVar="dlgSalir" header="Cerrar Sesión"  focus="btnCancelarSalir"

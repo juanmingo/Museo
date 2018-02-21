@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"              
+                template="./../Plantilla/PlantillaSession.xhtml">
+    <ui:define name="contenido">        
+
+        <h:form id="formSansano" class="formSinBordes" >
+
+            <f:view contentType="text/html">
+                <p:gmap center="-33.43144133557529, -71.3671875" zoom="6"   type="HYBRID" style="width:100%;height:97%" />
+            </f:view>            
+
+        </h:form>
+
+    </ui:define> 
+</ui:composition>

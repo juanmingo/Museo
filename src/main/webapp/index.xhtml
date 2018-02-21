@@ -6,10 +6,61 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core"              
                 template="./Plantilla/PlantillaInicio.xhtml">
     <ui:define name="contenido">        
-      
+
+        <h:form id="formCuenta" class="formSinBordes" >
+
             <f:view contentType="text/html">
-                <p:gmap center="-33.43144133557529, -71.3671875" zoom="6"   type="HYBRID" style="width:100%;height:97%" />
-            </f:view>       
+                <p:gmap center="-33.43144133557529, -71.3671875" zoom="6"   type="HYBRID" style="width:100%;height:95%" />
+            </f:view>
+
+            <p:dialog header="Acceso Geo Museo Sansano" id="dlgLoginUsuario" widgetVar="dlgLoginUsuario" 
+                      modal="true" width="290" height="160" draggable="false" resizable="false">
+
+                <br/>
+
+                <h:panelGrid id="pnLoginUsuario"  columns="4" class="contenidoformulario">
+
+                    <h:panelGrid width="15" />
+                    <p:graphicImage value="./images/icono_login3.png"  style="width: 20px"  />
+                    <h:panelGrid width="9px" />
+                    <p:inputText id="usuario" value="#{navegacionUser.cuentaUsuario}" size="25" maxlength="100">
+                        <p:tooltip for="usuario" value="Ej: xxxxxxxx@xxxxx.xxx" trackMouse="true" style="font-size: 12px" />
+                    </p:inputText>
+
+                    <h:panelGrid width="15" />
+                    <h:panelGrid/>
+                    <h:panelGrid/>
+                    <h:panelGrid/>
+
+                    <h:panelGrid width="15" />
+                    <p:graphicImage value="./images/icono_candado.png"  style="width: 20px"  />
+                    <h:panelGrid width="9px" />
+                    <p:password id="contraseña" value="#{navegacionUser.cuentaContraseña}" size="25" maxlength="100">
+                        <p:tooltip for="contraseña" value="Contraseña" trackMouse="true" style="font-size: 12px" />
+                    </p:password>
+
+                    <h:panelGrid width="15" />
+                    <h:panelGrid/>
+                    <h:panelGrid/>
+                    <h:panelGrid/>
+
+                    <h:panelGrid width="15" />
+                    <h:panelGrid/>
+                    <h:panelGrid/>
+                    <p:commandButton value="Entrar"  icon="ui-icon-person" actionListener="#{navegacionUser.validarUsuario()}" 
+                                     onstart="PF('dlgLoading').show();" oncomplete="PF('dlgLoading').hide();"  style="width: 185px;"  />
+
+                </h:panelGrid>
+
+                <br/>
+
+                <h:panelGrid  columns="2" class="contenidoformulario" style="text-align: center; " width="260" >                    
+                    <p:outputLabel id="msjError" value="#{navegacionUser.mensajeErrorLogin}" style="color: red; font-size: 14px; font-weight: bold;" />
+                </h:panelGrid>
+
+            </p:dialog>
+
+        </h:form>
 
     </ui:define> 
 </ui:composition>
