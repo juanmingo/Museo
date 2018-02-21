@@ -33,5 +33,7 @@ public interface MuseoProyectoFacadeLocal {
     MuseoProyecto findByMaxMusproId();
 
     long newMusproId();
+    
+    List<MuseoProyecto> findByMususuId(long mususuId);
 
 }

@@ -11,12 +11,14 @@ import cl.usm.geosansano.sistema.Pagina;
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.Date;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.servlet.ServletContext;
 import org.primefaces.context.RequestContext;
 import org.primefaces.model.map.DefaultMapModel;
 import org.primefaces.model.map.LatLng;
@@ -40,6 +42,7 @@ public class AgregarProyecto implements Serializable {
     private PaisFacadeLocal paisFL;
     //
     private MuseoProyecto museoProyect;
+    private List<MuseoProyecto> museoProyectoList;
     //
     private MapModel mapModel;
     private String nombreProyecto;
@@ -47,16 +50,32 @@ public class AgregarProyecto implements Serializable {
     private double longitud;
     private BigInteger mususuId;
 
-    public void cargarAgregarProyecto() {
-        Common.redireccionar(Pagina.PAGINA_MENU_AGREGAR_PROYECTO);
-    }
+    private final ServletContext SC = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
 
     @PostConstruct
     public void init() {
+    }
+
+    public void cargarAgregarProyecto() {
+        Common.redireccionar(Pagina.PAGINA_MENU_AGREGAR_PROYECTO);
+
         this.mapModel = new DefaultMapModel();
 
         this.mususuId = FuncionNumero.nvlBigInteger(String.valueOf(Common.obtenerMususuId()));
-        //System.out.println("mususuId: " + mususuId);
+        System.out.println("mususuId: " + mususuId);
+        this.museoProyectoList = museoProyectoFL.findByMususuId(this.mususuId.longValue());
+        System.out.println("museoProyectoList: " + this.museoProyectoList.size());
+
+        System.out.println("" + this.SC.getRealPath(Pagina.ICON_MARKER_NARANJA));
+        
+
+        for (MuseoProyecto objMP : museoProyectoList) {
+            LatLng coordenada = new LatLng(objMP.getMusproLatitud(), objMP.getMusproLongitud());
+
+            //Marker marker = new Marker(coordenada, objMP.getMusproNombre());
+            //marker.setIcon(this.SC.getRealPath(Pagina.ICON_MARKER_NARANJA));
+            this.mapModel.addOverlay(new Marker(coordenada, objMP.getMusproNombre(), "s", Pagina.ICON_MARKER_NARANJA));
+        }
     }
 
     public void addMarker() {
