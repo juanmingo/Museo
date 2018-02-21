@@ -104,6 +104,9 @@ public class NavegacionUser implements Serializable {
             case 1://AGREGAR MARKER
                 Common.redireccionar(Pagina.PAGINA_MENU_CARGAR_DATOS_AGREGAR_PROYECTO);
                 break;
+            case 2://PROYECTOS SANSANOS
+                Common.redireccionar(Pagina.PAGINA_MENU_CARGAR_DATOS_SANSANO_MAPA);
+                break;
             default:
                 Common.redireccionar(Pagina.PAGINA_INDEX);
                 break;

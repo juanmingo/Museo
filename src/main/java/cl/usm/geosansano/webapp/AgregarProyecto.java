@@ -34,10 +34,10 @@ public class AgregarProyecto implements Serializable {
     @EJB
     private MuseoUsuarioFacadeLocal museoUsuarioFacade;
 
-    private MapModel emptyModel;
-    private String title;
-    private double lat;
-    private double lng;
+    private MapModel mapModel;
+    private String nombreProyecto;
+    private double latitud;
+    private double longitud;
 
     public void cargarAgregarProyecto() {
         Common.redireccionar(Pagina.PAGINA_MENU_AGREGAR_PROYECTO);
@@ -45,42 +45,54 @@ public class AgregarProyecto implements Serializable {
 
     @PostConstruct
     public void init() {
-        emptyModel = new DefaultMapModel();
-    }
-
-    public MapModel getEmptyModel() {
-        return emptyModel;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public double getLat() {
-        return lat;
-    }
-
-    public void setLat(double lat) {
-        this.lat = lat;
-    }
-
-    public double getLng() {
-        return lng;
-    }
-
-    public void setLng(double lng) {
-        this.lng = lng;
+        this.mapModel = new DefaultMapModel();
     }
 
     public void addMarker() {
-        Marker marker = new Marker(new LatLng(lat, lng), title);
-        emptyModel.addOverlay(marker);
 
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Marker Added", "Lat:" + lat + ", Lng:" + lng));
+        if (!"".equals(this.nombreProyecto)) {
+            Marker marker = new Marker(new LatLng(latitud, longitud), this.nombreProyecto);
+            this.mapModel.addOverlay(marker);
+
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, this.nombreProyecto, "Latitud:" + this.latitud + ", Longitud:" + this.longitud));
+
+            RequestContext context = RequestContext.getCurrentInstance();
+            context.execute("PF('dlgAgregarProyecto').hide()");
+
+            //Common.redireccionar(Pagina.PAGINA_MENU_CARGAR_DATOS_SANSANO_MAPA);
+        }
+    }
+
+    public MapModel getMapModel() {
+        return mapModel;
+    }
+
+    public void setMapModel(MapModel mapModel) {
+        this.mapModel = mapModel;
+    }
+
+    public String getNombreProyecto() {
+        return nombreProyecto;
+    }
+
+    public void setNombreProyecto(String nombreProyecto) {
+        this.nombreProyecto = nombreProyecto;
+    }
+
+    public double getLatitud() {
+        return latitud;
+    }
+
+    public void setLatitud(double latitud) {
+        this.latitud = latitud;
+    }
+
+    public double getLongitud() {
+        return longitud;
+    }
+
+    public void setLongitud(double longitud) {
+        this.longitud = longitud;
     }
 
 }
