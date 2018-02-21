@@ -11,32 +11,41 @@
 
         <f:view contentType="text/html">
             <p:gmap center="-33.43144133557529, -71.3671875" zoom="6"   type="HYBRID" style="width:100%;height:97%"
-                    model="#{agregarProyecto.emptyModel}" onPointClick="handlePointClick(event);" widgetVar="map"  />
+                    model="#{agregarProyecto.mapModel}" onPointClick="handlePointClick(event);" widgetVar="map"  />
 
 
-            <p:growl id="messages" showDetail="true" />
+            <p:growl id="msjAgregarProyecto" showDetail="true" />
 
-            <p:dialog widgetVar="dlg" showEffect="fade">
-                <h:form prependId="false" class="formSinBordes">
-                    <h:panelGrid columns="2">
-                        <h:outputLabel for="title" value="Title:" />
-                        <p:inputText id="title" value="#{agregarProyecto.title}" />
+            <p:dialog id="dlgAgregarProyecto" widgetVar="dlgAgregarProyecto" header="Agregar Proyecto"
+                      showEffect="fade" modal="true" resizable="false" closable="false" width="50%" style="width: 500px;">
+                <div class="ui-fluid">
+                    <h:form prependId="false" class="formSinBordes contenidoformulario">
+                        <h:panelGrid columns="1" class="contenidoformulario" width="100%">
+                            <h:panelGrid/>
+                            <h:outputLabel for="nombre" value="Nombre" style="font-weight: bold;" />
+                            <h:panelGrid/> <h:panelGrid/>
+                            <p:inputText id="nombre" value="#{agregarProyecto.nombreProyecto}" style="width: 100%;"  />
+                        </h:panelGrid>
 
-                        <f:facet name="footer">
-                            <p:commandButton value="Add" actionListener="#{agregarProyecto.addMarker}" update="messages" oncomplete="markerAddComplete()" />
-                            <p:commandButton value="Cancel" onclick="return cancel()" />
-                        </f:facet>
-                    </h:panelGrid>
+                        <br/>
+                        <h:panelGrid columns="2" class="contenidoformulario" width="60%">
+                            <p:commandButton value="Aceptar"  actionListener="#{agregarProyecto.addMarker}" 
+                                             update="msjAgregarProyecto" oncomplete="markerAddComplete();"  />
+                            <p:commandButton value="Cancelar" onclick="return cancel()"  />
+                        </h:panelGrid>
 
-                    <h:inputHidden id="lat" value="#{agregarProyecto.lat}" />
-                    <h:inputHidden id="lng" value="#{agregarProyecto.lng}" />
-                </h:form>
+                        <h:inputHidden id="lat" value="#{agregarProyecto.latitud}" />
+                        <h:inputHidden id="lng" value="#{agregarProyecto.longitud}" />
+
+                    </h:form>
+                </div>
             </p:dialog>
 
             <script type="text/javascript">
                 var currentMarker = null;
 
                 function handlePointClick(event) {
+
                     if (currentMarker === null) {
                         document.getElementById('lat').value = event.latLng.lat();
                         document.getElementById('lng').value = event.latLng.lng();
@@ -47,30 +56,33 @@
 
                         PF('map').addOverlay(currentMarker);
 
-                        PF('dlg').show();
+                        PF('dlgAgregarProyecto').show();
                     }
                 }
 
                 function markerAddComplete() {
-                    var title = document.getElementById('title');
-                    currentMarker.setTitle(title.value);
-                    title.value = "";
+                    var nombre = document.getElementById('nombre');
 
-                    currentMarker = null;
-                    PF('dlg').hide();
+                    if (nombre.value !== '') {
+                        if ((nombre !== null)) {
+                            currentMarker.setTitle(nombre.value);
+                            nombre.value = "";
+                            currentMarker = null;
+                            PF('dlgAgregarProyecto').hide();
+                        }
+                    } 
                 }
 
                 function cancel() {
-                    PF('dlg').hide();
+                    PF('dlgAgregarProyecto').hide();
                     currentMarker.setMap(null);
                     currentMarker = null;
-
                     return false;
                 }
             </script>
 
 
         </f:view>      
-        
+
     </ui:define> 
 </ui:composition>
