@@ -1,3 +1,8 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package cl.usm.geosansano.sessions.beans;
 
 import cl.usm.geosansano.entity.MuseoUsuario;
@@ -8,7 +13,7 @@ import javax.persistence.PersistenceContext;
 
 /**
  *
- * @author Juan
+ * @author Juan Delgado
  */
 @Stateless
 public class MuseoUsuarioFacade extends AbstractFacade<MuseoUsuario> implements MuseoUsuarioFacadeLocal {
@@ -24,17 +29,17 @@ public class MuseoUsuarioFacade extends AbstractFacade<MuseoUsuario> implements 
     public MuseoUsuarioFacade() {
         super(MuseoUsuario.class);
     }
-
+    
     @Override
     public MuseoUsuario findByCuenta(String correo, String contraseña) {
         try {
             return (MuseoUsuario) em.createNamedQuery("MuseoUsuario.findByCuenta")
                     .setParameter("correo", correo)
-                    .setParameter("contrase\u00f1a", contraseña)
+                    .setParameter("contraseña", contraseña)
                     .getSingleResult();
         } catch (NoResultException nre) {
             return null;
-        }
+}
     }
 
     @Override

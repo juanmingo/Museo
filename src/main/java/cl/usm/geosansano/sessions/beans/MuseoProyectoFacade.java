@@ -13,7 +13,7 @@ import javax.persistence.PersistenceContext;
 
 /**
  *
- * @author Juan
+ * @author Juan Delgado
  */
 @Stateless
 public class MuseoProyectoFacade extends AbstractFacade<MuseoProyecto> implements MuseoProyectoFacadeLocal {
@@ -29,7 +29,7 @@ public class MuseoProyectoFacade extends AbstractFacade<MuseoProyecto> implement
     public MuseoProyectoFacade() {
         super(MuseoProyecto.class);
     }
-
+    
     @Override
     public MuseoProyecto findByMaxMusproId() {
         try {
@@ -37,7 +37,7 @@ public class MuseoProyectoFacade extends AbstractFacade<MuseoProyecto> implement
                     .getSingleResult();
         } catch (NoResultException nre) {
             return null;
-        }
+}
     }
 
     @Override

@@ -15,6 +15,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -29,7 +30,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Juan
+ * @author Juan Delgado
  */
 @Entity
 @Table(name = "museo_usuario")
@@ -77,7 +78,7 @@ public class MuseoUsuario implements Serializable {
     @Column(name = "correo")
     private String correo;
     @Size(max = 200)
-    @Column(name = "contraseña")
+    @Column(name = "contrase\u00f1a")
     private String contraseña;
     @Size(max = 20)
     @Column(name = "mususu_fono")
@@ -88,6 +89,9 @@ public class MuseoUsuario implements Serializable {
     private BigInteger mususuRol;
     @Column(name = "mususu_rol_dv")
     private Short mususuRolDv;
+    @Lob
+    @Column(name = "mususu_archivo")
+    private byte[] mususuArchivo;
     @Column(name = "mususu_id_usu")
     private BigInteger mususuIdUsu;
     @Column(name = "fecha_modificacion")
@@ -105,8 +109,6 @@ public class MuseoUsuario implements Serializable {
     @JoinColumn(name = "cod_vigencia", referencedColumnName = "cod_vigencia")
     @ManyToOne(optional = false)
     private TipoVigencia codVigencia;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "museoUsuario")
-    private List<MuseoUsuarioFoto> museoUsuarioFotoList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "museoUsuario")
     private List<MuseoUsuarioCarrera> museoUsuarioCarreraList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "museoUsuario")
@@ -207,6 +209,14 @@ public class MuseoUsuario implements Serializable {
         this.mususuRolDv = mususuRolDv;
     }
 
+    public byte[] getMususuArchivo() {
+        return mususuArchivo;
+    }
+
+    public void setMususuArchivo(byte[] mususuArchivo) {
+        this.mususuArchivo = mususuArchivo;
+    }
+
     public BigInteger getMususuIdUsu() {
         return mususuIdUsu;
     }
@@ -256,15 +266,6 @@ public class MuseoUsuario implements Serializable {
     }
 
     @XmlTransient
-    public List<MuseoUsuarioFoto> getMuseoUsuarioFotoList() {
-        return museoUsuarioFotoList;
-    }
-
-    public void setMuseoUsuarioFotoList(List<MuseoUsuarioFoto> museoUsuarioFotoList) {
-        this.museoUsuarioFotoList = museoUsuarioFotoList;
-    }
-
-    @XmlTransient
     public List<MuseoUsuarioCarrera> getMuseoUsuarioCarreraList() {
         return museoUsuarioCarreraList;
     }
@@ -306,5 +307,5 @@ public class MuseoUsuario implements Serializable {
     public String toString() {
         return "cl.usm.geosansano.entity.MuseoUsuario[ mususuId=" + mususuId + " ]";
     }
-
+    
 }

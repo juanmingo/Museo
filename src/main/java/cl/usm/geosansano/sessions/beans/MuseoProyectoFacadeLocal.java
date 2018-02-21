@@ -11,7 +11,7 @@ import javax.ejb.Local;
 
 /**
  *
- * @author Juan
+ * @author Juan Delgado
  */
 @Local
 public interface MuseoProyectoFacadeLocal {
@@ -29,7 +29,7 @@ public interface MuseoProyectoFacadeLocal {
     List<MuseoProyecto> findRange(int[] range);
 
     int count();
-
+    
     MuseoProyecto findByMaxMusproId();
 
     long newMusproId();

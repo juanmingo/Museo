@@ -65,6 +65,7 @@ public class NavegacionUser implements Serializable {
                 } else {
                     FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("cuentaUsuario", this.cuentaUsuario);
                     FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("codPerfil", this.museoUsuario.getCodPerfil());
+                    FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("mususuId", this.museoUsuario.getMususuId());
                     FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("isLoggedIn", "yes");
                     this.mensajeErrorLogin = "";
                     Common.redireccionar(Pagina.PAGINA_MENU_CARGAR_DATOS_SANSANO_MAPA);

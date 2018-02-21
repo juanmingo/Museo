@@ -23,7 +23,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Juan
+ * @author Juan Delgado
  */
 @Entity
 @Table(name = "tipo_vigencia")
@@ -46,13 +46,9 @@ public class TipoVigencia implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "codVigencia")
     private List<MuseoUsuario> museoUsuarioList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "codVigencia")
-    private List<MuseoUsuarioFoto> museoUsuarioFotoList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "codVigencia")
-    private List<MuseoProyecto> museoProyectoList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "codVigencia")
     private List<MuseoProyectoDetalle> museoProyectoDetalleList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "codVigencia")
-    private List<MuseoProyectoCoordenada> museoProyectoCoordenadaList;
+    private List<MuseoProyecto> museoProyectoList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "codVigencia")
     private List<MuseoUsuarioProyecto> museoUsuarioProyectoList;
 
@@ -89,24 +85,6 @@ public class TipoVigencia implements Serializable {
     }
 
     @XmlTransient
-    public List<MuseoUsuarioFoto> getMuseoUsuarioFotoList() {
-        return museoUsuarioFotoList;
-    }
-
-    public void setMuseoUsuarioFotoList(List<MuseoUsuarioFoto> museoUsuarioFotoList) {
-        this.museoUsuarioFotoList = museoUsuarioFotoList;
-    }
-
-    @XmlTransient
-    public List<MuseoProyecto> getMuseoProyectoList() {
-        return museoProyectoList;
-    }
-
-    public void setMuseoProyectoList(List<MuseoProyecto> museoProyectoList) {
-        this.museoProyectoList = museoProyectoList;
-    }
-
-    @XmlTransient
     public List<MuseoProyectoDetalle> getMuseoProyectoDetalleList() {
         return museoProyectoDetalleList;
     }
@@ -116,12 +94,12 @@ public class TipoVigencia implements Serializable {
     }
 
     @XmlTransient
-    public List<MuseoProyectoCoordenada> getMuseoProyectoCoordenadaList() {
-        return museoProyectoCoordenadaList;
+    public List<MuseoProyecto> getMuseoProyectoList() {
+        return museoProyectoList;
     }
 
-    public void setMuseoProyectoCoordenadaList(List<MuseoProyectoCoordenada> museoProyectoCoordenadaList) {
-        this.museoProyectoCoordenadaList = museoProyectoCoordenadaList;
+    public void setMuseoProyectoList(List<MuseoProyecto> museoProyectoList) {
+        this.museoProyectoList = museoProyectoList;
     }
 
     @XmlTransient

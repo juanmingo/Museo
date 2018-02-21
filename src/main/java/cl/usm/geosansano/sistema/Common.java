@@ -18,8 +18,6 @@ import javax.servlet.http.HttpSession;
 @SessionScoped
 public class Common implements Serializable {
 
-
-
     public static void exit() {
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().clear();
         HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
@@ -32,7 +30,6 @@ public class Common implements Serializable {
         HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
         session.invalidate();
     }
-
 
     public static String obtenereUrlBase() {
         HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
@@ -88,11 +85,15 @@ public class Common implements Serializable {
         return (String) session.getAttribute("codPerfil");
     }
 
+    public static long obtenerMususuId() {
+        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+        return (long) session.getAttribute("mususuId");
+    }
+
     public static String obtenerIsLoggedIn() {
         HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
         return (String) session.getAttribute("isLoggedIn");
     }
-
 
     public static String path() {
         ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();

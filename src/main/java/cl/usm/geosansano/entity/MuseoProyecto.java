@@ -29,7 +29,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Juan
+ * @author Juan Delgado
  */
 @Entity
 @Table(name = "museo_proyecto")
@@ -40,6 +40,9 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "MuseoProyecto.findByMusproId", query = "SELECT m FROM MuseoProyecto m WHERE m.musproId = :musproId")
     , @NamedQuery(name = "MuseoProyecto.findByMusproNombre", query = "SELECT m FROM MuseoProyecto m WHERE m.musproNombre = :musproNombre")
     , @NamedQuery(name = "MuseoProyecto.findByMusproDescripcion", query = "SELECT m FROM MuseoProyecto m WHERE m.musproDescripcion = :musproDescripcion")
+    , @NamedQuery(name = "MuseoProyecto.findByMusproCiudad", query = "SELECT m FROM MuseoProyecto m WHERE m.musproCiudad = :musproCiudad")
+    , @NamedQuery(name = "MuseoProyecto.findByMusproLatitud", query = "SELECT m FROM MuseoProyecto m WHERE m.musproLatitud = :musproLatitud")
+    , @NamedQuery(name = "MuseoProyecto.findByMusproLongitud", query = "SELECT m FROM MuseoProyecto m WHERE m.musproLongitud = :musproLongitud")
     , @NamedQuery(name = "MuseoProyecto.findByMusproA\u00f1o", query = "SELECT m FROM MuseoProyecto m WHERE m.musproA\u00f1o = :musproA\u00f1o")
     , @NamedQuery(name = "MuseoProyecto.findByMususuIdUsu", query = "SELECT m FROM MuseoProyecto m WHERE m.mususuIdUsu = :mususuIdUsu")
     , @NamedQuery(name = "MuseoProyecto.findByFechaModificacion", query = "SELECT m FROM MuseoProyecto m WHERE m.fechaModificacion = :fechaModificacion")})
@@ -57,6 +60,14 @@ public class MuseoProyecto implements Serializable {
     @Size(max = 4000)
     @Column(name = "muspro_descripcion")
     private String musproDescripcion;
+    @Size(max = 1000)
+    @Column(name = "muspro_ciudad")
+    private String musproCiudad;
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Column(name = "muspro_latitud")
+    private Double musproLatitud;
+    @Column(name = "muspro_longitud")
+    private Double musproLongitud;
     @Column(name = "muspro_a\u00f1o")
     private Integer musproAño;
     @Column(name = "mususu_id_usu")
@@ -64,16 +75,14 @@ public class MuseoProyecto implements Serializable {
     @Column(name = "fecha_modificacion")
     @Temporal(TemporalType.DATE)
     private Date fechaModificacion;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "museoProyecto")
+    private List<MuseoProyectoDetalle> museoProyectoDetalleList;
     @JoinColumn(name = "cod_pais", referencedColumnName = "cod_pais")
     @ManyToOne(optional = false)
     private Pais codPais;
     @JoinColumn(name = "cod_vigencia", referencedColumnName = "cod_vigencia")
     @ManyToOne(optional = false)
     private TipoVigencia codVigencia;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "museoProyecto")
-    private List<MuseoProyectoDetalle> museoProyectoDetalleList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "museoProyecto")
-    private List<MuseoProyectoCoordenada> museoProyectoCoordenadaList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "museoProyecto")
     private List<MuseoUsuarioProyecto> museoUsuarioProyectoList;
 
@@ -108,6 +117,30 @@ public class MuseoProyecto implements Serializable {
         this.musproDescripcion = musproDescripcion;
     }
 
+    public String getMusproCiudad() {
+        return musproCiudad;
+    }
+
+    public void setMusproCiudad(String musproCiudad) {
+        this.musproCiudad = musproCiudad;
+    }
+
+    public Double getMusproLatitud() {
+        return musproLatitud;
+    }
+
+    public void setMusproLatitud(Double musproLatitud) {
+        this.musproLatitud = musproLatitud;
+    }
+
+    public Double getMusproLongitud() {
+        return musproLongitud;
+    }
+
+    public void setMusproLongitud(Double musproLongitud) {
+        this.musproLongitud = musproLongitud;
+    }
+
     public Integer getMusproAño() {
         return musproAño;
     }
@@ -132,6 +165,15 @@ public class MuseoProyecto implements Serializable {
         this.fechaModificacion = fechaModificacion;
     }
 
+    @XmlTransient
+    public List<MuseoProyectoDetalle> getMuseoProyectoDetalleList() {
+        return museoProyectoDetalleList;
+    }
+
+    public void setMuseoProyectoDetalleList(List<MuseoProyectoDetalle> museoProyectoDetalleList) {
+        this.museoProyectoDetalleList = museoProyectoDetalleList;
+    }
+
     public Pais getCodPais() {
         return codPais;
     }
@@ -146,24 +188,6 @@ public class MuseoProyecto implements Serializable {
 
     public void setCodVigencia(TipoVigencia codVigencia) {
         this.codVigencia = codVigencia;
-    }
-
-    @XmlTransient
-    public List<MuseoProyectoDetalle> getMuseoProyectoDetalleList() {
-        return museoProyectoDetalleList;
-    }
-
-    public void setMuseoProyectoDetalleList(List<MuseoProyectoDetalle> museoProyectoDetalleList) {
-        this.museoProyectoDetalleList = museoProyectoDetalleList;
-    }
-
-    @XmlTransient
-    public List<MuseoProyectoCoordenada> getMuseoProyectoCoordenadaList() {
-        return museoProyectoCoordenadaList;
-    }
-
-    public void setMuseoProyectoCoordenadaList(List<MuseoProyectoCoordenada> museoProyectoCoordenadaList) {
-        this.museoProyectoCoordenadaList = museoProyectoCoordenadaList;
     }
 
     @XmlTransient
@@ -199,5 +223,5 @@ public class MuseoProyecto implements Serializable {
     public String toString() {
         return "cl.usm.geosansano.entity.MuseoProyecto[ musproId=" + musproId + " ]";
     }
-
+    
 }
