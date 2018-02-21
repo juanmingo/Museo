@@ -5,12 +5,19 @@
  */
 package cl.usm.geosansano.mannaged.beans;
 
+import cl.usm.geosansano.comparators.PaisNameComparator;
 import cl.usm.geosansano.entity.CarreraSede;
 import cl.usm.geosansano.entity.MuseoUsuarioCarrera;
 import cl.usm.geosansano.entity.Pais;
+import cl.usm.geosansano.sessions.beans.PaisFacadeLocal;
 import java.io.Serializable;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Stream;
+import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
@@ -22,10 +29,12 @@ import javax.inject.Named;
 @ViewScoped
 public class RegistroBean implements Serializable {
 
+    @EJB
+    private PaisFacadeLocal paisFacade;
+
     private String nombre;
     private String paterno;
     private String materno;
-    private Pais pais;
     private Date fechaNacimiento;
     private String correo;
     private String fono;
@@ -33,11 +42,21 @@ public class RegistroBean implements Serializable {
     private String dvRol;
     private List<CarreraSede> carreras;
     private List<MuseoUsuarioCarrera> carreraSeleted;
+    private List<Pais> paises;
+    private Pais paisSelected;
 
     /**
      * Creates a new instance of RegistroBean
      */
     public RegistroBean() {
+    }
+
+    @PostConstruct
+    public void init() {
+        System.out.println("init registroBean");
+        paises = paisFacade.findAll();
+        Collections.sort(paises, new PaisNameComparator());
+        paises.remove(new Pais(0));
     }
 
     /**
@@ -80,20 +99,6 @@ public class RegistroBean implements Serializable {
      */
     public void setMaterno(String materno) {
         this.materno = materno;
-    }
-
-    /**
-     * @return the pais
-     */
-    public Pais getPais() {
-        return pais;
-    }
-
-    /**
-     * @param pais the pais to set
-     */
-    public void setPais(Pais pais) {
-        this.pais = pais;
     }
 
     /**
@@ -192,6 +197,34 @@ public class RegistroBean implements Serializable {
      */
     public void setCarreraSeleted(List<MuseoUsuarioCarrera> carreraSeleted) {
         this.carreraSeleted = carreraSeleted;
+    }
+
+    /**
+     * @return the paises
+     */
+    public List<Pais> getPaises() {
+        return paises;
+    }
+
+    /**
+     * @param paises the paises to set
+     */
+    public void setPaises(List<Pais> paises) {
+        this.paises = paises;
+    }
+
+    /**
+     * @return the paisSelected
+     */
+    public Pais getPaisSelected() {
+        return paisSelected;
+    }
+
+    /**
+     * @param paisSelected the paisSelected to set
+     */
+    public void setPaisSelected(Pais paisSelected) {
+        this.paisSelected = paisSelected;
     }
 
 }

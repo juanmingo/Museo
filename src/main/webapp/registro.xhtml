@@ -15,96 +15,90 @@
 
 
                     <p:wizard   nextLabel="Siguiente" backLabel="Anterior" >
-                        <p:tab id="personal" title="Datos Personal">
-                            <p:panel header="Datos Personales">
-                                <p:panelGrid columns="4" layout="grid" >
-                                    <h:outputText value="Nombres: *" />
-                                    <p:inputText value="#{registroBean.nombre}" label="Nombres"/>
+                        <p:tab id="personal" title="Datos Personales">
+                            <p:panelGrid columns="4" layout="grid" >
+                                <h:outputText value="Nombres: *" />
+                                <p:inputText value="#{registroBean.nombre}" label="Nombres"/>
 
-                                    <h:outputText value="Apellido Paterno: *" />
-                                    <p:inputText value="#{registroBean.paterno}" label="Apellido Paterno"/>
+                                <h:outputText value="Apellido Paterno: *" />
+                                <p:inputText value="#{registroBean.paterno}" label="Apellido Paterno"/>
 
-                                    <h:outputText value="Apellido Materno: *" />
-                                    <p:inputText  value="#{registroBean.materno}" label="Apellido Materno"/>
+                                <h:outputText value="Apellido Materno: *" />
+                                <p:inputText  value="#{registroBean.materno}" label="Apellido Materno"/>
 
-                                    <h:outputText value="Fecha de Nacimiento: " />
-                                    <p:calendar value="#{registroBean.fechaNacimiento}"/>
+                                <h:outputText value="Fecha de Nacimiento: " />
+                                <p:calendar value="#{registroBean.fechaNacimiento}"/>
 
-                                </p:panelGrid>
-                            </p:panel>
+                                <h:outputText value="Nacionalidad: " />
+                                <p:selectOneMenu  value="#{registroBean.paisSelected}"  >
+                                    <f:selectItem  itemLabel="Seleccione" itemValue="" />
+                                    <f:selectItems value="#{registroBean.paises}" var="pais" itemLabel="#{pais.nomNacionalidad}" itemValue="#{pais.codPais}"/>
+                                </p:selectOneMenu>
+
+                                <h:outputText value="Fono: " />
+                                <p:inputText value="#{registroBean.fono}" />
+
+                                <h:outputText value="Email: *" />
+                                <p:inputText value="#{registroBean.correo}" label="Email"/>
+
+
+                            </p:panelGrid>
                         </p:tab>
                         <p:tab id="institucional" title="Datos Institucionales">
-                            <p:panel header="Datos Institucionales">
-                                <p:panelGrid   >
-                                    <p:row>
-                                        <p:column>
-                                            <h:outputText value="Rol USM: *" />
-                                        </p:column>
-                                        <p:column colspan="4">
-                                            <p:inputText value="#{registroBean.rol}" label="Rol USM"/>
-                                            <h:outputText value="-" />
-                                            <p:inputText value="#{registroBean.dvRol}" maxlength="1" size="1" label="Rol USM"/>
-                                        </p:column>
+                            <p:panelGrid   >
+                                <p:row>
+                                    <p:column>
+                                        <h:outputText value="Rol USM: *" />
+                                    </p:column>
+                                    <p:column colspan="4">
+                                        <p:inputText value="#{registroBean.rol}" label="Rol USM"/>
+                                        <h:outputText value="-" />
+                                        <p:inputText value="#{registroBean.dvRol}" maxlength="1" size="1" label="Rol USM"/>
+                                    </p:column>
 
-                                    </p:row>
-                                    <p:row>
-                                        <p:column>
-                                            <h:outputText value="Carrera: *" />
-                                        </p:column>
-                                        <p:column>
-                                            <p:selectOneMenu    >
+                                </p:row>
+                                <p:row>
+                                    <p:column>
+                                        <h:outputText value="Carrera: *" />
+                                    </p:column>
+                                    <p:column>
+                                        <p:selectOneMenu    >
 
-                                            </p:selectOneMenu>
-                                        </p:column>
-                                        <p:column>
-                                            <h:outputText value="Ingreso a la Carrera:" />
-                                        </p:column>
-                                        <p:column>
-                                            <p:inputText  maxlength="4" size="4"/>
-                                        </p:column>
-                                        <p:column>
-                                            <p:commandButton  update="carreras" icon="fa fa-plus" type="button"/>
-                                        </p:column>
-                                    </p:row>
-                                    <p:row>
-                                        <p:column colspan="5">
-                                            <p:dataTable id="carreras" value="#{registroBean.carreraSeleted}" emptyMessage="No se ha agregado carrera">
+                                        </p:selectOneMenu>
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText value="Ingreso a la Carrera:" />
+                                    </p:column>
+                                    <p:column>
+                                        <p:inputText  maxlength="4" size="4"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:commandButton  update="carreras" icon="fa fa-plus" type="button"/>
+                                    </p:column>
+                                </p:row>
+                                <p:row>
+                                    <p:column colspan="5">
+                                        <p:dataTable id="carreras" value="#{registroBean.carreraSeleted}" emptyMessage="No se ha agregado carrera">
 
-                                            </p:dataTable>
-                                        </p:column>
-                                    </p:row>
-                                </p:panelGrid>
-                            </p:panel>
-                        </p:tab>
-                        <p:tab id="contact" title="Contacto">
-                            <p:panel header="Información de Contacto">
-                                <p:messages />
-                                <p:panelGrid columns="2" layout="grid" >
-                                    <h:outputText value="Email: *" />
-                                    <p:inputText value="#{registroBean.correo}" label="Email"/>
-
-                                    <h:outputText value="Fono: " />
-                                    <p:inputText value="#{registroBean.fono}" />
-
-                                </p:panelGrid>
-                            </p:panel>
+                                        </p:dataTable>
+                                    </p:column>
+                                </p:row>
+                            </p:panelGrid>
                         </p:tab>
 
-                        <p:tab id="confirm" title="Confirmation">
-                            <p:panel header="Confirmation">
-                                <p:panelGrid columns="6"  layout="grid">
-                                    <h:outputText value="Nombres: " />
-                                    <h:outputText />
+                        <p:tab id="confirm" title="Confirmación" >
+                            <p:panelGrid columns="6"  layout="grid">
+                                <h:outputText value="Nombres: " />
+                                <h:outputText />
 
-                                    <h:outputText value="Apellido Paterno: " />
-                                    <h:outputText  />
+                                <h:outputText value="Apellido Paterno: " />
+                                <h:outputText  />
 
-                                    <h:outputText value="Apellido Materno: " />
-                                    <h:outputText  />
-                                </p:panelGrid>
+                                <h:outputText value="Apellido Materno: " />
+                                <h:outputText  />
+                            </p:panelGrid>
 
-                                <p:commandButton value="Confirmar" update="growl" process="@this"/>
-                            </p:panel>
+                            <p:commandButton value="Confirmar" update="growl" process="@this"/>
                         </p:tab>
                     </p:wizard>
                 </div>
