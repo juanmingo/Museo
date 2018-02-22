@@ -18,7 +18,8 @@ public abstract class Pagina implements Serializable {
     //
     public static final String ICON_MARKER_VERDE = "/images/icon_marker_verde.png";
     public static final String ICON_MARKER_CELESTE = "/images/icon_marker_celeste.png";
-    public static final String ICON_MARKER_ROZADA = "/images/icon_marker_rozada.png";
+    public static final String ICON_MARKER_ROZADA = "/images/icon_marker_rozado.png";
+    public static final String ICON_MARKER_NEGRO = "/images/icon_marker_negro.png";
     public static final String ICON_MARKER_USM = "/images/icon_marker_usm.png";
     //
     public static final double CENTRAL_LATITUD = -34.023547171924655;

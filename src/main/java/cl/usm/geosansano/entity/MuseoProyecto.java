@@ -48,10 +48,51 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "MuseoProyecto.findByMususuIdUsu", query = "SELECT m FROM MuseoProyecto m WHERE m.mususuIdUsu = :mususuIdUsu")
     , @NamedQuery(name = "MuseoProyecto.findByFechaModificacion", query = "SELECT m FROM MuseoProyecto m WHERE m.fechaModificacion = :fechaModificacion")
 
+    , @NamedQuery(name = "MuseoProyecto.findByProyectoUsuario", query = "SELECT m FROM MuseoProyecto m WHERE (m.mususuId = :mususuId) "
+            + " OR m.musproId IN (0,1,2,3,4,5) ")
+
+    , @NamedQuery(name = "MuseoProyecto.findByProyectosUsuarioPendienteRechazado", query = "SELECT m FROM MuseoProyecto m WHERE m.mususuId = :mususuId AND (m.musproLatitud <= :norteLatitud AND m.musproLatitud >= :surteLatitud) and (m.musproLongitud <= :norteLongitud and m.musproLongitud >= :surLongitud) "
+            + " AND m.codVigencia.codVigencia IN (0,2) ")
+
     , @NamedQuery(name = "MuseoProyecto.findByProyectosGeo", query = "SELECT m FROM MuseoProyecto m "
-            + " WHERE (m.musproLatitud <= :norteLatitud and m.musproLatitud >= :surteLatitud)"
-            + " and (m.musproLongitud <= :norteLongitud and m.musproLongitud >= :surLongitud)")
+            + " WHERE (m.musproLatitud <= :norteLatitud AND m.musproLatitud >= :surteLatitud) "
+            + " AND (m.musproLongitud <= :norteLongitud AND m.musproLongitud >= :surLongitud) "
+            + " AND m.codVigencia.codVigencia = 1 ")
+
+    , @NamedQuery(name = "MuseoProyecto.findByProyectosGeo2", query = "SELECT m FROM MuseoProyecto m "
+            + " WHERE ((m.musproLatitud <= :norteLatitud AND m.musproLatitud >= :surteLatitud) "
+            + " OR (m.musproLongitud >= :norteLongitud AND m.musproLongitud <= :surLongitud) ) "
+            + " AND m.codVigencia.codVigencia = 1 ")
+
+    , @NamedQuery(name = "MuseoProyecto.findByProyectosGeo3", query = "SELECT m FROM MuseoProyecto m "
+            + " WHERE ((m.musproLatitud >= :norteLatitud1 AND m.musproLatitud >= :surteLatitud2) "
+            + " OR (m.musproLatitud >= :norteLatitud2 AND m.musproLatitud >= :surteLatitud3)) "
+            + " AND ((m.musproLongitud >= :norteLongitud1 AND m.musproLongitud >= :surLongitud2) "
+            + " OR (m.musproLongitud >= :norteLongitud3 AND m.musproLongitud >= :surLongitud4))")
+
 })
+
+/*
+
+SELECT *
+FROM museo_proyecto
+WHERE ((30.234375 >= muspro_longitud  AND muspro_longitud >= -88.41796875)
+OR (152.9296875 >= muspro_longitud  AND muspro_longitud >= -88.41796875))
+AND 
+((-16.896498660939496 >= muspro_latitud  AND muspro_latitud >= -60.61156692242454)
+OR(26.818569600545544 >= muspro_latitud  AND muspro_latitud >= -16.896498660939496))
+
+NorthEast
+Lat:20.81933027601954, Lng:33.771358848328646
+SouthWest
+Lat:-63.45956894832444, Lng:156.81823384832865
+
+NorthEast
+Lat:3.1295050881201534, Lng:-21.072391151671354
+SouthWest
+Lat:-43.858326480235675, Lng:-139.54895365167135
+
+ */
 public class MuseoProyecto implements Serializable {
 
     private static final long serialVersionUID = 1L;

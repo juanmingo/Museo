@@ -6,7 +6,6 @@
 package cl.usm.geosansano.sessions.beans;
 
 import cl.usm.geosansano.entity.MuseoProyecto;
-import cl.usm.geosansano.entity.MuseoUsuario;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -68,5 +67,35 @@ public class MuseoProyectoFacade extends AbstractFacade<MuseoProyecto> implement
                 .setParameter("surLongitud", surLongitud)
                 .getResultList();
     }
+
+    @Override
+    public List<MuseoProyecto> findByProyectosGeo2(double norteLatitud, double norteLongitud, double surteLatitud, double surLongitud) {
+        return em.createNamedQuery("MuseoProyecto.findByProyectosGeo")
+                .setParameter("norteLatitud", norteLatitud)
+                .setParameter("norteLongitud", norteLongitud)
+                .setParameter("surteLatitud", surteLatitud)
+                .setParameter("surLongitud", surLongitud)
+                .getResultList();
+    }
+
+    @Override
+    public List<MuseoProyecto> findByProyectoUsuario(long mususuId) {
+        return em.createNamedQuery("MuseoProyecto.findByProyectoUsuario")
+                .setParameter("mususuId", mususuId)
+                .getResultList();
+    }
+
+    @Override
+    public List<MuseoProyecto> findByProyectosUsuarioPendienteRechazado(long mususuId, double norteLatitud, double norteLongitud, double surteLatitud, double surLongitud) {
+        return em.createNamedQuery("MuseoProyecto.findByProyectosUsuarioPendienteRechazado")
+                .setParameter("mususuId", mususuId)
+                .setParameter("norteLatitud", norteLatitud)
+                .setParameter("norteLongitud", norteLongitud)
+                .setParameter("surteLatitud", surteLatitud)
+                .setParameter("surLongitud", surLongitud)
+                .getResultList();
+    }
+
+
 
 }

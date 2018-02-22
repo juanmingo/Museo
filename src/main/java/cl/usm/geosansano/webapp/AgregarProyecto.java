@@ -47,7 +47,6 @@ public class AgregarProyecto implements Serializable {
     private MapModel mapModel;
     //
     private String nombreProyecto;
-    private String iconoAddMarker;
     private double latitud;
     private double longitud;
     private BigInteger mususuId;
@@ -55,6 +54,12 @@ public class AgregarProyecto implements Serializable {
     public double central_latitud = Pagina.CENTRAL_LATITUD;
     public double central_longitud = Pagina.CENTRAL_LONGITUD;
     public int central_zoom = Pagina.CENTRAL_ZOOM;
+    //
+    private String iconoAddMarker;
+    private String iconoMarkerAprobado;
+    private String iconoMarkerRechazado;
+    private String iconoMarkerPendiente;
+    private String iconoMarkerUSM;
 
     @PostConstruct
     public void init() {
@@ -63,14 +68,35 @@ public class AgregarProyecto implements Serializable {
     public void cargarAgregarProyecto() {
 
         this.mapModel = new DefaultMapModel();
-        this.mususuId = FuncionNumero.nvlBigInteger(String.valueOf(Common.obtenerMususuId()));
-        this.museoProyectoList = museoProyectoFL.findByMususuId(this.mususuId.longValue());
 
-        this.iconoAddMarker = Common.obtenereUrlBase() + Pagina.ICON_MARKER_CELESTE;
+        this.mususuId = FuncionNumero.nvlBigInteger(String.valueOf(Common.obtenerMususuId()));
+        System.out.println("this.mususuId: " + this.mususuId);
+
+        this.museoProyectoList = museoProyectoFL.findByProyectoUsuario(this.mususuId.longValue());
+        System.out.println("museoProyectoList: " + museoProyectoList.size());
+
+        this.iconoAddMarker = Common.obtenereUrlBase() + Pagina.ICON_MARKER_ROZADA;
+
+        this.iconoMarkerAprobado = Common.obtenereUrlBase() + Pagina.ICON_MARKER_VERDE;
+        this.iconoMarkerRechazado = Common.obtenereUrlBase() + Pagina.ICON_MARKER_ROZADA;
+        this.iconoMarkerPendiente = Common.obtenereUrlBase() + Pagina.ICON_MARKER_CELESTE;
+        this.iconoMarkerUSM = Common.obtenereUrlBase() + Pagina.ICON_MARKER_USM;
 
         for (MuseoProyecto objMP : museoProyectoList) {
+            
             Marker marker = new Marker(new LatLng(objMP.getMusproLatitud(), objMP.getMusproLongitud()), objMP.getMusproNombre().toUpperCase());
-            marker.setIcon(this.iconoAddMarker);
+
+            if (objMP.getMusproId() == 0 || objMP.getMusproId() == 1 || objMP.getMusproId() == 2 || objMP.getMusproId() == 3
+                    || objMP.getMusproId() == 4 || objMP.getMusproId() == 5) {
+                marker.setIcon(this.iconoMarkerUSM);
+            } else if (objMP.getCodVigencia().getCodVigencia() == 0) {
+                marker.setIcon(this.iconoMarkerPendiente);
+            } else if (objMP.getCodVigencia().getCodVigencia() == 1) {
+                marker.setIcon(this.iconoMarkerAprobado);
+            } else if (objMP.getCodVigencia().getCodVigencia() == 2) {
+                marker.setIcon(this.iconoMarkerRechazado);
+            }
+
             this.mapModel.addOverlay(marker);
         }
 

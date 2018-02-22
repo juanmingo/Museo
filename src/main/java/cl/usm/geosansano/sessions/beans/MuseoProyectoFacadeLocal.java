@@ -36,6 +36,14 @@ public interface MuseoProyectoFacadeLocal {
 
     List<MuseoProyecto> findByMususuId(long mususuId);
 
+    List<MuseoProyecto> findByProyectoUsuario(long mususuId);
+
     List<MuseoProyecto> findByProyectosGeo(double norteLatitud, double norteLongitud, double surteLatitud, double surLongitud);
+
+    List<MuseoProyecto> findByProyectosGeo2(double norteLatitud, double norteLongitud, double surteLatitud, double surLongitud);
+
+
+
+    List<MuseoProyecto> findByProyectosUsuarioPendienteRechazado(long mususuId, double norteLatitud, double norteLongitud, double surteLatitud, double surLongitud);
 
 }

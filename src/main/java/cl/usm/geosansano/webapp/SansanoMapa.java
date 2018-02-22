@@ -19,6 +19,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import org.primefaces.context.RequestContext;
+import org.primefaces.event.map.PointSelectEvent;
 import org.primefaces.event.map.StateChangeEvent;
 import org.primefaces.model.map.DefaultMapModel;
 import org.primefaces.model.map.LatLng;
@@ -52,12 +53,15 @@ public class SansanoMapa implements Serializable {
     private String iconoMarkerUsuario;
     private String iconoMarkerSansano;
     private String iconoMarkerUSM;
+
+    private String iconoMarkerRechazado;
+    private String iconoMarkerPendiente;
     //
     public double central_latitud;
     public double central_longitud;
     public int central_zoom;
 
-    public void cargarCuentaUsuario() {
+    public void cargarSansanoMapa() {
 
         this.central_latitud = Pagina.CENTRAL_LATITUD;
         this.central_longitud = Pagina.CENTRAL_LONGITUD;
@@ -67,9 +71,12 @@ public class SansanoMapa implements Serializable {
         this.museoUsuario = this.museoUsuarioFacade.findByCorreo(Common.obtenerCuentaUsuario());
         this.mususuId = FuncionNumero.nvlBigInteger(String.valueOf(Common.obtenerMususuId()));
 
-        this.iconoMarkerUsuario = Common.obtenereUrlBase() + Pagina.ICON_MARKER_CELESTE;
+        this.iconoMarkerUsuario = Common.obtenereUrlBase() + Pagina.ICON_MARKER_VERDE;
         this.iconoMarkerSansano = Common.obtenereUrlBase() + Pagina.ICON_MARKER_VERDE;
         this.iconoMarkerUSM = Common.obtenereUrlBase() + Pagina.ICON_MARKER_USM;
+
+        this.iconoMarkerRechazado = Common.obtenereUrlBase() + Pagina.ICON_MARKER_ROZADA;
+        this.iconoMarkerPendiente = Common.obtenereUrlBase() + Pagina.ICON_MARKER_CELESTE;
 
         if (this.museoUsuario != null) {
             this.nombreUsuario = FuncionTexto.nvlTexto(this.museoUsuario.getMususuNombres(), "") + " " + FuncionTexto.nvlTexto(this.museoUsuario.getMususuPaterno(), "") + " " + FuncionTexto.nvlTexto(this.museoUsuario.getMususuMaterno(), "");
@@ -92,25 +99,47 @@ public class SansanoMapa implements Serializable {
             this.mapModel.addOverlay(marker);
         }
 
+        this.museoProyectoList = museoProyectoFL.findByProyectosUsuarioPendienteRechazado(this.mususuId.longValue(), Pagina.CENTRAL_NORTE_LATITUD, Pagina.CENTRAL_NORTE_LONGITUD, Pagina.CENTRAL_SUR_LATITUD, Pagina.CENTRAL_SUR_LONGITUD);
+
+        for (MuseoProyecto objMP : museoProyectoList) {
+
+            Marker marker = new Marker(new LatLng(objMP.getMusproLatitud(), objMP.getMusproLongitud()), objMP.getMusproNombre().toUpperCase());
+
+            if (objMP.getCodVigencia().getCodVigencia() == 0) {
+                marker.setIcon(this.iconoMarkerPendiente);
+            } else if (objMP.getCodVigencia().getCodVigencia() == 2) {
+                marker.setIcon(this.iconoMarkerRechazado);
+            }
+
+            this.mapModel.addOverlay(marker);
+        }
+
         Common.redireccionar(Pagina.PAGINA_MENU_SANSANO_MAPA);
     }
 
     public void onStateChange(StateChangeEvent event) {
 
-        /*
-        addMessage(new FacesMessage(FacesMessage.SEVERITY_INFO, "Zoom Level", String.valueOf(zoomLevel)));
-        addMessage(new FacesMessage(FacesMessage.SEVERITY_INFO, "Center", event.getCenter().toString()));
-        addMessage(new FacesMessage(FacesMessage.SEVERITY_INFO, "NorthEast", bounds.getNorthEast().toString()));
-        addMessage(new FacesMessage(FacesMessage.SEVERITY_INFO, "SouthWest", bounds.getSouthWest().toString()));
-         */
         this.central_latitud = event.getCenter().getLat();
         this.central_longitud = event.getCenter().getLng();
-        this.central_zoom = event.getZoomLevel();
+
+        if (event.getZoomLevel() < 3) {
+            this.central_zoom = 3;
+        } else {
+            this.central_zoom = event.getZoomLevel();
+        }
+
         LatLngBounds coordenadas = event.getBounds();
 
         this.mapModel = new DefaultMapModel();
 
-        this.museoProyectoList = museoProyectoFL.findByProyectosGeo(coordenadas.getNorthEast().getLat(), coordenadas.getNorthEast().getLng(), coordenadas.getSouthWest().getLat(), coordenadas.getSouthWest().getLng());
+        int cont = 0;
+        if (coordenadas.getNorthEast().getLng() > coordenadas.getSouthWest().getLng()) {
+            this.museoProyectoList = museoProyectoFL.findByProyectosGeo(coordenadas.getNorthEast().getLat(), coordenadas.getNorthEast().getLng(), coordenadas.getSouthWest().getLat(), coordenadas.getSouthWest().getLng());
+        } else {
+            this.museoProyectoList = museoProyectoFL.findByProyectosGeo(coordenadas.getNorthEast().getLat(), coordenadas.getSouthWest().getLng(), coordenadas.getSouthWest().getLat(), coordenadas.getNorthEast().getLng());
+        }
+
+        cont += museoProyectoList.size();
 
         for (MuseoProyecto objMP : museoProyectoList) {
             Marker marker = new Marker(new LatLng(objMP.getMusproLatitud(), objMP.getMusproLongitud()), objMP.getMusproNombre().toUpperCase());
@@ -124,6 +153,48 @@ public class SansanoMapa implements Serializable {
             }
             this.mapModel.addOverlay(marker);
         }
+
+        if (coordenadas.getNorthEast().getLng() > coordenadas.getSouthWest().getLng()) {
+            this.museoProyectoList = museoProyectoFL.findByProyectosUsuarioPendienteRechazado(this.mususuId.longValue(), coordenadas.getNorthEast().getLat(), coordenadas.getNorthEast().getLng(), coordenadas.getSouthWest().getLat(), coordenadas.getSouthWest().getLng());
+        } else {
+            this.museoProyectoList = museoProyectoFL.findByProyectosUsuarioPendienteRechazado(this.mususuId.longValue(), coordenadas.getNorthEast().getLat(), coordenadas.getSouthWest().getLng(), coordenadas.getSouthWest().getLat(), coordenadas.getNorthEast().getLng());
+        }
+
+        cont += museoProyectoList.size();
+
+        for (MuseoProyecto objMP : museoProyectoList) {
+
+            Marker marker = new Marker(new LatLng(objMP.getMusproLatitud(), objMP.getMusproLongitud()), objMP.getMusproNombre().toUpperCase());
+
+            if (objMP.getCodVigencia().getCodVigencia() == 0) {
+                marker.setIcon(this.iconoMarkerPendiente);
+            } else if (objMP.getCodVigencia().getCodVigencia() == 2) {
+                marker.setIcon(this.iconoMarkerRechazado);
+            }
+
+            this.mapModel.addOverlay(marker);
+        }
+
+        addMessage(new FacesMessage(FacesMessage.SEVERITY_INFO, "Zoom Level", String.valueOf(central_zoom)));
+        addMessage(new FacesMessage(FacesMessage.SEVERITY_INFO, "Center", event.getCenter().toString()));
+        addMessage(new FacesMessage(FacesMessage.SEVERITY_INFO, "NorthEast", coordenadas.getNorthEast().toString()));
+        addMessage(new FacesMessage(FacesMessage.SEVERITY_INFO, "SouthWest", coordenadas.getSouthWest().toString()));
+
+        addMessage(new FacesMessage(FacesMessage.SEVERITY_INFO, "LIST", String.valueOf(cont)));
+
+        RequestContext context = RequestContext.getCurrentInstance();
+        context.update("formSansano:mapGeoSansano");
+        context.update("formSansano:msjProyectos");
+    }
+
+    public void onPointSelect(PointSelectEvent event) {
+        LatLng latlng = event.getLatLng();
+
+        addMessage(new FacesMessage(FacesMessage.SEVERITY_INFO, "Point Selected", "Lat:" + latlng.getLat() + ", Lng:" + latlng.getLng()));
+
+        RequestContext context = RequestContext.getCurrentInstance();
+        //context.update("formSansano:mapGeoSansano");
+        context.update("formSansano:msjProyectos");
     }
 
     public void addMessage(FacesMessage message) {
