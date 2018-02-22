@@ -31,24 +31,18 @@ import org.primefaces.model.map.Marker;
  *
  * @author Juan D. Delgado Robles.
  */
-@ManagedBean(name = "sansanoMapa", eager = true)
+@ManagedBean(name = "generalMapa", eager = true)
 @SessionScoped
-public class SansanoMapa implements Serializable {
+public class GeneralMapa implements Serializable {
 
     @EJB
-    private MuseoUsuarioFacadeLocal museoUsuarioFacade;
-    @EJB
     private MuseoProyectoFacadeLocal museoProyectoFL;
-    //
-    private MuseoUsuario museoUsuario;
     //
     private MapModel mapModel;
     //
     private MuseoProyecto museoProyect;
     private List<MuseoProyecto> museoProyectoList;
     //
-    private String nombreUsuario = "";
-    private BigInteger mususuId;
     private String iconoMarkerUsuario;
     private String iconoMarkerSansano;
     private String iconoMarkerUSM;
@@ -57,25 +51,19 @@ public class SansanoMapa implements Serializable {
     public double central_longitud;
     public int central_zoom;
 
-    public void cargarCuentaUsuario() {
+    public void cargarMapaGeneral() {
+
+        this.mapModel = new DefaultMapModel();
 
         this.central_latitud = Pagina.CENTRAL_LATITUD;
         this.central_longitud = Pagina.CENTRAL_LONGITUD;
         this.central_zoom = Pagina.CENTRAL_ZOOM;
 
-        this.mapModel = new DefaultMapModel();
-        this.museoUsuario = this.museoUsuarioFacade.findByCorreo(Common.obtenerCuentaUsuario());
-        this.mususuId = FuncionNumero.nvlBigInteger(String.valueOf(Common.obtenerMususuId()));
-
         this.iconoMarkerUsuario = Common.obtenereUrlBase() + Pagina.ICON_MARKER_CELESTE;
-        this.iconoMarkerSansano = Common.obtenereUrlBase() + Pagina.ICON_MARKER_VERDE;
-        this.iconoMarkerUSM = Common.obtenereUrlBase() + Pagina.ICON_MARKER_USM;
 
-        if (this.museoUsuario != null) {
-            this.nombreUsuario = FuncionTexto.nvlTexto(this.museoUsuario.getMususuNombres(), "") + " " + FuncionTexto.nvlTexto(this.museoUsuario.getMususuPaterno(), "") + " " + FuncionTexto.nvlTexto(this.museoUsuario.getMususuMaterno(), "");
-            this.nombreUsuario = this.nombreUsuario.trim();
-            this.nombreUsuario = this.nombreUsuario.toUpperCase();
-        }
+        this.iconoMarkerSansano = Common.obtenereUrlBase() + Pagina.ICON_MARKER_VERDE;
+
+        this.iconoMarkerUSM = Common.obtenereUrlBase() + Pagina.ICON_MARKER_USM;
 
         this.museoProyectoList = museoProyectoFL.findByProyectosGeo(Pagina.CENTRAL_NORTE_LATITUD, Pagina.CENTRAL_NORTE_LONGITUD, Pagina.CENTRAL_SUR_LATITUD, Pagina.CENTRAL_SUR_LONGITUD);
 
@@ -84,15 +72,14 @@ public class SansanoMapa implements Serializable {
             if (objMP.getMusproId() == 0 || objMP.getMusproId() == 1 || objMP.getMusproId() == 2 || objMP.getMusproId() == 3
                     || objMP.getMusproId() == 4 || objMP.getMusproId() == 5) {
                 marker.setIcon(this.iconoMarkerUSM);
-            } else if (objMP.getMususuId() == this.mususuId.longValue()) {
-                marker.setIcon(this.iconoMarkerUsuario);
             } else {
                 marker.setIcon(this.iconoMarkerSansano);
             }
             this.mapModel.addOverlay(marker);
         }
 
-        Common.redireccionar(Pagina.PAGINA_MENU_SANSANO_MAPA);
+        Common.redireccionar(Pagina.PAGINA_MENU_CARGAR_DATOS_GENERAL_MAPA);
+
     }
 
     public void onStateChange(StateChangeEvent event) {
@@ -117,8 +104,6 @@ public class SansanoMapa implements Serializable {
             if (objMP.getMusproId() == 0 || objMP.getMusproId() == 1 || objMP.getMusproId() == 2 || objMP.getMusproId() == 3
                     || objMP.getMusproId() == 4 || objMP.getMusproId() == 5) {
                 marker.setIcon(this.iconoMarkerUSM);
-            } else if (objMP.getMususuId() == this.mususuId.longValue()) {
-                marker.setIcon(this.iconoMarkerUsuario);
             } else {
                 marker.setIcon(this.iconoMarkerSansano);
             }
@@ -131,14 +116,6 @@ public class SansanoMapa implements Serializable {
     }
 
     //<editor-fold defaultstate="collapsed" desc="Getter && Setter">
-    public String getNombreUsuario() {
-        return nombreUsuario;
-    }
-
-    public void setNombreUsuario(String nombreUsuario) {
-        this.nombreUsuario = nombreUsuario;
-    }
-
     public MapModel getMapModel() {
         return mapModel;
     }

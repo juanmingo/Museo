@@ -46,7 +46,12 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "MuseoProyecto.findByMusproLongitud", query = "SELECT m FROM MuseoProyecto m WHERE m.musproLongitud = :musproLongitud")
     , @NamedQuery(name = "MuseoProyecto.findByMusproA\u00f1o", query = "SELECT m FROM MuseoProyecto m WHERE m.musproA\u00f1o = :musproA\u00f1o")
     , @NamedQuery(name = "MuseoProyecto.findByMususuIdUsu", query = "SELECT m FROM MuseoProyecto m WHERE m.mususuIdUsu = :mususuIdUsu")
-    , @NamedQuery(name = "MuseoProyecto.findByFechaModificacion", query = "SELECT m FROM MuseoProyecto m WHERE m.fechaModificacion = :fechaModificacion")})
+    , @NamedQuery(name = "MuseoProyecto.findByFechaModificacion", query = "SELECT m FROM MuseoProyecto m WHERE m.fechaModificacion = :fechaModificacion")
+
+    , @NamedQuery(name = "MuseoProyecto.findByProyectosGeo", query = "SELECT m FROM MuseoProyecto m "
+            + " WHERE (m.musproLatitud <= :norteLatitud and m.musproLatitud >= :surteLatitud)"
+            + " and (m.musproLongitud <= :norteLongitud and m.musproLongitud >= :surLongitud)")
+})
 public class MuseoProyecto implements Serializable {
 
     private static final long serialVersionUID = 1L;

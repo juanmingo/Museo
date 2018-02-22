@@ -9,8 +9,14 @@
 
         <h:form id="formSansano" class="formSinBordes" >
 
+            <p:growl id="msjProyectos" showDetail="true" />
+
             <f:view contentType="text/html">
-                <p:gmap center="-33.43144133557529, -71.3671875" zoom="6"   type="HYBRID" style="width:100%;height:91.5%" />
+                <p:gmap id="mapGeoSansano" model="#{sansanoMapa.mapModel}" center="#{sansanoMapa.central_latitud}, #{sansanoMapa.central_longitud}" zoom="#{sansanoMapa.central_zoom}" type="HYBRID" style="width:100%;height:91.5%" >
+
+                    <p:ajax event="stateChange" listener="#{sansanoMapa.onStateChange}" update="msjProyectos mapGeoSansano" />
+
+                </p:gmap>
             </f:view>            
 
         </h:form>

@@ -59,4 +59,14 @@ public class MuseoProyectoFacade extends AbstractFacade<MuseoProyecto> implement
                 .getResultList();
     }
 
+    @Override
+    public List<MuseoProyecto> findByProyectosGeo(double norteLatitud, double norteLongitud, double surteLatitud, double surLongitud) {
+        return em.createNamedQuery("MuseoProyecto.findByProyectosGeo")
+                .setParameter("norteLatitud", norteLatitud)
+                .setParameter("norteLongitud", norteLongitud)
+                .setParameter("surteLatitud", surteLatitud)
+                .setParameter("surLongitud", surLongitud)
+                .getResultList();
+    }
+
 }

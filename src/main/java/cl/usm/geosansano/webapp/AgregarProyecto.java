@@ -45,49 +45,51 @@ public class AgregarProyecto implements Serializable {
     private List<MuseoProyecto> museoProyectoList;
     //
     private MapModel mapModel;
+    //
     private String nombreProyecto;
+    private String iconoAddMarker;
     private double latitud;
     private double longitud;
     private BigInteger mususuId;
-
-    private final ServletContext SC = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+    //
+    public double central_latitud = Pagina.CENTRAL_LATITUD;
+    public double central_longitud = Pagina.CENTRAL_LONGITUD;
+    public int central_zoom = Pagina.CENTRAL_ZOOM;
 
     @PostConstruct
     public void init() {
     }
 
     public void cargarAgregarProyecto() {
-        Common.redireccionar(Pagina.PAGINA_MENU_AGREGAR_PROYECTO);
 
         this.mapModel = new DefaultMapModel();
-
         this.mususuId = FuncionNumero.nvlBigInteger(String.valueOf(Common.obtenerMususuId()));
-        System.out.println("mususuId: " + mususuId);
         this.museoProyectoList = museoProyectoFL.findByMususuId(this.mususuId.longValue());
-        System.out.println("museoProyectoList: " + this.museoProyectoList.size());
 
-        System.out.println("" + this.SC.getRealPath(Pagina.ICON_MARKER_NARANJA));
-        
+        this.iconoAddMarker = Common.obtenereUrlBase() + Pagina.ICON_MARKER_CELESTE;
 
         for (MuseoProyecto objMP : museoProyectoList) {
-            LatLng coordenada = new LatLng(objMP.getMusproLatitud(), objMP.getMusproLongitud());
-
-            //Marker marker = new Marker(coordenada, objMP.getMusproNombre());
-            //marker.setIcon(this.SC.getRealPath(Pagina.ICON_MARKER_NARANJA));
-            this.mapModel.addOverlay(new Marker(coordenada, objMP.getMusproNombre(), "s", Pagina.ICON_MARKER_NARANJA));
+            Marker marker = new Marker(new LatLng(objMP.getMusproLatitud(), objMP.getMusproLongitud()), objMP.getMusproNombre().toUpperCase());
+            marker.setIcon(this.iconoAddMarker);
+            this.mapModel.addOverlay(marker);
         }
+
+        Common.redireccionar(Pagina.PAGINA_MENU_AGREGAR_PROYECTO);
     }
 
     public void addMarker() {
 
         if (!"".equals(this.nombreProyecto)) {
 
+            this.nombreProyecto = this.nombreProyecto.toUpperCase();
+
             Marker marker = new Marker(new LatLng(latitud, longitud), this.nombreProyecto);
+            marker.setIcon(this.iconoAddMarker);
 
             this.museoProyect = new MuseoProyecto(this.museoProyectoFL.newMusproId());
             this.museoProyect.setMususuId(this.mususuId.longValue());
 
-            this.museoProyect.setMusproNombre(nombreProyecto);
+            this.museoProyect.setMusproNombre(this.nombreProyecto.toUpperCase());
             this.museoProyect.setCodPais(paisFL.find(0));
             this.museoProyect.setCodVigencia(tipoVigenciaFL.find(0));
 
@@ -101,7 +103,7 @@ public class AgregarProyecto implements Serializable {
 
             this.mapModel.addOverlay(marker);
 
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, this.nombreProyecto, "Latitud:" + this.latitud + ", Longitud:" + this.longitud));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, this.nombreProyecto.toUpperCase(), "Latitud:" + this.latitud + ", Longitud:" + this.longitud));
 
             RequestContext context = RequestContext.getCurrentInstance();
             context.execute("PF('dlgAgregarProyecto').hide()");
@@ -140,5 +142,26 @@ public class AgregarProyecto implements Serializable {
     public void setLongitud(double longitud) {
         this.longitud = longitud;
     }
+
+    public String getIconoAddMarker() {
+        return iconoAddMarker;
+    }
+
+    public void setIconoAddMarker(String iconoAddMarker) {
+        this.iconoAddMarker = iconoAddMarker;
+    }
 //</editor-fold>
+
+    public double getCentral_latitud() {
+        return central_latitud;
+    }
+
+    public double getCentral_longitud() {
+        return central_longitud;
+    }
+
+    public int getCentral_zoom() {
+        return central_zoom;
+    }
+
 }

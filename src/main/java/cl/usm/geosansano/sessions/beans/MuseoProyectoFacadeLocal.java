@@ -29,11 +29,13 @@ public interface MuseoProyectoFacadeLocal {
     List<MuseoProyecto> findRange(int[] range);
 
     int count();
-    
+
     MuseoProyecto findByMaxMusproId();
 
     long newMusproId();
-    
+
     List<MuseoProyecto> findByMususuId(long mususuId);
+
+    List<MuseoProyecto> findByProyectosGeo(double norteLatitud, double norteLongitud, double surteLatitud, double surLongitud);
 
 }
