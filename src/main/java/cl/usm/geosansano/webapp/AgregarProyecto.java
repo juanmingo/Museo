@@ -59,6 +59,7 @@ public class AgregarProyecto implements Serializable {
     private String iconoAddMarker;
     private String iconoMarkerAprobado;
     private String iconoMarkerRechazado;
+    private String iconoMarkerEnviadoRevision;
     private String iconoMarkerPendiente;
     private String iconoMarkerUSM;
     //
@@ -78,11 +79,13 @@ public class AgregarProyecto implements Serializable {
         this.museoProyectoList = museoProyectoFL.findByProyectoUsuario(this.mususuId.longValue());
         System.out.println("museoProyectoList: " + museoProyectoList.size());
 
-        this.iconoAddMarker = Common.obtenereUrlBase() + Pagina.ICON_MARKER_YELLOW;
+        this.iconoAddMarker = Common.obtenereUrlBase() + Pagina.ICON_MARKER_PURPLE;
 
         this.iconoMarkerAprobado = Common.obtenereUrlBase() + Pagina.ICON_MARKER_GREEN;
         this.iconoMarkerRechazado = Common.obtenereUrlBase() + Pagina.ICON_MARKER_RED;
-        this.iconoMarkerPendiente = Common.obtenereUrlBase() + Pagina.ICON_MARKER_YELLOW;
+        this.iconoMarkerEnviadoRevision = Common.obtenereUrlBase() + Pagina.ICON_MARKER_YELLOW;
+        this.iconoMarkerPendiente = Common.obtenereUrlBase() + Pagina.ICON_MARKER_PURPLE;
+
         this.iconoMarkerUSM = Common.obtenereUrlBase() + Pagina.ICON_MARKER_USM;
 
         this.central_latitud = Pagina.CENTRAL_LATITUD;
@@ -99,8 +102,10 @@ public class AgregarProyecto implements Serializable {
             } else if (objMP.getCodVigencia().getCodVigencia() == 0) {
                 marker.setIcon(this.iconoMarkerPendiente);
             } else if (objMP.getCodVigencia().getCodVigencia() == 1) {
-                marker.setIcon(this.iconoMarkerAprobado);
+                marker.setIcon(this.iconoMarkerEnviadoRevision);
             } else if (objMP.getCodVigencia().getCodVigencia() == 2) {
+                marker.setIcon(this.iconoMarkerAprobado);
+            } else if (objMP.getCodVigencia().getCodVigencia() == 3) {
                 marker.setIcon(this.iconoMarkerRechazado);
             }
 
