@@ -12,9 +12,20 @@
             <p:growl id="msjProyectosGeneral" showDetail="true" />
 
             <f:view contentType="text/html">
-                <p:gmap id="mapGeoGeneral" model="#{generalMapa.mapModel}" center="#{generalMapa.central_latitud}, #{generalMapa.central_longitud}" zoom="#{generalMapa.central_zoom}" type="HYBRID" style="width:100%;height:92.5%" >
+                <p:gmap id="mapGeoGeneral" model="#{generalMapa.mapModel}" center="#{generalMapa.central_latitud}, #{generalMapa.central_longitud}" 
+                        zoom="#{generalMapa.central_zoom}" type="HYBRID" style="width:100%;height:92%" >
 
                     <p:ajax event="stateChange" listener="#{generalMapa.onStateChange}" update="msjProyectosGeneral mapGeoGeneral" />
+
+                    <p:ajax event="overlaySelect" listener="#{generalMapa.onMarkerSelect}" />
+                    <p:gmapInfoWindow id="infoWindow">
+                        <p:outputPanel style="text-align: center; display: block; margin: auto">
+
+                            <h:outputText value="#{generalMapa.museoProyect.musproNombre}" />
+
+
+                        </p:outputPanel>
+                    </p:gmapInfoWindow>
 
                 </p:gmap>
             </f:view> 

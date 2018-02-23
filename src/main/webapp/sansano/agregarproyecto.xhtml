@@ -11,13 +11,42 @@
 
         <f:view contentType="text/html">
             <p:gmap center="#{agregarProyecto.central_latitud}, #{agregarProyecto.central_longitud}" zoom="#{agregarProyecto.central_zoom}" type="HYBRID" style="width:100%;height:91.5%"
-                    model="#{agregarProyecto.mapModel}" onPointClick="handlePointClick(event);" widgetVar="map"  />
+                    model="#{agregarProyecto.mapModel}" onPointClick="handlePointClick(event);" widgetVar="map">
+
+                <p:ajax event="overlaySelect" listener="#{agregarProyecto.onMarkerSelect}" />
+                <p:gmapInfoWindow id="infoWindow">
+                    <p:outputPanel style="text-align: center; display: block; margin: auto">
+
+                        <h:outputText value="#{agregarProyecto.museoProyect.musproNombre}" />
+                        <p:panelGrid/><p:panelGrid/> <break/>
+                        <h:outputLink value="#{agregarProyecto.museoProyect.musproDescripcion}" target="_blank" rendered="#{agregarProyecto.isCampusSede}" >
+                            <h:outputText value="#{agregarProyecto.museoProyect.musproDescripcion}"/>
+                        </h:outputLink>
+
+                        <p:panel  style="border: 0px;"  class="contenidoformulario" rendered="#{!agregarProyecto.isCampusSede}" >
+                            <p:commandLink oncomplete="PF('dlgEditarProyecto').show();" onstart="PF('dlgLoading').show();" 
+                                           onsuccess="PF('dlgLoading').hide();"  >
+                                <h:outputText value="Editar " />
+                            </p:commandLink>
+                            
+                            <h:outputText value="/" />
+                            
+                            <p:commandLink oncomplete="PF('dlgEditarProyecto').show();" onstart="PF('dlgLoading').show();" 
+                                           onsuccess="PF('dlgLoading').hide();"  >
+                                <h:outputText value=" Eliminar" />
+                            </p:commandLink>
+                        </p:panel>
+
+                    </p:outputPanel>
+                </p:gmapInfoWindow>
+
+            </p:gmap>
 
 
             <p:growl id="msjAgregarProyecto" showDetail="true" />
 
             <p:dialog id="dlgAgregarProyecto" widgetVar="dlgAgregarProyecto" header="Agregar Proyecto"
-                      showEffect="fade" modal="true" resizable="false" closable="false" width="50%" style="width: 500px;">
+                      showEffect="fade" modal="true" resizable="false" closable="false" width="50%">
                 <div class="ui-fluid">
                     <h:form prependId="false" class="formSinBordes contenidoformulario">
                         <h:panelGrid columns="1" class="contenidoformulario" width="100%">
@@ -41,6 +70,10 @@
                     </h:form>
                 </div>
             </p:dialog>
+
+            <ui:insert>
+                <ui:include src="./../DialogGeo/dlgEditarProyecto.xhtml" />
+            </ui:insert>
 
             <script type="text/javascript">
                 var currentMarker = null;

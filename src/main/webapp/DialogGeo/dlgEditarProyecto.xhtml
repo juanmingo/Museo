@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"         
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"  
+      xmlns:pe="http://primefaces.org/ui/extensions"
+      xmlns:f="http://java.sun.com/jsf/core">    
+    <f:view contentType="text/html">       
+        <h:body>
+            <ui:composition>
+
+                <p:dialog id="dlgEditarProyecto" widgetVar="dlgEditarProyecto" header="Editar Proyecto"
+                          showEffect="fade" modal="true" resizable="false" closable="true" width="50%">
+                    <div class="ui-fluid">
+                        <h:form prependId="false" class="formSinBordes contenidoformulario">
+
+                            <h:panelGrid cellspacing="5" columns="5" class="contenidoformulario" width="100%">
+
+                                <p:outputLabel value="Nombre" />
+                                <h:panelGrid width="1px" />
+                                <p:outputLabel value=":" />
+                                <h:panelGrid width="1px" />
+                                <p:inputText     maxlength="500" style="width: 100%" />
+
+                                <p:outputLabel value="Descripción" />
+                                <h:panelGrid width="1px" />
+                                <p:outputLabel value=":" />
+                                <h:panelGrid width="1px" />
+                                <p:inputTextarea 
+                                    rows="10" cols="55"  maxlength="3000" 
+                                    autoResize="false" style="width: 100%; height: 40px; resize: none;margin-top: 0"
+                                    queryDelay="750" minQueryLength="4"   >                                    
+                                </p:inputTextarea>
+
+                                <p:outputLabel value="Pais" />
+                                <h:panelGrid width="1px" />
+                                <p:outputLabel value=":" />
+                                <h:panelGrid width="1px" />
+                                <h:panelGrid/>
+
+                                <p:outputLabel value="Ciudad" />
+                                <h:panelGrid width="1px" />
+                                <p:outputLabel value=":" />
+                                <h:panelGrid width="1px" />
+                                <p:inputText     maxlength="500" style="width: 100%" />
+
+                                <p:outputLabel value="Año" />
+                                <h:panelGrid width="1px" />
+                                <p:outputLabel value=":" />
+                                <h:panelGrid width="1px" />
+                                <p:selectOneMenu  >
+                                    <f:selectItems value="#{coleccionDsPace.listarAños}"   />                               
+                                </p:selectOneMenu>
+
+                                <p:outputLabel value="Latitud" />
+                                <h:panelGrid width="1px" />
+                                <p:outputLabel value=":" />
+                                <h:panelGrid width="1px" />
+                                <p:outputLabel value="123123123123123" />
+
+                                <p:outputLabel value="Longitud" />
+                                <h:panelGrid width="1px" />
+                                <p:outputLabel value=":" />
+                                <h:panelGrid width="1px" />
+                                <p:outputLabel value="123123123123123" />
+
+                            </h:panelGrid>
+
+                            <br/>
+
+                            <p:commandButton id="btnCerrarPrediccionHistorico" value="Cancelar"  class="contenidoformulario"
+                                             oncomplete="PF('dlgEditarProyecto').hide();" 
+                                             icon="ui-icon-close" style="width: 160px"/> 
+
+
+                        </h:form>
+                    </div>
+                </p:dialog>
+
+            </ui:composition>
+        </h:body>
+    </f:view>   
+</html>

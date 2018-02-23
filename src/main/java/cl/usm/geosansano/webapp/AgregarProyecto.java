@@ -20,6 +20,7 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
 import org.primefaces.context.RequestContext;
+import org.primefaces.event.map.OverlaySelectEvent;
 import org.primefaces.model.map.DefaultMapModel;
 import org.primefaces.model.map.LatLng;
 import org.primefaces.model.map.MapModel;
@@ -51,15 +52,17 @@ public class AgregarProyecto implements Serializable {
     private double longitud;
     private BigInteger mususuId;
     //
-    public double central_latitud = Pagina.CENTRAL_LATITUD;
-    public double central_longitud = Pagina.CENTRAL_LONGITUD;
-    public int central_zoom = Pagina.CENTRAL_ZOOM;
+    private double central_latitud;
+    private double central_longitud;
+    private int central_zoom;
     //
     private String iconoAddMarker;
     private String iconoMarkerAprobado;
     private String iconoMarkerRechazado;
     private String iconoMarkerPendiente;
     private String iconoMarkerUSM;
+    //
+    private boolean isCampusSede;
 
     @PostConstruct
     public void init() {
@@ -75,16 +78,20 @@ public class AgregarProyecto implements Serializable {
         this.museoProyectoList = museoProyectoFL.findByProyectoUsuario(this.mususuId.longValue());
         System.out.println("museoProyectoList: " + museoProyectoList.size());
 
-        this.iconoAddMarker = Common.obtenereUrlBase() + Pagina.ICON_MARKER_ROZADA;
+        this.iconoAddMarker = Common.obtenereUrlBase() + Pagina.ICON_MARKER_YELLOW;
 
-        this.iconoMarkerAprobado = Common.obtenereUrlBase() + Pagina.ICON_MARKER_VERDE;
-        this.iconoMarkerRechazado = Common.obtenereUrlBase() + Pagina.ICON_MARKER_ROZADA;
-        this.iconoMarkerPendiente = Common.obtenereUrlBase() + Pagina.ICON_MARKER_CELESTE;
+        this.iconoMarkerAprobado = Common.obtenereUrlBase() + Pagina.ICON_MARKER_GREEN;
+        this.iconoMarkerRechazado = Common.obtenereUrlBase() + Pagina.ICON_MARKER_RED;
+        this.iconoMarkerPendiente = Common.obtenereUrlBase() + Pagina.ICON_MARKER_YELLOW;
         this.iconoMarkerUSM = Common.obtenereUrlBase() + Pagina.ICON_MARKER_USM;
 
+        this.central_latitud = Pagina.CENTRAL_LATITUD;
+        this.central_longitud = Pagina.CENTRAL_LONGITUD;
+        this.central_zoom = Pagina.CENTRAL_ZOOM;
+
         for (MuseoProyecto objMP : museoProyectoList) {
-            
-            Marker marker = new Marker(new LatLng(objMP.getMusproLatitud(), objMP.getMusproLongitud()), objMP.getMusproNombre().toUpperCase());
+
+            Marker marker = new Marker(new LatLng(objMP.getMusproLatitud(), objMP.getMusproLongitud()), objMP.getMusproNombre().toUpperCase(), objMP.getMusproId());
 
             if (objMP.getMusproId() == 0 || objMP.getMusproId() == 1 || objMP.getMusproId() == 2 || objMP.getMusproId() == 3
                     || objMP.getMusproId() == 4 || objMP.getMusproId() == 5) {
@@ -109,9 +116,6 @@ public class AgregarProyecto implements Serializable {
 
             this.nombreProyecto = this.nombreProyecto.toUpperCase();
 
-            Marker marker = new Marker(new LatLng(latitud, longitud), this.nombreProyecto);
-            marker.setIcon(this.iconoAddMarker);
-
             this.museoProyect = new MuseoProyecto(this.museoProyectoFL.newMusproId());
             this.museoProyect.setMususuId(this.mususuId.longValue());
 
@@ -127,6 +131,9 @@ public class AgregarProyecto implements Serializable {
 
             this.museoProyectoFL.create(this.museoProyect);
 
+            Marker marker = new Marker(new LatLng(this.latitud, this.longitud), this.nombreProyecto, this.museoProyect.getMusproId());
+            marker.setIcon(this.iconoAddMarker);
+
             this.mapModel.addOverlay(marker);
 
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, this.nombreProyecto.toUpperCase(), "Latitud:" + this.latitud + ", Longitud:" + this.longitud));
@@ -136,7 +143,31 @@ public class AgregarProyecto implements Serializable {
         }
     }
 
+    public void onMarkerSelect(OverlaySelectEvent event) {
+
+        System.out.println("OverlaySelectEvent event: " + event);
+
+        Marker marker = (Marker) event.getOverlay();
+        long musproId = FuncionNumero.nvlLong(marker.getData().toString());
+        this.museoProyect = this.museoProyectoFL.find(musproId);
+
+        this.isCampusSede = musproId == 0 || musproId == 1 || musproId == 2 || musproId == 3 || musproId == 4 || musproId == 5;
+        System.out.println("linkUSM: " + isCampusSede);
+        RequestContext context = RequestContext.getCurrentInstance();
+        //context.update("formSansano:mapGeoSansano");
+        context.update("formSansano:linkUSM");
+
+    }
+
     //<editor-fold defaultstate="collapsed" desc="Getter && Setter">
+    public MuseoProyecto getMuseoProyect() {
+        return museoProyect;
+    }
+
+    public void setMuseoProyect(MuseoProyecto museoProyect) {
+        this.museoProyect = museoProyect;
+    }
+
     public MapModel getMapModel() {
         return mapModel;
     }
@@ -169,6 +200,30 @@ public class AgregarProyecto implements Serializable {
         this.longitud = longitud;
     }
 
+    public double getCentral_latitud() {
+        return central_latitud;
+    }
+
+    public void setCentral_latitud(double central_latitud) {
+        this.central_latitud = central_latitud;
+    }
+
+    public double getCentral_longitud() {
+        return central_longitud;
+    }
+
+    public void setCentral_longitud(double central_longitud) {
+        this.central_longitud = central_longitud;
+    }
+
+    public int getCentral_zoom() {
+        return central_zoom;
+    }
+
+    public void setCentral_zoom(int central_zoom) {
+        this.central_zoom = central_zoom;
+    }
+
     public String getIconoAddMarker() {
         return iconoAddMarker;
     }
@@ -176,18 +231,13 @@ public class AgregarProyecto implements Serializable {
     public void setIconoAddMarker(String iconoAddMarker) {
         this.iconoAddMarker = iconoAddMarker;
     }
-//</editor-fold>
 
-    public double getCentral_latitud() {
-        return central_latitud;
+    public boolean isIsCampusSede() {
+        return isCampusSede;
     }
 
-    public double getCentral_longitud() {
-        return central_longitud;
+    public void setIsCampusSede(boolean isCampusSede) {
+        this.isCampusSede = isCampusSede;
     }
-
-    public int getCentral_zoom() {
-        return central_zoom;
-    }
-
+    //</editor-fold>
 }

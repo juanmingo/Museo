@@ -19,6 +19,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import org.primefaces.context.RequestContext;
+import org.primefaces.event.map.OverlaySelectEvent;
 import org.primefaces.event.map.StateChangeEvent;
 import org.primefaces.model.map.DefaultMapModel;
 import org.primefaces.model.map.LatLng;
@@ -59,22 +60,23 @@ public class GeneralMapa implements Serializable {
         this.central_longitud = Pagina.CENTRAL_LONGITUD;
         this.central_zoom = Pagina.CENTRAL_ZOOM;
 
-        this.iconoMarkerUsuario = Common.obtenereUrlBase() + Pagina.ICON_MARKER_CELESTE;
-
-        this.iconoMarkerSansano = Common.obtenereUrlBase() + Pagina.ICON_MARKER_VERDE;
+        this.iconoMarkerSansano = Common.obtenereUrlBase() + Pagina.ICON_MARKER_GREEN;
 
         this.iconoMarkerUSM = Common.obtenereUrlBase() + Pagina.ICON_MARKER_USM;
 
         this.museoProyectoList = museoProyectoFL.findByProyectosGeo(Pagina.CENTRAL_NORTE_LATITUD, Pagina.CENTRAL_NORTE_LONGITUD, Pagina.CENTRAL_SUR_LATITUD, Pagina.CENTRAL_SUR_LONGITUD);
 
         for (MuseoProyecto objMP : museoProyectoList) {
-            Marker marker = new Marker(new LatLng(objMP.getMusproLatitud(), objMP.getMusproLongitud()), objMP.getMusproNombre().toUpperCase());
+
+            Marker marker = new Marker(new LatLng(objMP.getMusproLatitud(), objMP.getMusproLongitud()), objMP.getMusproNombre().toUpperCase(), objMP.getMusproId());
+
             if (objMP.getMusproId() == 0 || objMP.getMusproId() == 1 || objMP.getMusproId() == 2 || objMP.getMusproId() == 3
                     || objMP.getMusproId() == 4 || objMP.getMusproId() == 5) {
                 marker.setIcon(this.iconoMarkerUSM);
             } else {
                 marker.setIcon(this.iconoMarkerSansano);
             }
+
             this.mapModel.addOverlay(marker);
         }
 
@@ -97,10 +99,10 @@ public class GeneralMapa implements Serializable {
 
         this.mapModel = new DefaultMapModel();
 
-        this.museoProyectoList = museoProyectoFL.findByProyectosGeo(coordenadas.getNorthEast().getLat(), coordenadas.getNorthEast().getLng(), coordenadas.getSouthWest().getLat(), coordenadas.getSouthWest().getLng());
+        this.museoProyectoList = this.museoProyectoFL.findByProyectosGeo(coordenadas.getNorthEast().getLat(), coordenadas.getNorthEast().getLng(), coordenadas.getSouthWest().getLat(), coordenadas.getSouthWest().getLng());
 
         for (MuseoProyecto objMP : museoProyectoList) {
-            Marker marker = new Marker(new LatLng(objMP.getMusproLatitud(), objMP.getMusproLongitud()), objMP.getMusproNombre().toUpperCase());
+            Marker marker = new Marker(new LatLng(objMP.getMusproLatitud(), objMP.getMusproLongitud()), objMP.getMusproNombre().toUpperCase(), objMP.getMusproId());
             if (objMP.getMusproId() == 0 || objMP.getMusproId() == 1 || objMP.getMusproId() == 2 || objMP.getMusproId() == 3
                     || objMP.getMusproId() == 4 || objMP.getMusproId() == 5) {
                 marker.setIcon(this.iconoMarkerUSM);
@@ -113,6 +115,16 @@ public class GeneralMapa implements Serializable {
 
     public void addMessage(FacesMessage message) {
         FacesContext.getCurrentInstance().addMessage(null, message);
+    }
+
+    public void onMarkerSelect(OverlaySelectEvent event) {
+
+        System.out.println("OverlaySelectEvent event: " + event);
+
+        Marker marker = (Marker) event.getOverlay();
+        long musproId = FuncionNumero.nvlLong(marker.getData().toString());
+        this.museoProyect = this.museoProyectoFL.find(musproId);
+
     }
 
     //<editor-fold defaultstate="collapsed" desc="Getter && Setter">
@@ -135,5 +147,13 @@ public class GeneralMapa implements Serializable {
     public int getCentral_zoom() {
         return central_zoom;
     }
-//</editor-fold>
+
+    public MuseoProyecto getMuseoProyect() {
+        return museoProyect;
+    }
+
+    public void setMuseoProyect(MuseoProyecto museoProyect) {
+        this.museoProyect = museoProyect;
+    }
+    //</editor-fold>
 }
