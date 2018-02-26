@@ -21,8 +21,10 @@ import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.map.OverlaySelectEvent;
+import org.primefaces.event.map.StateChangeEvent;
 import org.primefaces.model.map.DefaultMapModel;
 import org.primefaces.model.map.LatLng;
+import org.primefaces.model.map.LatLngBounds;
 import org.primefaces.model.map.MapModel;
 import org.primefaces.model.map.Marker;
 //</editor-fold>
@@ -162,6 +164,21 @@ public class AgregarProyecto implements Serializable {
         //context.update("formSansano:mapGeoSansano");
         context.update("formSansano:linkUSM");
 
+    }
+
+    public void onStateChange(StateChangeEvent event) {
+        
+          this.central_latitud = event.getCenter().getLat();
+        this.central_longitud = event.getCenter().getLng();
+
+        if (event.getZoomLevel() < 3) {
+            this.central_zoom = 3;
+        } else {
+            this.central_zoom = event.getZoomLevel();
+        }
+
+        RequestContext context = RequestContext.getCurrentInstance();
+        context.update("formSansanoAdd:mapGeoSansanoAdd");
     }
 
     //<editor-fold defaultstate="collapsed" desc="Getter && Setter">

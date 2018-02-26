@@ -52,20 +52,29 @@ public class SansanoMapa implements Serializable {
     //
     private String nombreUsuario = "";
     private BigInteger mususuId;
+    private long musproId;
     private String iconoMarkerUsuario;
     private String iconoMarkerSansano;
     private String iconoMarkerUSM;
 
     private String iconoMarkerRechazado;
     private String iconoMarkerPendiente;
+    private String iconoMarkerEnviadoRevision;
+
     //
     public double central_latitud;
     public double central_longitud;
     public int central_zoom;
     //
     private boolean isCampusSede;
-//</editor-fold>
+    private boolean isEditarPublicacion;
+    private boolean isAdministrador;
+    private boolean isVerMas;
+    private boolean isVerEstadoPublicacion;
+    //
+    private String colorEstadoPublicacion = "";
 
+//</editor-fold>
     public void cargarSansanoMapa() {
 
         this.central_latitud = Pagina.CENTRAL_LATITUD;
@@ -76,12 +85,13 @@ public class SansanoMapa implements Serializable {
         this.museoUsuario = this.museoUsuarioFacade.findByCorreo(Common.obtenerCuentaUsuario());
         this.mususuId = FuncionNumero.nvlBigInteger(String.valueOf(Common.obtenerMususuId()));
 
-        this.iconoMarkerUsuario = Common.obtenereUrlBase() + Pagina.ICON_MARKER_GREEN;
-        this.iconoMarkerSansano = Common.obtenereUrlBase() + Pagina.ICON_MARKER_BLUE;
+        this.iconoMarkerUsuario = Common.obtenereUrlBase() + Pagina.ICON_MARKER_LIGHT_GREEN;
+        this.iconoMarkerSansano = Common.obtenereUrlBase() + Pagina.ICON_MARKER_GREEN;
         this.iconoMarkerUSM = Common.obtenereUrlBase() + Pagina.ICON_MARKER_USM;
 
         this.iconoMarkerRechazado = Common.obtenereUrlBase() + Pagina.ICON_MARKER_RED;
-        this.iconoMarkerPendiente = Common.obtenereUrlBase() + Pagina.ICON_MARKER_YELLOW;
+        this.iconoMarkerEnviadoRevision = Common.obtenereUrlBase() + Pagina.ICON_MARKER_YELLOW;
+        this.iconoMarkerPendiente = Common.obtenereUrlBase() + Pagina.ICON_MARKER_PURPLE;
 
         if (this.museoUsuario != null) {
             this.nombreUsuario = FuncionTexto.nvlTexto(this.museoUsuario.getMususuNombres(), "") + " " + FuncionTexto.nvlTexto(this.museoUsuario.getMususuPaterno(), "") + " " + FuncionTexto.nvlTexto(this.museoUsuario.getMususuMaterno(), "");
@@ -110,12 +120,21 @@ public class SansanoMapa implements Serializable {
 
             Marker marker = new Marker(new LatLng(objMP.getMusproLatitud(), objMP.getMusproLongitud()), objMP.getMusproNombre().toUpperCase(), objMP.getMusproId());
 
-            if (objMP.getCodVigencia().getCodVigencia() == 0) {
-                marker.setIcon(this.iconoMarkerPendiente);
-            } else if (objMP.getCodVigencia().getCodVigencia() == 2) {
-                marker.setIcon(this.iconoMarkerRechazado);
+            if (null != objMP.getCodVigencia().getCodVigencia()) {
+                switch (objMP.getCodVigencia().getCodVigencia()) {
+                    case 0:
+                        marker.setIcon(this.iconoMarkerPendiente);
+                        break;
+                    case 1:
+                        marker.setIcon(this.iconoMarkerEnviadoRevision);
+                        break;
+                    case 3:
+                        marker.setIcon(this.iconoMarkerRechazado);
+                        break;
+                    default:
+                        break;
+                }
             }
-
             this.mapModel.addOverlay(marker);
         }
 
@@ -126,25 +145,17 @@ public class SansanoMapa implements Serializable {
 
         this.central_latitud = event.getCenter().getLat();
         this.central_longitud = event.getCenter().getLng();
+        LatLngBounds coordenadas = event.getBounds();
 
-        if (event.getZoomLevel() < 3) {
-            this.central_zoom = 3;
+        if (event.getZoomLevel() < 4) {
+            this.central_zoom = 4;
         } else {
             this.central_zoom = event.getZoomLevel();
         }
 
-        LatLngBounds coordenadas = event.getBounds();
+        this.museoProyectoList = museoProyectoFL.findByProyectosGeo(coordenadas.getNorthEast().getLat(), coordenadas.getNorthEast().getLng(), coordenadas.getSouthWest().getLat(), coordenadas.getSouthWest().getLng());
 
         this.mapModel = new DefaultMapModel();
-
-        int cont = 0;
-        if (coordenadas.getNorthEast().getLng() > coordenadas.getSouthWest().getLng()) {
-            this.museoProyectoList = museoProyectoFL.findByProyectosGeo(coordenadas.getNorthEast().getLat(), coordenadas.getNorthEast().getLng(), coordenadas.getSouthWest().getLat(), coordenadas.getSouthWest().getLng());
-        } else {
-            this.museoProyectoList = museoProyectoFL.findByProyectosGeo(coordenadas.getNorthEast().getLat(), coordenadas.getSouthWest().getLng(), coordenadas.getSouthWest().getLat(), coordenadas.getNorthEast().getLng());
-        }
-
-        cont += museoProyectoList.size();
 
         for (MuseoProyecto objMP : museoProyectoList) {
             Marker marker = new Marker(new LatLng(objMP.getMusproLatitud(), objMP.getMusproLongitud()), objMP.getMusproNombre().toUpperCase(), objMP.getMusproId());
@@ -159,34 +170,36 @@ public class SansanoMapa implements Serializable {
             this.mapModel.addOverlay(marker);
         }
 
-        if (coordenadas.getNorthEast().getLng() > coordenadas.getSouthWest().getLng()) {
-            this.museoProyectoList = museoProyectoFL.findByProyectosUsuarioPendienteRechazado(this.mususuId.longValue(), coordenadas.getNorthEast().getLat(), coordenadas.getNorthEast().getLng(), coordenadas.getSouthWest().getLat(), coordenadas.getSouthWest().getLng());
-        } else {
-            this.museoProyectoList = museoProyectoFL.findByProyectosUsuarioPendienteRechazado(this.mususuId.longValue(), coordenadas.getNorthEast().getLat(), coordenadas.getSouthWest().getLng(), coordenadas.getSouthWest().getLat(), coordenadas.getNorthEast().getLng());
-        }
-
-        cont += museoProyectoList.size();
+        this.museoProyectoList = museoProyectoFL.findByProyectosUsuarioPendienteRechazado(this.mususuId.longValue(), coordenadas.getNorthEast().getLat(), coordenadas.getNorthEast().getLng(), coordenadas.getSouthWest().getLat(), coordenadas.getSouthWest().getLng());
 
         for (MuseoProyecto objMP : museoProyectoList) {
 
             Marker marker = new Marker(new LatLng(objMP.getMusproLatitud(), objMP.getMusproLongitud()), objMP.getMusproNombre().toUpperCase(), objMP.getMusproId());
 
-            if (objMP.getCodVigencia().getCodVigencia() == 0) {
-                marker.setIcon(this.iconoMarkerPendiente);
-            } else if (objMP.getCodVigencia().getCodVigencia() == 2) {
-                marker.setIcon(this.iconoMarkerRechazado);
+            if (null != objMP.getCodVigencia().getCodVigencia()) {
+                switch (objMP.getCodVigencia().getCodVigencia()) {
+                    case 0:
+                        marker.setIcon(this.iconoMarkerPendiente);
+                        break;
+                    case 1:
+                        marker.setIcon(this.iconoMarkerEnviadoRevision);
+                        break;
+                    case 3:
+                        marker.setIcon(this.iconoMarkerRechazado);
+                        break;
+                    default:
+                        break;
+                }
             }
 
             this.mapModel.addOverlay(marker);
         }
 
-        addMessage(new FacesMessage(FacesMessage.SEVERITY_INFO, "Zoom Level", String.valueOf(central_zoom)));
-        addMessage(new FacesMessage(FacesMessage.SEVERITY_INFO, "Center", event.getCenter().toString()));
-        addMessage(new FacesMessage(FacesMessage.SEVERITY_INFO, "NorthEast", coordenadas.getNorthEast().toString()));
-        addMessage(new FacesMessage(FacesMessage.SEVERITY_INFO, "SouthWest", coordenadas.getSouthWest().toString()));
-
-        addMessage(new FacesMessage(FacesMessage.SEVERITY_INFO, "LIST", String.valueOf(cont)));
-
+        //addMessage(new FacesMessage(FacesMessage.SEVERITY_INFO, "Zoom Level", String.valueOf(central_zoom)));
+        //addMessage(new FacesMessage(FacesMessage.SEVERITY_INFO, "Center", event.getCenter().toString()));
+        //addMessage(new FacesMessage(FacesMessage.SEVERITY_INFO, "NorthEast", coordenadas.getNorthEast().toString()));
+        //addMessage(new FacesMessage(FacesMessage.SEVERITY_INFO, "SouthWest", coordenadas.getSouthWest().toString()));
+        //addMessage(new FacesMessage(FacesMessage.SEVERITY_INFO, "LIST", String.valueOf(cont)));
         RequestContext context = RequestContext.getCurrentInstance();
         context.update("formSansano:mapGeoSansano");
         context.update("formSansano:msjProyectos");
@@ -208,17 +221,55 @@ public class SansanoMapa implements Serializable {
 
     public void onMarkerSelect(OverlaySelectEvent event) {
 
-        System.out.println("OverlaySelectEvent event: " + event);
-
         Marker marker = (Marker) event.getOverlay();
-        long musproId = FuncionNumero.nvlLong(marker.getData().toString());
-        this.museoProyect = this.museoProyectoFL.find(musproId);
+        this.musproId = FuncionNumero.nvlLong(marker.getData().toString());
+        this.museoProyect = this.museoProyectoFL.find(this.musproId);
 
         this.isCampusSede = musproId == 0 || musproId == 1 || musproId == 2 || musproId == 3 || musproId == 4 || musproId == 5;
-        System.out.println("linkUSM: " + isCampusSede);
+
+        if (this.museoProyect.getCodVigencia().getCodVigencia() == 0 && this.museoProyect.getMususuId() == this.mususuId.longValue()) {
+            this.isEditarPublicacion = true;
+            this.isVerMas = false;
+        } else {
+            this.isEditarPublicacion = false;
+            this.isVerMas = true;
+        }
+
+        if (this.museoUsuario.getCodPerfil().getCodPerfil() == 1) {
+            this.isAdministrador = true;
+            this.isEditarPublicacion = false;
+            this.isVerMas = false;
+        }
+
+        if (this.museoUsuario.getCodPerfil().getCodPerfil() == 1 || this.museoProyect.getMususuId() == this.mususuId.longValue()) {
+            this.isVerEstadoPublicacion = true;
+        } else {
+            this.isVerEstadoPublicacion = false;
+        }
+
+        if (null != this.museoProyect.getCodVigencia().getCodVigencia()) {
+            switch (this.museoProyect.getCodVigencia().getCodVigencia()) {
+                case 0:
+                    this.colorEstadoPublicacion = Pagina.COLOR_ESTADO_PENDIENTE;
+                    break;
+                case 1:
+                    this.colorEstadoPublicacion = Pagina.COLOR_ESTADO_ENVIADA;
+                    break;
+                case 2:
+                    this.colorEstadoPublicacion = Pagina.COLOR_ESTADO_APROBADA;
+                    break;
+                case 3:
+                    this.colorEstadoPublicacion = Pagina.COLOR_ESTADO_RECHAZADA;
+                    break;
+                default:
+                    this.colorEstadoPublicacion = "";
+                    break;
+            }
+        }
+
         RequestContext context = RequestContext.getCurrentInstance();
         //context.update("formSansano:mapGeoSansano");
-        context.update("formSansano:linkUSM");
+        context.update("formSansano:infoWindow");
 
     }
 
@@ -251,5 +302,52 @@ public class SansanoMapa implements Serializable {
         return isCampusSede;
     }
 
+    public boolean isIsEditarPublicacion() {
+        return isEditarPublicacion;
+    }
+
+    public void setIsEditarPublicacion(boolean isEditarPublicacion) {
+        this.isEditarPublicacion = isEditarPublicacion;
+    }
+
+    public boolean isIsVerMas() {
+        return isVerMas;
+    }
+
+    public void setIsVerMas(boolean isVerMas) {
+        this.isVerMas = isVerMas;
+    }
+
+    public boolean isIsAdministrador() {
+        return isAdministrador;
+    }
+
+    public void setIsAdministrador(boolean isAdministrador) {
+        this.isAdministrador = isAdministrador;
+    }
+
+    public boolean isIsVerEstadoPublicacion() {
+        return isVerEstadoPublicacion;
+    }
+
+    public void setIsVerEstadoPublicacion(boolean isVerEstadoPublicacion) {
+        this.isVerEstadoPublicacion = isVerEstadoPublicacion;
+    }
+
+    public String getColorEstadoPublicacion() {
+        return colorEstadoPublicacion;
+    }
+
+    public void setColorEstadoPublicacion(String colorEstadoPublicacion) {
+        this.colorEstadoPublicacion = colorEstadoPublicacion;
+    }
+
+    public long getMusproId() {
+        return musproId;
+    }
+
+    public void setMusproId(long musproId) {
+        this.musproId = musproId;
+    }
 //</editor-fold>
 }

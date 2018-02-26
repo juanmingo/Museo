@@ -10,43 +10,47 @@
 
 
         <f:view contentType="text/html">
-            <p:gmap center="#{agregarProyecto.central_latitud}, #{agregarProyecto.central_longitud}" zoom="#{agregarProyecto.central_zoom}" type="HYBRID" style="width:100%;height:91.5%"
-                    model="#{agregarProyecto.mapModel}" onPointClick="handlePointClick(event);" widgetVar="map">
+            <h:form id="formSansanoAdd" >
 
-                <p:ajax event="overlaySelect" listener="#{agregarProyecto.onMarkerSelect}" />
-                <p:gmapInfoWindow id="infoWindow">
-                    <p:outputPanel style="text-align: center; display: block; margin: auto">
+                <p:gmap id="mapGeoSansanoAdd" center="#{agregarProyecto.central_latitud}, #{agregarProyecto.central_longitud}" zoom="#{agregarProyecto.central_zoom}" type="HYBRID" style="width:100%;height:91.5%"
+                        model="#{agregarProyecto.mapModel}" onPointClick="handlePointClick(event);" widgetVar="map">
 
-                        <h:outputText value="#{agregarProyecto.museoProyect.musproNombre}" />
-                        <break/>
-                        <p:panel  style="border: 0px;"   >
-                            <h:outputText value="ESTADO PUBLICACIÓN: " />
-                            <h:outputText value="#{agregarProyecto.museoProyect.codVigencia.nomVigencia.toUpperCase()}" />
-                        </p:panel>
-                        <break/>
-                        <h:outputLink value="#{agregarProyecto.museoProyect.musproDescripcion}" target="_blank" rendered="#{agregarProyecto.isCampusSede}" >
-                            <h:outputText value="#{agregarProyecto.museoProyect.musproDescripcion}"/>
-                        </h:outputLink>
+                    <p:ajax event="overlaySelect" listener="#{agregarProyecto.onMarkerSelect}" />
+                    <p:ajax event="stateChange" listener="#{agregarProyecto.onStateChange}"  />
 
-                        <p:panel  style="border: 0px;"  class="contenidoformulario" rendered="#{!agregarProyecto.isCampusSede}" >
-                            <p:commandLink oncomplete="PF('dlgEditarProyecto').show();" onstart="PF('dlgLoading').show();" 
-                                           onsuccess="PF('dlgLoading').hide();"  >
-                                <h:outputText value="Editar " />
-                            </p:commandLink>
+                    <p:gmapInfoWindow id="infoWindow">
+                        <p:outputPanel style="text-align: center; display: block; margin: auto">
 
-                            <h:outputText value="/" />
+                            <h:outputText value="#{agregarProyecto.museoProyect.musproNombre}" />
+                            <break/>
+                            <p:panel  style="border: 0px;"   >
+                                <h:outputText value="ESTADO PUBLICACIÓN: " />
+                                <h:outputText value="#{agregarProyecto.museoProyect.codVigencia.nomVigencia.toUpperCase()}" />
+                            </p:panel>
+                            <break/>
+                            <h:outputLink value="#{agregarProyecto.museoProyect.musproDescripcion}" target="_blank" rendered="#{agregarProyecto.isCampusSede}" >
+                                <h:outputText value="#{agregarProyecto.museoProyect.musproDescripcion}"/>
+                            </h:outputLink>
 
-                            <p:commandLink oncomplete="PF('dlgEditarProyecto').show();" onstart="PF('dlgLoading').show();" 
-                                           onsuccess="PF('dlgLoading').hide();"  >
-                                <h:outputText value=" Eliminar" />
-                            </p:commandLink>
-                        </p:panel>
+                            <p:panel  style="border: 0px;"  class="contenidoformulario" rendered="#{!agregarProyecto.isCampusSede}" >
+                                <p:commandLink oncomplete="PF('dlgEditarProyecto').show();" onstart="PF('dlgLoading').show();" 
+                                               onsuccess="PF('dlgLoading').hide();"  >
+                                    <h:outputText value="Editar " />
+                                </p:commandLink>
 
-                    </p:outputPanel>
-                </p:gmapInfoWindow>
+                                <h:outputText value="/" />
 
-            </p:gmap>
+                                <p:commandLink oncomplete="PF('dlgEditarProyecto').show();" onstart="PF('dlgLoading').show();" 
+                                               onsuccess="PF('dlgLoading').hide();"  >
+                                    <h:outputText value=" Eliminar" />
+                                </p:commandLink>
+                            </p:panel>
 
+                        </p:outputPanel>
+                    </p:gmapInfoWindow>
+
+                </p:gmap>                
+            </h:form>
 
             <p:growl id="msjAgregarProyecto" showDetail="true" />
 

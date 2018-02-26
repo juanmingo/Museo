@@ -11,73 +11,85 @@
         <h:body>
             <ui:composition>
 
-                <p:dialog id="dlgEditarProyecto" widgetVar="dlgEditarProyecto" header="Editar Proyecto"
-                          showEffect="fade" modal="true" resizable="false" closable="true" width="50%">
-                    <div class="ui-fluid">
-                        <h:form prependId="false" class="formSinBordes contenidoformulario">
+                <h:form id="formEditarProyecto" class="formSinBordes contenidoformulario">
 
-                            <h:panelGrid cellspacing="5" columns="5" class="contenidoformulario" width="100%">
-
-                                <p:outputLabel value="Nombre" />
-                                <h:panelGrid width="1px" />
-                                <p:outputLabel value=":" />
-                                <h:panelGrid width="1px" />
-                                <p:inputText     maxlength="500" style="width: 100%" />
-
-                                <p:outputLabel value="Descripción" />
-                                <h:panelGrid width="1px" />
-                                <p:outputLabel value=":" />
-                                <h:panelGrid width="1px" />
-                                <p:inputTextarea 
-                                    rows="10" cols="55"  maxlength="3000" 
-                                    autoResize="false" style="width: 100%; height: 40px; resize: none;margin-top: 0"
-                                    queryDelay="750" minQueryLength="4"   >                                    
-                                </p:inputTextarea>
-
-                                <p:outputLabel value="Pais" />
-                                <h:panelGrid width="1px" />
-                                <p:outputLabel value=":" />
-                                <h:panelGrid width="1px" />
-                                <h:panelGrid/>
-
-                                <p:outputLabel value="Ciudad" />
-                                <h:panelGrid width="1px" />
-                                <p:outputLabel value=":" />
-                                <h:panelGrid width="1px" />
-                                <p:inputText     maxlength="500" style="width: 100%" />
-
-                                <p:outputLabel value="Año" />
-                                <h:panelGrid width="1px" />
-                                <p:outputLabel value=":" />
-                                <h:panelGrid width="1px" />
-                                <p:selectOneMenu  >
-                                    <f:selectItems value="#{coleccionDsPace.listarAños}"   />                               
-                                </p:selectOneMenu>
-
-                                <p:outputLabel value="Latitud" />
-                                <h:panelGrid width="1px" />
-                                <p:outputLabel value=":" />
-                                <h:panelGrid width="1px" />
-                                <p:outputLabel value="123123123123123" />
-
-                                <p:outputLabel value="Longitud" />
-                                <h:panelGrid width="1px" />
-                                <p:outputLabel value=":" />
-                                <h:panelGrid width="1px" />
-                                <p:outputLabel value="123123123123123" />
-
-                            </h:panelGrid>
-
-                            <br/>
-
-                            <p:commandButton id="btnCerrarPrediccionHistorico" value="Cancelar"  class="contenidoformulario"
-                                             oncomplete="PF('dlgEditarProyecto').hide();" 
-                                             icon="ui-icon-close" style="width: 160px"/> 
+                    <p:dialog id="dlgEditarProyecto" widgetVar="dlgEditarProyecto" header="Editar Proyecto"
+                              showEffect="fade" modal="true" resizable="false" closable="true" width="50%" focus="btnCerrarEditarProyecto" >
 
 
-                        </h:form>
-                    </div>
-                </p:dialog>
+                        <h:panelGrid cellspacing="5" columns="5" class="contenidoformulario" width="100%">
+
+                            <p:outputLabel value="Nombre" />
+                            <h:panelGrid width="1px" />
+                            <p:outputLabel value=":" />
+                            <h:panelGrid width="1px" />
+                            <p:inputText value="#{dlgEditarProyecto.museoProyect.musproNombre}" maxlength="500" style="width: 100%"  />
+
+                            <p:outputLabel value="Descripción" />
+                            <h:panelGrid width="1px" />
+                            <p:outputLabel value=":" />
+                            <h:panelGrid width="1px" />
+                            <p:inputTextarea value="*#{dlgEditarProyecto.museoProyect.musproDescripcion}"
+                                             rows="10" cols="55"  maxlength="3000" 
+                                             autoResize="false" style="width: 100%; height: 40px; resize: none;margin-top: 0"
+                                             queryDelay="750" minQueryLength="4"   >                                    
+                            </p:inputTextarea>
+
+                            <p:outputLabel value="Pais" />
+                            <h:panelGrid width="1px" />
+                            <p:outputLabel value=":" />
+                            <h:panelGrid width="1px" />
+                            <p:selectOneMenu value="#{dlgEditarProyecto.museoProyect.codPais.codPais}" >
+                                <f:selectItems value="#{dlgEditarProyecto.paisList}" var="pais" itemValue="#{pais.codPais}" itemLabel="#{pais.nomPais.toUpperCase()}" />
+                            </p:selectOneMenu>
+
+                            <p:outputLabel value="Ciudad" />
+                            <h:panelGrid width="1px" />
+                            <p:outputLabel value=":" />
+                            <h:panelGrid width="1px" />
+                            <p:inputText value="#{dlgEditarProyecto.museoProyect.musproCiudad}" maxlength="500" style="width: 100%"  />
+
+                            <p:outputLabel value="Año" />
+                            <h:panelGrid width="1px" />
+                            <p:outputLabel value=":" />
+                            <h:panelGrid width="1px" />
+                            <p:selectOneMenu value="*#{dlgEditarProyecto.museoProyect.musproAño}" >
+                                <f:selectItems value="#{dlgEditarProyecto.listarSelectItemAños}"    />                               
+                            </p:selectOneMenu>
+
+                            <h:panelGrid/><h:panelGrid/><h:panelGrid/><h:panelGrid/><h:panelGrid/>
+
+                            <p:outputLabel value="Latitud" />
+                            <h:panelGrid width="1px" />
+                            <p:outputLabel value=":" />
+                            <h:panelGrid width="1px" />
+                            <p:outputLabel value="#{dlgEditarProyecto.museoProyect.musproLatitud}" />
+
+                            <h:panelGrid/><h:panelGrid/><h:panelGrid/><h:panelGrid/><h:panelGrid/>
+
+                            <p:outputLabel value="Longitud" />
+                            <h:panelGrid width="1px" />
+                            <p:outputLabel value=":" />
+                            <h:panelGrid width="1px" />
+                            <p:outputLabel value="#{dlgEditarProyecto.museoProyect.musproLongitud}" />
+
+                        </h:panelGrid>
+
+                        <br/>
+
+                        <h:panelGrid cellspacing="5" columns="5" class="contenidoformulario">
+                            <p:commandButton value="Guardar"
+                                             oncomplete="PF('dlgEditarProyecto').hide();" icon="ui-icon-disk" />
+                            <h:panelGrid/>
+                            <p:commandButton id="btnCerrarEditarProyecto" value="Cancelar" actionListener="#{dlgEditarProyecto.closeInfoWindow()}"
+                                             oncomplete="PF('dlgEditarProyecto').hide();" icon="ui-icon-close" /> 
+                        </h:panelGrid>
+
+
+
+                    </p:dialog>
+
+                </h:form>
 
             </ui:composition>
         </h:body>

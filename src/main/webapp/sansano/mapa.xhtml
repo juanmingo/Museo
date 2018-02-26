@@ -13,20 +13,69 @@
 
             <f:view contentType="text/html">
                 <p:gmap id="mapGeoSansano" model="#{sansanoMapa.mapModel}" center="#{sansanoMapa.central_latitud}, #{sansanoMapa.central_longitud}"
-                        zoom="#{sansanoMapa.central_zoom}" type="HYBRID" style="width:100%;height:92%" >
+                        zoom="#{sansanoMapa.central_zoom}" type="HYBRID" style="width:100%;height:93%" >
 
                     <p:ajax event="stateChange" listener="#{sansanoMapa.onStateChange}" rendered="false"  />
                     <p:ajax event="pointSelect" listener="#{sansanoMapa.onPointSelect}" rendered="false"  />
 
                     <p:ajax event="overlaySelect" listener="#{sansanoMapa.onMarkerSelect}" />
-                    <p:gmapInfoWindow id="infoWindow">
+                    <p:gmapInfoWindow id="infoWindow"  >
                         <p:outputPanel style="text-align: center; display: block; margin: auto">
 
                             <h:outputText value="#{sansanoMapa.museoProyect.musproNombre}" />
-                            <p:panelGrid/><p:panelGrid/> <break/>
-                            <h:outputLink value="#{sansanoMapa.museoProyect.musproDescripcion}" target="_blank" rendered="#{sansanoMapa.isCampusSede}" >
-                                <h:outputText value="#{sansanoMapa.museoProyect.musproDescripcion}"/>
-                            </h:outputLink>
+
+
+                            <p:panel  style="border: 0px;"  class="contenidoformulario" rendered="#{sansanoMapa.isCampusSede}" >
+                                <h:outputLink value="#{sansanoMapa.museoProyect.musproDescripcion}" target="_blank"  >
+                                    <h:outputText value="#{sansanoMapa.museoProyect.musproDescripcion}"/>
+                                </h:outputLink>
+                            </p:panel>
+
+                            <p:panel  style="border: 0px;"  class="contenidoformulario" rendered="#{sansanoMapa.isVerEstadoPublicacion}" >                               
+                                <h:outputText value="ESTADO PUBLICACIÓN: " />
+                                <h:outputText value="#{sansanoMapa.museoProyect.codVigencia.nomVigencia.toUpperCase()}" style="#{sansanoMapa.colorEstadoPublicacion}" />                                
+                            </p:panel>
+
+                            <p:panel  style="border: 0px;"  class="contenidoformulario" rendered="#{sansanoMapa.isEditarPublicacion}" >
+                                <p:commandLink oncomplete="PF('dlgEditarProyecto').show();" onstart="PF('dlgLoading').show();" 
+                                               onsuccess="PF('dlgLoading').hide();"  >
+                                    <h:outputText value=" Ver " />
+                                </p:commandLink>
+                                <h:outputText value="/" />
+                                <p:commandLink oncomplete="PF('dlgEditarProyecto').show();" onstart="PF('dlgLoading').show();" 
+                                               onsuccess="PF('dlgLoading').hide();" actionListener="#{dlgEditarProyecto.cargarProyecto(sansanoMapa.musproId)}"  >
+                                    <h:outputText value=" Editar " />
+                                </p:commandLink>
+                                <h:outputText value="/" />
+                                <p:commandLink oncomplete="PF('dlgEditarProyecto').show();" onstart="PF('dlgLoading').show();" 
+                                               onsuccess="PF('dlgLoading').hide();"  >
+                                    <h:outputText value=" Eliminar " />
+                                </p:commandLink>
+                            </p:panel>
+
+                            <p:panel  style="border: 0px;"  class="contenidoformulario" rendered="#{sansanoMapa.isVerMas}" >
+                                <p:commandLink oncomplete="PF('dlgEditarProyecto').show();" onstart="PF('dlgLoading').show();" 
+                                               onsuccess="PF('dlgLoading').hide();"  >
+                                    <h:outputText value=" Ver Más" />
+                                </p:commandLink>                               
+                            </p:panel>
+
+                            <p:panel  style="border: 0px;"  class="contenidoformulario" rendered="#{sansanoMapa.isAdministrador}" >
+                                <p:commandLink oncomplete="PF('dlgEditarProyecto').show();" onstart="PF('dlgLoading').show();" 
+                                               onsuccess="PF('dlgLoading').hide();"  >
+                                    <h:outputText value=" Ver " />
+                                </p:commandLink>
+                                <h:outputText value="/" />
+                                <p:commandLink oncomplete="PF('dlgEditarProyecto').show();" onstart="PF('dlgLoading').show();" 
+                                               onsuccess="PF('dlgLoading').hide();"  >
+                                    <h:outputText value=" Editar " />
+                                </p:commandLink>
+                                <h:outputText value="/" />
+                                <p:commandLink oncomplete="PF('dlgEditarProyecto').show();" onstart="PF('dlgLoading').show();" 
+                                               onsuccess="PF('dlgLoading').hide();"  >
+                                    <h:outputText value=" Eliminar " />
+                                </p:commandLink>
+                            </p:panel>
 
                         </p:outputPanel>
                     </p:gmapInfoWindow>
@@ -35,6 +84,10 @@
             </f:view>            
 
         </h:form>
+
+        <ui:insert>
+            <ui:include src="./../DialogGeo/dlgEditarProyecto.xhtml" />
+        </ui:insert>
 
     </ui:define> 
 </ui:composition>
