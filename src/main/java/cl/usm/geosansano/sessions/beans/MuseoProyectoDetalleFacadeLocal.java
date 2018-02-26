@@ -28,6 +28,8 @@ public interface MuseoProyectoDetalleFacadeLocal {
 
     List<MuseoProyectoDetalle> findRange(int[] range);
 
+    List<MuseoProyectoDetalle> findByDetalleActivo(long musproId);
+
     int count();
-    
+
 }

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"         
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"  
+      xmlns:pe="http://primefaces.org/ui/extensions"
+      xmlns:f="http://java.sun.com/jsf/core">    
+    <f:view contentType="text/html">       
+        <h:body>
+            <ui:composition>
+
+                <h:form id="formEditarFoto" class="formSinBordes contenidoformulario">
+
+                    <p:dialog id="dlgEditarFoto" widgetVar="dlgEditarFoto" header="Editar Foto"
+                              showEffect="fade" modal="true" resizable="false" closable="true" width="50%" focus="btnAceptarEditarFoto" >
+
+
+
+                        <p:graphicImage id="grFotoAlumno" value="#{dlgEditarProyecto.objStreamedContent}"  stream="false"   />
+
+                        <h:panelGrid cellspacing="5" columns="5" class="contenidoformulario" width="100%">
+
+                            <p:outputLabel value="Nombre" />
+                            <h:panelGrid width="1px" />
+                            <p:outputLabel value=":" />
+                            <h:panelGrid width="1px" />
+                            <p:inputText value="#{dlgEditarProyecto.musprodetNombre}" maxlength="150" style="width: 100%"  >
+                                <p:ajax event="keyup" listener="#{dlgEditarProyecto.keyUpNombreFoto()}"/>
+                            </p:inputText>
+
+                            <p:outputLabel value="Descripción" />
+                            <h:panelGrid width="1px" />
+                            <p:outputLabel value=":" />
+                            <h:panelGrid width="1px" />
+                            <p:inputTextarea value="#{dlgEditarProyecto.musprodetDescripcion}"
+                                             rows="10" cols="55"  maxlength="3000" 
+                                             autoResize="false" style="width: 100%; height: 40px;  ;resize: none;margin-top: 0"
+                                             queryDelay="750" minQueryLength="4"   >                                    
+                            </p:inputTextarea>
+
+                        </h:panelGrid>                            
+
+
+
+                        <h:panelGrid cellspacing="5" columns="5" class="contenidoformulario">                           
+                            <p:commandButton id="btnAceptarEditarFoto" value="Cancelar"
+                                             oncomplete="PF('dlgEditarFoto').hide();" icon="ui-icon-close" /> 
+                        </h:panelGrid>
+
+                    </p:dialog>
+
+                </h:form>
+
+            </ui:composition>
+        </h:body>
+    </f:view>   
+</html>

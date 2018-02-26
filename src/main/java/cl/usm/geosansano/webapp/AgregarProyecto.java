@@ -127,8 +127,8 @@ public class AgregarProyecto implements Serializable {
             this.museoProyect.setMususuId(this.mususuId.longValue());
 
             this.museoProyect.setMusproNombre(this.nombreProyecto.toUpperCase());
-            this.museoProyect.setCodPais(paisFL.find(0));
-            this.museoProyect.setCodVigencia(tipoVigenciaFL.find(0));
+            this.museoProyect.setCodPais(this.paisFL.find(0));
+            this.museoProyect.setCodVigencia(this.tipoVigenciaFL.find(0));
 
             this.museoProyect.setMususuIdUsu(this.mususuId);
             this.museoProyect.setFechaModificacion(new Date());

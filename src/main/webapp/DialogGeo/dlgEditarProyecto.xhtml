@@ -29,7 +29,7 @@
                             <h:panelGrid width="1px" />
                             <p:outputLabel value=":" />
                             <h:panelGrid width="1px" />
-                            <p:inputTextarea value="*#{dlgEditarProyecto.museoProyect.musproDescripcion}"
+                            <p:inputTextarea value="#{dlgEditarProyecto.museoProyect.musproDescripcion}"
                                              rows="10" cols="55"  maxlength="3000" 
                                              autoResize="false" style="width: 100%; height: 40px; resize: none;margin-top: 0"
                                              queryDelay="750" minQueryLength="4"   >                                    
@@ -75,7 +75,34 @@
 
                         </h:panelGrid>
 
-                        <br/>
+                        <h:panelGrid columns="3" class="contenidoformulario">
+                            <h:panelGrid cellspacing="5" columns="5" class="contenidoformulario">
+                                <p:commandLink id="cdlAddImages" actionListener="#{dlgEditarProyecto.cargarAgregarFoto()}" oncomplete="PF('dlgEditarProyectoFotos').show();" 
+                                               onstart="PF('dlgLoading').show();" onsuccess="PF('dlgLoading').hide();"   >
+                                    <p:graphicImage value="./../images/icon_imagenes2.png"  style="width: 50px"  />
+                                    <p:tooltip for="cdlAddImages" value="Agregar y/o Editar Imagenes" trackMouse="true" style="font-size: 12px" />
+                                </p:commandLink>
+                            </h:panelGrid>
+
+                            <h:panelGrid width="40px;" />
+
+                            <p:dataGrid id="dataFotosProyecto" var="obj"  value="#{dlgEditarProyecto.museoProyectoDetalleList}" columns="2"
+                                        class="borderless tree-table-no-header" style="border: 0" emptyMessage="">
+                                <h:panelGrid columns="4" class="contDatatableIzq"  >
+
+                                    <p:commandLink  >
+                                        <p:graphicImage value="./../images/icon_accion_eliminar.png"  style="width: 15px" />
+                                    </p:commandLink>
+                                    <h:panelGrid width="5px;" />
+                                    <p:commandLink actionListener="#{dlgEditarProyecto.cargarEditarFoto(obj)}" oncomplete="PF('dlgEditarFoto').show();"
+                                                   onstart="PF('dlgLoading').show();" onsuccess="PF('dlgLoading').hide();"  >
+                                        <p:graphicImage value="./../images/icon_imagen.png"  style="width: 23px"  />                                        
+                                    </p:commandLink>
+
+                                    <h:outputText value="#{obj.musprodetNombre}" style="font-size: 12px;" />
+                                </h:panelGrid>
+                            </p:dataGrid>
+                        </h:panelGrid>
 
                         <h:panelGrid cellspacing="5" columns="5" class="contenidoformulario">
                             <p:commandButton value="Guardar"

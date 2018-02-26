@@ -36,7 +36,10 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "MuseoProyectoDetalle.findByMusprodetNombre", query = "SELECT m FROM MuseoProyectoDetalle m WHERE m.musprodetNombre = :musprodetNombre")
     , @NamedQuery(name = "MuseoProyectoDetalle.findByMusprodetDescripcion", query = "SELECT m FROM MuseoProyectoDetalle m WHERE m.musprodetDescripcion = :musprodetDescripcion")
     , @NamedQuery(name = "MuseoProyectoDetalle.findByMususuIdUsu", query = "SELECT m FROM MuseoProyectoDetalle m WHERE m.mususuIdUsu = :mususuIdUsu")
-    , @NamedQuery(name = "MuseoProyectoDetalle.findByFechaModificacion", query = "SELECT m FROM MuseoProyectoDetalle m WHERE m.fechaModificacion = :fechaModificacion")})
+    , @NamedQuery(name = "MuseoProyectoDetalle.findByFechaModificacion", query = "SELECT m FROM MuseoProyectoDetalle m WHERE m.fechaModificacion = :fechaModificacion")
+
+    , @NamedQuery(name = "MuseoProyectoDetalle.findByDetalleActivo", query = "SELECT m FROM MuseoProyectoDetalle m  WHERE m.museoProyectoDetallePK.musproId = :musproId AND m.codVigencia.codVigencia IN (2) ")
+})
 public class MuseoProyectoDetalle implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -162,5 +165,5 @@ public class MuseoProyectoDetalle implements Serializable {
     public String toString() {
         return "cl.usm.geosansano.entity.MuseoProyectoDetalle[ museoProyectoDetallePK=" + museoProyectoDetallePK + " ]";
     }
-    
+
 }

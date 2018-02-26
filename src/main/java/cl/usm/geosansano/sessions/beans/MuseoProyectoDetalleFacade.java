@@ -6,6 +6,7 @@
 package cl.usm.geosansano.sessions.beans;
 
 import cl.usm.geosansano.entity.MuseoProyectoDetalle;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -28,5 +29,12 @@ public class MuseoProyectoDetalleFacade extends AbstractFacade<MuseoProyectoDeta
     public MuseoProyectoDetalleFacade() {
         super(MuseoProyectoDetalle.class);
     }
-    
+
+    @Override
+    public List<MuseoProyectoDetalle> findByDetalleActivo(long musproId) {
+        return em.createNamedQuery("MuseoProyectoDetalle.findByDetalleActivo")
+                .setParameter("musproId", musproId)
+                .getResultList();
+    }
+
 }
