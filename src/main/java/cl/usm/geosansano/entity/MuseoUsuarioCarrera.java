@@ -37,7 +37,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "MuseoUsuarioCarrera.findByMususuCarrera", query = "SELECT m FROM MuseoUsuarioCarrera m WHERE m.mususuCarrera = :mususuCarrera")
     , @NamedQuery(name = "MuseoUsuarioCarrera.findByMususuIngreso", query = "SELECT m FROM MuseoUsuarioCarrera m WHERE m.mususuIngreso = :mususuIngreso")
     , @NamedQuery(name = "MuseoUsuarioCarrera.findByMususuIdUsu", query = "SELECT m FROM MuseoUsuarioCarrera m WHERE m.mususuIdUsu = :mususuIdUsu")
-    , @NamedQuery(name = "MuseoUsuarioCarrera.findByFechaModificacion", query = "SELECT m FROM MuseoUsuarioCarrera m WHERE m.fechaModificacion = :fechaModificacion")})
+    , @NamedQuery(name = "MuseoUsuarioCarrera.findByFechaModificacion", query = "SELECT m FROM MuseoUsuarioCarrera m WHERE m.fechaModificacion = :fechaModificacion")
+    , @NamedQuery(name = "MuseoUsuarioCarrera.findMaxIdForUser", query = "SELECT  NULLIF(MAX(m.mususuIdUsu),0) FROM MuseoUsuarioCarrera m ")
+})
 public class MuseoUsuarioCarrera implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -164,5 +166,5 @@ public class MuseoUsuarioCarrera implements Serializable {
     public String toString() {
         return "cl.usm.geosansano.entity.MuseoUsuarioCarrera[ museoUsuarioCarreraPK=" + museoUsuarioCarreraPK + " ]";
     }
-    
+
 }

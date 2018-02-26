@@ -29,5 +29,6 @@ public interface CarreraImparteFacadeLocal {
     List<CarreraImparte> findRange(int[] range);
 
     int count();
-    
+
+    List<CarreraImparte> findBy(String query, String field, Object param);
 }

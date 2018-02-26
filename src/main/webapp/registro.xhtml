@@ -14,7 +14,7 @@
                 <div class="ui-g-8">
 
 
-                    <p:wizard   nextLabel="Siguiente" backLabel="Anterior" >
+                    <p:wizard   nextLabel="Siguiente" backLabel="Anterior"  >
                         <p:tab id="personal" title="Datos Personales">
                             <p:panelGrid columns="4" layout="grid" >
                                 <h:outputText value="Nombres: *" />
@@ -30,9 +30,9 @@
                                 <p:calendar value="#{registroBean.fechaNacimiento}"/>
 
                                 <h:outputText value="Nacionalidad: " />
-                                <p:selectOneMenu  value="#{registroBean.paisSelected}"  >
+                                <p:selectOneMenu  value="#{registroBean.paisSelected}" filter="true" filterMatchMode="startsWith" converter="paisConverter" >
                                     <f:selectItem  itemLabel="Seleccione" itemValue="" />
-                                    <f:selectItems value="#{registroBean.paises}" var="pais" itemLabel="#{pais.nomNacionalidad}" itemValue="#{pais.codPais}"/>
+                                    <f:selectItems value="#{registroBean.paises}" var="pais" itemLabel="#{pais.nomNacionalidad}" itemValue="#{pais}"/>
                                 </p:selectOneMenu>
 
                                 <h:outputText value="Fono: " />
@@ -48,38 +48,59 @@
                             <p:panelGrid   >
                                 <p:row>
                                     <p:column>
-                                        <h:outputText value="Rol USM: *" />
+                                        <h:outputText value="Rol: *" />
                                     </p:column>
-                                    <p:column colspan="4">
+                                    <p:column colspan="7">
                                         <p:inputText value="#{registroBean.rol}" label="Rol USM"/>
-                                        <h:outputText value="-" />
+                                        <h:outputText value=" - " />
                                         <p:inputText value="#{registroBean.dvRol}" maxlength="1" size="1" label="Rol USM"/>
                                     </p:column>
 
                                 </p:row>
                                 <p:row>
                                     <p:column>
+                                        <h:outputText value="Sede: *" />
+                                    </p:column>
+                                    <p:column>
+                                        <p:selectOneMenu id="sedes" value="#{registroBean.sedeSelected}" filter="true" filterMatchMode="startsWith" converter="sedeConverter" >
+                                            <f:selectItem  itemLabel="Seleccione" itemValue="" />
+                                            <f:selectItems value="#{registroBean.sedes}" var="sede" itemLabel="#{sede.sedNomSede} #{sede.sedNombreCampus}" itemValue="#{sede}"/>
+                                            <p:ajax  event="change" listener="#{registroBean.changueSede()}" update="carreras"  />
+                                        </p:selectOneMenu>
+                                    </p:column>
+                                    <p:column>
                                         <h:outputText value="Carrera: *" />
                                     </p:column>
                                     <p:column>
-                                        <p:selectOneMenu    >
-
+                                        <p:selectOneMenu id="carreras" value="#{registroBean.carreraImparteSelected}" 
+                                                         style="width: 200px" 
+                                                         filter="true" filterMatchMode="startsWith" converter="carreraImparteConverter" >
+                                            <f:selectItem  itemLabel="Seleccione" itemValue="" />
+                                            <f:selectItems value="#{registroBean.carrerasImparte}" var="carrera" itemLabel="#{carrera.carreraSede.nomCarrera}" itemValue="#{carrera}"/>
                                         </p:selectOneMenu>
                                     </p:column>
                                     <p:column>
                                         <h:outputText value="Ingreso a la Carrera:" />
                                     </p:column>
                                     <p:column>
-                                        <p:inputText  maxlength="4" size="4"/>
+                                        <p:selectOneMenu id="anios" value="#{registroBean.anioSelected}" filter="true" filterMatchMode="startsWith" >
+                                            <f:selectItems value="#{registroBean.anios}" var="anio" itemLabel="#{anio}" itemValue="#{anio}"/>
+                                        </p:selectOneMenu>
                                     </p:column>
                                     <p:column>
-                                        <p:commandButton  update="carreras" icon="fa fa-plus" type="button"/>
+                                        <p:commandButton actionListener="#{registroBean.addCarrera()}"  update="carrerasDataTable" icon="fa fa-plus" />
                                     </p:column>
                                 </p:row>
                                 <p:row>
-                                    <p:column colspan="5">
-                                        <p:dataTable id="carreras" value="#{registroBean.carreraSeleted}" emptyMessage="No se ha agregado carrera">
-
+                                    <p:column colspan="7" >
+                                        <p:dataTable id="carrerasDataTable" var="carr"  
+                                                     value="#{registroBean.museoUsuarioCarreras}" emptyMessage="No se ha agregado carrera">
+                                            <p:column headerText="Carrera" >
+                                                <p:outputLabel value="#{carr.carreraSede.nomCarrera}"/>
+                                            </p:column>
+                                            <p:column headerText="Sede" >
+                                                <p:outputLabel value="#{carr.sedCodSedeFisica.sedNomSede} #{carr.sedCodSedeFisica.sedNombreCampus}"/>
+                                            </p:column>
                                         </p:dataTable>
                                     </p:column>
                                 </p:row>
