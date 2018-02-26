@@ -6,14 +6,22 @@
 package cl.usm.geosansano.mannaged.beans;
 
 import cl.usm.geosansano.comparators.PaisNameComparator;
+import cl.usm.geosansano.comparators.SedeNameComparator;
+import cl.usm.geosansano.entity.CarreraImparte;
 import cl.usm.geosansano.entity.CarreraSede;
 import cl.usm.geosansano.entity.MuseoUsuarioCarrera;
 import cl.usm.geosansano.entity.Pais;
+import cl.usm.geosansano.entity.Sede;
+import cl.usm.geosansano.functions.FuncionFecha;
+import cl.usm.geosansano.sessions.beans.CarreraImparteFacadeLocal;
 import cl.usm.geosansano.sessions.beans.PaisFacadeLocal;
+import cl.usm.geosansano.sessions.beans.SedeFacadeLocal;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.view.ViewScoped;
@@ -29,6 +37,10 @@ public class RegistroBean implements Serializable {
 
     @EJB
     private PaisFacadeLocal paisFacade;
+    @EJB
+    private SedeFacadeLocal sedeFacade;
+    @EJB
+    private CarreraImparteFacadeLocal carreraImparteFacade;
 
     private String nombre;
     private String paterno;
@@ -38,10 +50,16 @@ public class RegistroBean implements Serializable {
     private String fono;
     private Integer rol;
     private String dvRol;
-    private List<CarreraSede> carreras;
-    private List<MuseoUsuarioCarrera> carreraSeleted;
+
     private List<Pais> paises;
     private Pais paisSelected;
+    private List<Sede> sedes;
+    private Sede sedeSelected;
+    private List<CarreraImparte> carrerasImparte;
+    private CarreraImparte carreraImparteSelected;
+    private List<MuseoUsuarioCarrera> museoUsuarioCarreras;
+    private List<Integer> anios;
+    private Integer anioSelected;
 
     /**
      * Creates a new instance of RegistroBean
@@ -55,6 +73,34 @@ public class RegistroBean implements Serializable {
         paises = paisFacade.findAll();
         Collections.sort(paises, new PaisNameComparator());
         paises.remove(new Pais(0));
+        setSedes(sedeFacade.findAll());
+        setSedes(getSedes().stream().filter((sede) -> sede.getSedCodSede() >= 1 && sede.getSedCodSede() <= 5 || sede.getSedCodSede() == 15).collect(Collectors.toList()));
+        Collections.sort(getSedes(), new SedeNameComparator());
+        anios = new ArrayList<>();
+        anioSelected = FuncionFecha.anioIntFormat(FuncionFecha.hoy());
+        for (int i = anioSelected; i >= 1960; i--) {
+            anios.add(i);
+        }
+    }
+
+    public void changueSede() {
+        System.out.println("changueSede");
+        carrerasImparte = carreraImparteFacade.findBy("CarreraImparte.findByCodSedeImparte", "codSedeImparte", sedeSelected.getSedCodSede());
+        System.out.println("changueSede carrerasImparte.size(): " + carrerasImparte.size());
+    }
+
+    public void addCarrera() {
+        System.out.println("addCarrera");
+
+        museoUsuarioCarreras = museoUsuarioCarreras == null ? new ArrayList<>() : museoUsuarioCarreras;
+
+        MuseoUsuarioCarrera muc = new MuseoUsuarioCarrera(0, carreraImparteSelected.getCarreraSede().getCarreraSedePK().getCodCarrera(),
+                carreraImparteSelected.getCarreraSede().getCarreraSedePK().getSedCodSede());
+        muc.setFechaModificacion(new Date());
+        muc.setMususuIngreso(anioSelected);
+        muc.setSedCodSedeFisica(carreraImparteSelected.getSedCodSede());
+        muc.setCarreraSede(carreraImparteSelected.getCarreraSede());
+        museoUsuarioCarreras.add(muc);
     }
 
     /**
@@ -170,34 +216,6 @@ public class RegistroBean implements Serializable {
     }
 
     /**
-     * @return the carreras
-     */
-    public List<CarreraSede> getCarreras() {
-        return carreras;
-    }
-
-    /**
-     * @param carreras the carreras to set
-     */
-    public void setCarreras(List<CarreraSede> carreras) {
-        this.carreras = carreras;
-    }
-
-    /**
-     * @return the carreraSeleted
-     */
-    public List<MuseoUsuarioCarrera> getCarreraSeleted() {
-        return carreraSeleted;
-    }
-
-    /**
-     * @param carreraSeleted the carreraSeleted to set
-     */
-    public void setCarreraSeleted(List<MuseoUsuarioCarrera> carreraSeleted) {
-        this.carreraSeleted = carreraSeleted;
-    }
-
-    /**
      * @return the paises
      */
     public List<Pais> getPaises() {
@@ -223,6 +241,104 @@ public class RegistroBean implements Serializable {
      */
     public void setPaisSelected(Pais paisSelected) {
         this.paisSelected = paisSelected;
+    }
+
+    /**
+     * @return the sedes
+     */
+    public List<Sede> getSedes() {
+        return sedes;
+    }
+
+    /**
+     * @param sedes the sedes to set
+     */
+    public void setSedes(List<Sede> sedes) {
+        this.sedes = sedes;
+    }
+
+    /**
+     * @return the sedeSelected
+     */
+    public Sede getSedeSelected() {
+        return sedeSelected;
+    }
+
+    /**
+     * @param sedeSelected the sedeSelected to set
+     */
+    public void setSedeSelected(Sede sedeSelected) {
+        this.sedeSelected = sedeSelected;
+    }
+
+    /**
+     * @return the carrerasImparte
+     */
+    public List<CarreraImparte> getCarrerasImparte() {
+        return carrerasImparte;
+    }
+
+    /**
+     * @param carrerasImparte the carrerasImparte to set
+     */
+    public void setCarrerasImparte(List<CarreraImparte> carrerasImparte) {
+        this.carrerasImparte = carrerasImparte;
+    }
+
+    /**
+     * @return the carreraImparteSelected
+     */
+    public CarreraImparte getCarreraImparteSelected() {
+        return carreraImparteSelected;
+    }
+
+    /**
+     * @param carreraImparteSelected the carreraImparteSelected to set
+     */
+    public void setCarreraImparteSelected(CarreraImparte carreraImparteSelected) {
+        this.carreraImparteSelected = carreraImparteSelected;
+    }
+
+    /**
+     * @return the museoUsuarioCarreras
+     */
+    public List<MuseoUsuarioCarrera> getMuseoUsuarioCarreras() {
+        return museoUsuarioCarreras;
+    }
+
+    /**
+     * @param museoUsuarioCarreras the museoUsuarioCarreras to set
+     */
+    public void setMuseoUsuarioCarreras(List<MuseoUsuarioCarrera> museoUsuarioCarreras) {
+        this.museoUsuarioCarreras = museoUsuarioCarreras;
+    }
+
+    /**
+     * @return the anios
+     */
+    public List<Integer> getAnios() {
+        return anios;
+    }
+
+    /**
+     * @param anios the anios to set
+     */
+    public void setAnios(List<Integer> anios) {
+        this.anios = anios;
+    }
+
+    /**
+     * @return the anioSelected
+     */
+    public Integer getAnioSelected() {
+        return anioSelected;
+    }
+
+    /**
+     * @param anioSelected the anioSelected to set
+     */
+    public void setAnioSelected(Integer anioSelected) {
+        this.anioSelected = anioSelected;
     }
 
 }
