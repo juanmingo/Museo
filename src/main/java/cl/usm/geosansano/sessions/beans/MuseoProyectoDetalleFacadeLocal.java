@@ -24,6 +24,12 @@ public interface MuseoProyectoDetalleFacadeLocal {
 
     MuseoProyectoDetalle find(Object id);
 
+    MuseoProyectoDetalle findId(long musproId, long musprodetId);
+
+    MuseoProyectoDetalle findByMaxMusprodetId(long musproId);
+
+    long newMusprodetId(long musproId);
+
     List<MuseoProyectoDetalle> findAll();
 
     List<MuseoProyectoDetalle> findRange(int[] range);

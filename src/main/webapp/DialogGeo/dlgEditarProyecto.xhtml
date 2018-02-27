@@ -84,7 +84,7 @@
                                 </p:commandLink>
                             </h:panelGrid>
 
-                            <h:panelGrid width="40px;" />
+                            <h:panelGrid width="90px;" />
 
                             <p:dataGrid id="dataFotosProyecto" var="obj"  value="#{dlgEditarProyecto.museoProyectoDetalleList}" columns="2"
                                         class="borderless tree-table-no-header" style="border: 0" emptyMessage="">
@@ -105,10 +105,10 @@
                         </h:panelGrid>
 
                         <h:panelGrid cellspacing="5" columns="5" class="contenidoformulario">
-                            <p:commandButton value="Guardar"
+                            <p:commandButton value="Guardar" actionListener="#{dlgEditarProyecto.guardarCambiosProyecto()}"
                                              oncomplete="PF('dlgEditarProyecto').hide();" icon="ui-icon-disk" />
                             <h:panelGrid/>
-                            <p:commandButton id="btnCerrarEditarProyecto" value="Cancelar" actionListener="#{dlgEditarProyecto.closeInfoWindow()}"
+                            <p:commandButton id="btnCerrarEditarProyecto" value="Cancelar"
                                              oncomplete="PF('dlgEditarProyecto').hide();" icon="ui-icon-close" /> 
                         </h:panelGrid>
 

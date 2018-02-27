@@ -9,6 +9,7 @@ import cl.usm.geosansano.entity.MuseoProyectoDetalle;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 
 /**
@@ -35,6 +36,39 @@ public class MuseoProyectoDetalleFacade extends AbstractFacade<MuseoProyectoDeta
         return em.createNamedQuery("MuseoProyectoDetalle.findByDetalleActivo")
                 .setParameter("musproId", musproId)
                 .getResultList();
+    }
+
+    @Override
+    public MuseoProyectoDetalle findId(long musproId, long musprodetId) {
+        try {
+            return (MuseoProyectoDetalle) em.createNamedQuery("MuseoProyectoDetalle.findId")
+                    .setParameter("musproId", musproId)
+                    .setParameter("musprodetId", musprodetId)
+                    .getSingleResult();
+        } catch (NoResultException nre) {
+            return null;
+        }
+    }
+
+    @Override
+    public MuseoProyectoDetalle findByMaxMusprodetId(long musproId) {
+        try {
+            return (MuseoProyectoDetalle) em.createNamedQuery("MuseoProyectoDetalle.findByMaxMusprodetId")
+                    .setParameter("musproId", musproId)
+                    .getSingleResult();
+        } catch (NoResultException nre) {
+            return null;
+        }
+    }
+
+    @Override
+    public long newMusprodetId(long musproId) {
+        MuseoProyectoDetalle museoProyectoDetalle = findByMaxMusprodetId(musproId);
+        if (museoProyectoDetalle != null) {
+            return museoProyectoDetalle.getMuseoProyectoDetallePK().getMusprodetId() + 1;
+        } else {
+            return 1;
+        }
     }
 
 }

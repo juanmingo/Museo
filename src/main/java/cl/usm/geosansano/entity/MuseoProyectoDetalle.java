@@ -21,6 +21,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import org.hibernate.annotations.Type;
 
 /**
  *
@@ -38,16 +39,23 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "MuseoProyectoDetalle.findByMususuIdUsu", query = "SELECT m FROM MuseoProyectoDetalle m WHERE m.mususuIdUsu = :mususuIdUsu")
     , @NamedQuery(name = "MuseoProyectoDetalle.findByFechaModificacion", query = "SELECT m FROM MuseoProyectoDetalle m WHERE m.fechaModificacion = :fechaModificacion")
 
+    , @NamedQuery(name = "MuseoProyectoDetalle.findById", query = "SELECT m FROM MuseoProyectoDetalle m WHERE m.museoProyectoDetallePK.musprodetId = :musprodetId AND m.museoProyectoDetallePK.musproId = :musproId")
     , @NamedQuery(name = "MuseoProyectoDetalle.findByDetalleActivo", query = "SELECT m FROM MuseoProyectoDetalle m  WHERE m.museoProyectoDetallePK.musproId = :musproId AND m.codVigencia.codVigencia IN (2) ")
+    , @NamedQuery(name = "MuseoProyectoDetalle.findByMaxMusprodetId", query = "SELECT m FROM MuseoProyectoDetalle m WHERE m.museoProyectoDetallePK.musproId = :musproId AND m.museoProyectoDetallePK.musprodetId = (SELECT MAX(m2.museoProyectoDetallePK.musprodetId) FROM MuseoProyectoDetalle m2 WHERE m2.museoProyectoDetallePK.musproId = :musproId )")
 })
+
+//, @NamedQuery(name = "MuseoProyecto.findByMaxMusproId", query = "SELECT m FROM MuseoProyecto m WHERE m.musproId = (SELECT MAX(m2.musproId) FROM MuseoProyecto m2)")
 public class MuseoProyectoDetalle implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected MuseoProyectoDetallePK museoProyectoDetallePK;
+
     @Lob
     @Column(name = "musprodet_archivo")
+    @Type(type = "org.hibernate.type.BinaryType")
     private byte[] musprodetArchivo;
+
     @Size(max = 1000)
     @Column(name = "musprodet_nombre")
     private String musprodetNombre;

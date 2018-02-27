@@ -39,7 +39,7 @@ public class MuseoUsuarioFacade extends AbstractFacade<MuseoUsuario> implements 
                     .getSingleResult();
         } catch (NoResultException nre) {
             return null;
-}
+        }
     }
 
     @Override

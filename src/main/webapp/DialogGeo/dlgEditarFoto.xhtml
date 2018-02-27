@@ -14,34 +14,38 @@
                 <h:form id="formEditarFoto" class="formSinBordes contenidoformulario">
 
                     <p:dialog id="dlgEditarFoto" widgetVar="dlgEditarFoto" header="Editar Foto"
-                              showEffect="fade" modal="true" resizable="false" closable="true" width="50%" focus="btnAceptarEditarFoto" >
+                              showEffect="fade" modal="true" resizable="false" closable="true" width="100%" focus="btnAceptarEditarFoto" >
+
+                        <h:panelGrid columns="2"  width="100%" >
+
+                            <h:panelGrid cellspacing="5" columns="5" class="contenidoformulario" width="100%">
+
+                                <p:outputLabel value="Nombre" />
+                                <h:panelGrid width="1px" />
+                                <p:outputLabel value=":" />
+                                <h:panelGrid width="1px" />
+                                <p:inputText value="#{dlgEditarProyecto.musprodetNombre}" maxlength="150" style="width: 100%"  >
+                                    <p:ajax event="keyup" listener="#{dlgEditarProyecto.keyUpNombreFoto()}"/>
+                                </p:inputText>
+
+                                <p:outputLabel value="Descripción" />
+                                <h:panelGrid width="1px" />
+                                <p:outputLabel value=":" />
+                                <h:panelGrid width="1px" />
+                                <p:inputTextarea value="#{dlgEditarProyecto.musprodetDescripcion}"
+                                                 rows="10" cols="55"  maxlength="3000" 
+                                                 autoResize="false" style="width: 100%; height: 40px;  ;resize: none;margin-top: 0"
+                                                 queryDelay="750" minQueryLength="4"   >                                    
+                                </p:inputTextarea>
+
+                            </h:panelGrid> 
+
+                            <h:panelGrid class="contenidoformulario" >
+                                <p:graphicImage id="grFotoAlumno" value="#{dlgEditarProyecto.objStreamedContent}"  stream="false"  style="width: 30%;height: 30%"  />
+                            </h:panelGrid>
 
 
-
-                        <p:graphicImage id="grFotoAlumno" value="#{dlgEditarProyecto.objStreamedContent}"  stream="false"   />
-
-                        <h:panelGrid cellspacing="5" columns="5" class="contenidoformulario" width="100%">
-
-                            <p:outputLabel value="Nombre" />
-                            <h:panelGrid width="1px" />
-                            <p:outputLabel value=":" />
-                            <h:panelGrid width="1px" />
-                            <p:inputText value="#{dlgEditarProyecto.musprodetNombre}" maxlength="150" style="width: 100%"  >
-                                <p:ajax event="keyup" listener="#{dlgEditarProyecto.keyUpNombreFoto()}"/>
-                            </p:inputText>
-
-                            <p:outputLabel value="Descripción" />
-                            <h:panelGrid width="1px" />
-                            <p:outputLabel value=":" />
-                            <h:panelGrid width="1px" />
-                            <p:inputTextarea value="#{dlgEditarProyecto.musprodetDescripcion}"
-                                             rows="10" cols="55"  maxlength="3000" 
-                                             autoResize="false" style="width: 100%; height: 40px;  ;resize: none;margin-top: 0"
-                                             queryDelay="750" minQueryLength="4"   >                                    
-                            </p:inputTextarea>
-
-                        </h:panelGrid>                            
-
+                        </h:panelGrid>
 
 
                         <h:panelGrid cellspacing="5" columns="5" class="contenidoformulario">                           
