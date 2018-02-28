@@ -86,22 +86,44 @@
 
                             <h:panelGrid width="90px;" />
 
-                            <p:dataGrid id="dataFotosProyecto" var="obj"  value="#{dlgEditarProyecto.museoProyectoDetalleList}" columns="2"
-                                        class="borderless tree-table-no-header" style="border: 0" emptyMessage="">
-                                <h:panelGrid columns="4" class="contDatatableIzq"  >
 
-                                    <p:commandLink  >
-                                        <p:graphicImage value="./../images/icon_accion_eliminar.png"  style="width: 15px" />
-                                    </p:commandLink>
-                                    <h:panelGrid width="5px;" />
+
+                            <p:dataTable id="dataFotosProyecto" var="obj"  value="#{dlgEditarProyecto.museoProyectoDetalleList}" 
+                                         editable="true" editMode="cell"
+                                         class="contenidoformulario borderless tree-table-no-header" style="border: 0" emptyMessage="">
+
+                                <p:ajax event="cellEdit" />
+
+                                <p:column headerText="Id">
+                                    <p:cellEditor>
+                                        <f:facet name="output"><h:outputText value="#{obj.musprodetNombre}" /></f:facet>
+                                        <f:facet name="input"><p:inputText id="modelInput" value="#{obj.musprodetNombre}" style="width:96%"/></f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+
+                                <p:column headerText="Id">
+                                    <h:outputText value="#{obj.musprodetNombre}" style="font-size: 12px;" />
+                                </p:column>
+
+                                <p:column headerText="Id">
+                                    <h:outputText value="#{obj.musprodetDescripcion}" style="font-size: 12px;" />
+                                </p:column>
+
+                                <p:column headerText="Id" width="8">
                                     <p:commandLink actionListener="#{dlgEditarProyecto.cargarEditarFoto(obj)}" oncomplete="PF('dlgEditarFoto').show();"
                                                    onstart="PF('dlgLoading').show();" onsuccess="PF('dlgLoading').hide();"  >
                                         <p:graphicImage value="./../images/icon_imagen.png"  style="width: 23px"  />                                        
                                     </p:commandLink>
+                                </p:column>
 
-                                    <h:outputText value="#{obj.musprodetNombre}" style="font-size: 12px;" />
-                                </h:panelGrid>
-                            </p:dataGrid>
+                                <p:column headerText="Id" width="8" >
+                                    <p:commandLink  >
+                                        <p:graphicImage value="./../images/icon_accion_eliminar.png"  style="width: 15px" />
+                                    </p:commandLink>
+                                </p:column>
+
+                            </p:dataTable>
+
                         </h:panelGrid>
 
                         <h:panelGrid cellspacing="5" columns="5" class="contenidoformulario">
