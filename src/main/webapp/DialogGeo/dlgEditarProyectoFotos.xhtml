@@ -23,7 +23,7 @@
                             <p:outputLabel value=":" />
                             <h:panelGrid width="1px" />
                             <p:inputText value="#{dlgEditarProyecto.musprodetNombre}" maxlength="150" style="width: 100%"  >
-                                <p:ajax event="keyup" listener="#{dlgEditarProyecto.keyUpNombreFoto()}"/>
+                                <p:ajax event="keyup" listener="#{dlgEditarProyecto.keyUpNombreFoto()}" update="fudFoto" />
                             </p:inputText>
 
                             <p:outputLabel value="Descripción" />
@@ -34,17 +34,22 @@
                                              rows="10" cols="55"  maxlength="3000" 
                                              autoResize="false" style="width: 100%; height: 40px;  ;resize: none;margin-top: 0"
                                              queryDelay="750" minQueryLength="4"   >                                    
+                                <p:ajax event="keyup" listener="#{dlgEditarProyecto.keyUpNombreFoto()}" update="fudFoto" />
                             </p:inputTextarea>
 
                         </h:panelGrid>
 
                         <h:panelGrid class="contenidoformulario" width="100%" >
-                            <p:fileUpload mode="advanced" class="contenidoformulario"  style="width: 100%;"
+                            <p:fileUpload id="fudFoto" mode="advanced" class="contenidoformulario"  style="width: 100%;" disabled="#{dlgEditarProyecto.isDisableAdjuntarFoto}"
                                           fileUploadListener="#{dlgEditarProyecto.adjuntarArchivo}" auto="true" 
                                           dragDropSupport="false" label="Examinar" oncomplete="PF('dlgEditarProyectoFotos').hide();"
-                                          invalidFileMessage="¡Formato de documento invalido!"                                          
+                                          invalidFileMessage="¡Formato de documento invalido, se admite extensiones JPG y PNG!"                                          
                                           allowTypes="/(\.|\/)(jpe?g||png)$/"  />
                         </h:panelGrid>
+
+                        <br/>
+                        <p:outputLabel value="* ¡Nombre y Descripción son campos obligatorios, antes de cargar la imagen!" style="color: red; font-size: 12px;" />
+                        <br/><br/>
 
                         <h:panelGrid cellspacing="5" columns="5" class="contenidoformulario">                           
                             <p:commandButton id="btnAceptarEditarProyectoFotos" value="Cancelar"

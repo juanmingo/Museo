@@ -30,6 +30,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.FileUploadEvent;
+import org.primefaces.event.RowEditEvent;
 import org.primefaces.model.StreamedContent;
 
 /**
@@ -54,10 +55,13 @@ public class DlgEditarProyecto implements Serializable {
     //
     private MuseoUsuario museoUsuario;
     private MuseoProyecto museoProyect;
+
     //
     private BigInteger mususuId;
     private String musprodetNombre;
     private String musprodetDescripcion;
+    private boolean isDisableAdjuntarFoto;
+    private boolean isVisibleFotosAgregadas;
     //
     private StreamedContent objStreamedContent;
     //
@@ -80,8 +84,7 @@ public class DlgEditarProyecto implements Serializable {
 
         this.museoProyectoDetalleList = museoProyectoDetalleFL.findByDetalleActivo(this.museoProyect.getMusproId());
 
-        System.out.println("getMusproId: " + this.museoProyect.getMusproId());
-        System.out.println("this.museoProyectoDetalleList: " + this.museoProyectoDetalleList.size());
+        this.isVisibleFotosAgregadas = this.museoProyectoDetalleList.size() > 0;
 
         RequestContext context = RequestContext.getCurrentInstance();
         context.update("formEditarProyecto:dlgEditarProyecto");
@@ -93,21 +96,40 @@ public class DlgEditarProyecto implements Serializable {
         this.museoProyect.setMusproNombre(this.museoProyect.getMusproNombre().toUpperCase());
         this.museoProyect.setMusproCiudad(this.museoProyect.getMusproCiudad().toUpperCase());
 
+        this.museoProyect.setFechaModificacion(new Date());
+        this.museoProyect.setMususuIdUsu(this.mususuId);
+
         this.museoProyectoFL.edit(this.museoProyect);
 
         //MuseoProyectoDetalle
-        long maxMusprodetId = this.museoProyectoDetalleFL.newMusprodetId(this.museoProyect.getMusproId());
-
+        //long maxMusprodetId = this.museoProyectoDetalleFL.newMusprodetId(this.museoProyect.getMusproId());
         for (MuseoProyectoDetalle objMPD : this.museoProyectoDetalleList) {
-            System.out.println(objMPD.getMuseoProyectoDetallePK().getMusproId() + " != 0 && " + objMPD.getMuseoProyectoDetallePK().getMusprodetId() + " != 0");
+
             if (objMPD.getMuseoProyectoDetallePK().getMusproId() != 0 && objMPD.getMuseoProyectoDetallePK().getMusprodetId() != 0) {
+
+                objMPD.setMusprodetNombre(objMPD.getMusprodetNombre().toUpperCase());
+                objMPD.setMusprodetDescripcion(objMPD.getMusprodetDescripcion().toUpperCase());
+
+                objMPD.setFechaModificacion(new Date());
+                objMPD.setMususuIdUsu(this.mususuId);
+
                 this.museoProyectoDetalleFL.edit(objMPD);
             } else {
+
+                long maxMusprodetId = this.museoProyectoDetalleFL.newMusprodetId(this.museoProyect.getMusproId());
+
                 objMPD.getMuseoProyectoDetallePK().setMusproId(this.museoProyect.getMusproId());
                 objMPD.getMuseoProyectoDetallePK().setMusprodetId(maxMusprodetId);
+
+                objMPD.setMusprodetNombre(objMPD.getMusprodetNombre().toUpperCase());
+                objMPD.setMusprodetDescripcion(objMPD.getMusprodetDescripcion().toUpperCase());
+
+                objMPD.setFechaModificacion(new Date());
+                objMPD.setMususuIdUsu(this.mususuId);
+
                 this.museoProyectoDetalleFL.create(objMPD);
             }
-            maxMusprodetId++;
+            //maxMusprodetId++;
         }
 
         this.museoProyectoDetalleList = museoProyectoDetalleFL.findByDetalleActivo(this.museoProyect.getMusproId());
@@ -122,28 +144,26 @@ public class DlgEditarProyecto implements Serializable {
     public void cargarAgregarFoto() {
         this.musprodetNombre = "";
         this.musprodetDescripcion = "";
+
+        this.isDisableAdjuntarFoto = true;
+
         RequestContext context = RequestContext.getCurrentInstance();
         context.update("formEditarProyectoFotos:dlgEditarProyectoFotos");
     }
 
     public void keyUpNombreFoto() {
-        System.out.println("musprodetNombre: " + this.musprodetNombre);
+        this.isDisableAdjuntarFoto = !(this.musprodetNombre != null && !"".equals(this.musprodetNombre) && this.musprodetDescripcion != null && !"".equals(this.musprodetDescripcion));
+        RequestContext context = RequestContext.getCurrentInstance();
+        context.update("formEditarProyectoFotos:fudFoto");
     }
 
     public void cargarEditarFoto(MuseoProyectoDetalle objMPD) {
-        System.out.println("musprodetNombre: " + this.musprodetNombre);
-
         this.objStreamedContent = FuncionFoto.obtenerFoto(objMPD.getMusprodetArchivo(), objMPD.getMuseoProyecto().getMusproNombre(), "./../images/icon_sin_imagen.png");
-
-        System.out.println("objStreamedContent: " + this.objStreamedContent);
-
         RequestContext context = RequestContext.getCurrentInstance();
         context.update("formEditarFoto:dlgEditarFoto");
     }
 
     public void adjuntarArchivo(FileUploadEvent event) {
-
-        System.out.println("event: " + event);
 
         MuseoProyectoDetalle objMPD = new MuseoProyectoDetalle();
         MuseoProyectoDetallePK objMPDId = new MuseoProyectoDetallePK(0, 0);
@@ -154,26 +174,41 @@ public class DlgEditarProyecto implements Serializable {
         objMPD.setMusprodetNombre(this.musprodetNombre);
         objMPD.setMusprodetArchivo(event.getFile().getContents());
 
-        //objMPD.setMusprodetArchivo(new ByteArrayInputStream(musprodetArchivo));
-        //new ByteArrayInputStream(musprodetArchivo)
-        //byte[] decoded = Base64.getDecoder().decode(encoded);
         objMPD.setCodVigencia(tipoVigenciaFL.find(2));
         objMPD.setFechaModificacion(new Date());
         objMPD.setMuseoProyecto(this.museoProyect);
         objMPD.setMususuIdUsu(this.mususuId);
 
-        System.out.println("objMPD: " + objMPD.getMusprodetNombre());
-
         this.museoProyectoDetalleList.add(objMPD);
+
+        this.isVisibleFotosAgregadas = this.museoProyectoDetalleList.size() > 0;
 
         RequestContext context = RequestContext.getCurrentInstance();
         context.update("formEditarProyecto:dataFotosProyecto");
+        context.update("formEditarProyecto:pnFotosProyecto");
+        context.update("formEditarFoto:dlgEditarFoto");
         context.update("PF('dlgEditarProyectoFotos').hide()");
 
     }
 
     public void addMessage(FacesMessage message) {
         FacesContext.getCurrentInstance().addMessage(null, message);
+    }
+
+    public void onRowEdit(RowEditEvent event) {
+        FacesMessage msg = new FacesMessage("Editar", ((MuseoProyectoDetalle) event.getObject()).getMusprodetNombre());
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+
+        RequestContext context = RequestContext.getCurrentInstance();
+        context.update("formSansano:msjProyectos");
+    }
+
+    public void onRowCancel(RowEditEvent event) {
+        FacesMessage msg = new FacesMessage("Editar Cancelado", ((MuseoProyectoDetalle) event.getObject()).getMusprodetNombre());
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+
+        RequestContext context = RequestContext.getCurrentInstance();
+        context.update("formSansano:msjProyectos");
     }
 
     //<editor-fold defaultstate="collapsed" desc="Getter && Setter">
@@ -232,6 +267,22 @@ public class DlgEditarProyecto implements Serializable {
 
     public void setObjStreamedContent(StreamedContent objStreamedContent) {
         this.objStreamedContent = objStreamedContent;
+    }
+
+    public boolean isIsDisableAdjuntarFoto() {
+        return isDisableAdjuntarFoto;
+    }
+
+    public void setIsDisableAdjuntarFoto(boolean isDisableAdjuntarFoto) {
+        this.isDisableAdjuntarFoto = isDisableAdjuntarFoto;
+    }
+
+    public boolean isIsVisibleFotosAgregadas() {
+        return isVisibleFotosAgregadas;
+    }
+
+    public void setIsVisibleFotosAgregadas(boolean isVisibleFotosAgregadas) {
+        this.isVisibleFotosAgregadas = isVisibleFotosAgregadas;
     }
 
 }
