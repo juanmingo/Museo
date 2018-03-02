@@ -14,7 +14,7 @@
                 <h:form id="formVerProyecto" class="formSinBordes contenidoformulario">
 
                     <p:dialog id="dlgVerProyecto" widgetVar="dlgVerProyecto" header="Editar Proyecto"
-                              showEffect="fade" modal="true" resizable="false" closable="true" width="50%" focus="btnCerrarEditarProyecto" >
+                              showEffect="fade" modal="true" resizable="false" closable="true" width="50%"  >
 
 
                         <h:panelGrid cellspacing="5" columns="5" class="contenidoformulario" width="100%">
@@ -22,40 +22,34 @@
                             <p:outputLabel value="Nombre" />
                             <h:panelGrid width="1px" />
                             <p:outputLabel value=":" />
-                            <h:panelGrid width="1px" />
-                            <p:inputText value="#{dlgEditarProyecto.museoProyect.musproNombre}" maxlength="500" style="width: 100%"  />
+                            <h:panelGrid width="1px" />                            
+                            <p:outputLabel value="#{dlgVerProyecto.museoProyect.musproNombre}" />
 
                             <p:outputLabel value="Descripción" />
                             <h:panelGrid width="1px" />
                             <p:outputLabel value=":" />
                             <h:panelGrid width="1px" />
-                            <p:inputTextarea value="#{dlgEditarProyecto.museoProyect.musproDescripcion}"
-                                             rows="10" cols="55"  maxlength="3000" 
-                                             autoResize="false" style="width: 100%; height: 40px; resize: none;margin-top: 0"
-                                             queryDelay="750" minQueryLength="4"   >                                    
-                            </p:inputTextarea>
+                            <p:outputLabel value="#{dlgVerProyecto.museoProyect.musproDescripcion}" />
 
                             <p:outputLabel value="Pais" />
                             <h:panelGrid width="1px" />
                             <p:outputLabel value=":" />
                             <h:panelGrid width="1px" />
-                            <p:selectOneMenu value="#{dlgEditarProyecto.museoProyect.codPais.codPais}" >
-                                <f:selectItems value="#{dlgEditarProyecto.paisList}" var="pais" itemValue="#{pais.codPais}" itemLabel="#{pais.nomPais.toUpperCase()}" />
-                            </p:selectOneMenu>
+                            <p:outputLabel value="#{dlgVerProyecto.museoProyect.codPais.nomPais}" />
+
 
                             <p:outputLabel value="Ciudad" />
                             <h:panelGrid width="1px" />
                             <p:outputLabel value=":" />
-                            <h:panelGrid width="1px" />
-                            <p:inputText value="#{dlgEditarProyecto.museoProyect.musproCiudad}" maxlength="500" style="width: 100%"  />
+                            <h:panelGrid width="1px" />                            
+                            <p:outputLabel value="#{dlgVerProyecto.museoProyect.musproCiudad}" />
+
 
                             <p:outputLabel value="Año" />
                             <h:panelGrid width="1px" />
                             <p:outputLabel value=":" />
-                            <h:panelGrid width="1px" />
-                            <p:selectOneMenu value="#{dlgEditarProyecto.museoProyect.musproAño}" >
-                                <f:selectItems value="#{dlgEditarProyecto.listarSelectItemAños}"    />                               
-                            </p:selectOneMenu>
+                            <h:panelGrid width="1px" />                            
+                            <p:outputLabel value="#{dlgVerProyecto.museoProyect.musproAño}" />
 
                             <h:panelGrid/><h:panelGrid/><h:panelGrid/><h:panelGrid/><h:panelGrid/>
 
@@ -63,7 +57,7 @@
                             <h:panelGrid width="1px" />
                             <p:outputLabel value=":" />
                             <h:panelGrid width="1px" />
-                            <p:outputLabel value="#{dlgEditarProyecto.museoProyect.musproLatitud}" />
+                            <p:outputLabel value="#{dlgVerProyecto.museoProyect.musproLatitud}" />
 
                             <h:panelGrid/><h:panelGrid/><h:panelGrid/><h:panelGrid/><h:panelGrid/>
 
@@ -71,71 +65,9 @@
                             <h:panelGrid width="1px" />
                             <p:outputLabel value=":" />
                             <h:panelGrid width="1px" />
-                            <p:outputLabel value="#{dlgEditarProyecto.museoProyect.musproLongitud}" />
+                            <p:outputLabel value="#{dlgVerProyecto.museoProyect.musproLongitud}" />
 
                         </h:panelGrid>
-
-                        <br/>
-                        <h:panelGrid cellspacing="5" columns="5" class="contenidoformulario">
-                            <p:commandLink id="cdlAddImages" actionListener="#{dlgEditarProyecto.cargarAgregarFoto()}" oncomplete="PF('dlgEditarProyectoFotos').show();" 
-                                           onstart="PF('dlgLoading').show();" onsuccess="PF('dlgLoading').hide();"   >
-                                <p:graphicImage value="./../images/icon_imagenes2.png"  style="width: 30px"  />
-                                <p:tooltip for="cdlAddImages" value="Agregar Imagen" trackMouse="true" style="font-size: 12px" />
-                            </p:commandLink>
-                        </h:panelGrid>                        
-                        <br/>
-
-                        <p:panel id="pnFotosProyecto" style="border: 0px;" visible="#{dlgEditarProyecto.isVisibleFotosAgregadas}" > 
-                            <p:dataTable id="dataFotosProyecto" var="obj"  value="#{dlgEditarProyecto.museoProyectoDetalleList}" editable="true" 
-                                         class="contenidoformulario borderless" style="border: 0" emptyMessage="">
-
-                                <p:ajax event="rowEdit" listener="#{dlgEditarProyecto.onRowEdit}"  />
-                                <p:ajax event="rowEditCancel" listener="#{dlgEditarProyecto.onRowCancel}"  />
-
-                                <p:column headerText="Eliminar" width="10%" class="contenidoformulario contDatatableCen"  >
-                                    <p:commandLink class="contenidoformulario" >
-                                        <p:graphicImage value="./../images/icon_accion_eliminar.png"  style="width: 15px" />
-                                    </p:commandLink>
-                                </p:column>
-
-                                <p:column headerText="Ver" width="10%" class="contenidoformulario contDatatableCen">
-                                    <p:commandLink actionListener="#{dlgEditarProyecto.cargarEditarFoto(obj)}" oncomplete="PF('dlgEditarFoto').show();"
-                                                   onstart="PF('dlgLoading').show();" onsuccess="PF('dlgLoading').hide();" class="contenidoformulario" >
-                                        <p:graphicImage value="./../images/icon_imagen.png"  style="width: 23px"  />                                        
-                                    </p:commandLink>
-                                </p:column>
-
-                                <p:column headerText="Título" width="40%" class="contenidoformulario" >
-                                    <p:cellEditor class="contenidoformulario" >
-                                        <f:facet name="output"><h:outputText value="#{obj.musprodetNombre}" style="width:90%"  /></f:facet>
-                                        <f:facet name="input"><p:inputText  value="#{obj.musprodetNombre}" style="width:90%" /></f:facet>
-                                    </p:cellEditor>
-                                </p:column>   
-
-                                <p:column headerText="Descripción" width="40%" class="contenidoformulario">
-                                    <p:cellEditor class="contenidoformulario">
-                                        <f:facet name="output"><h:outputText value="#{obj.musprodetDescripcion}" style="width:90%" /></f:facet>
-                                        <f:facet name="input"><p:inputText  value="#{obj.musprodetDescripcion}" style="width:90%" /></f:facet>
-                                    </p:cellEditor>
-                                </p:column>                
-
-                                <p:column headerText="Editar" style="width:32px" class="contenidoformulario contDatatableCen">
-                                    <p:rowEditor />
-                                </p:column>
-
-                            </p:dataTable>
-                        </p:panel>                        
-
-                        <br/>
-
-                        <h:panelGrid cellspacing="5" columns="5" class="contenidoformulario">
-                            <p:commandButton value="Guardar" actionListener="#{dlgEditarProyecto.guardarCambiosProyecto()}"
-                                             oncomplete="PF('dlgEditarProyecto').hide();" icon="ui-icon-disk" />
-                            <h:panelGrid/>
-                            <p:commandButton id="btnCerrarEditarProyecto" value="Cancelar"
-                                             oncomplete="PF('dlgEditarProyecto').hide();" icon="ui-icon-close" /> 
-                        </h:panelGrid>
-
 
 
                     </p:dialog>

@@ -37,8 +37,8 @@
                             </p:panel>
 
                             <p:panel  style="border: 0px;"  class="contenidoformulario" rendered="#{sansanoMapa.isEditarPublicacion}" >
-                                <p:commandLink oncomplete="PF('dlgEditarProyecto').show();" onstart="PF('dlgLoading').show();" 
-                                               onsuccess="PF('dlgLoading').hide();"  >
+                                <p:commandLink oncomplete="PF('dlgVerProyecto').show();" onstart="PF('dlgLoading').show();" 
+                                               onsuccess="PF('dlgLoading').hide();" actionListener="#{dlgVerProyecto.cargarProyecto(sansanoMapa.musproId)}" >
                                     <h:outputText value=" Ver " />
                                 </p:commandLink>
                                 <h:outputText value="/" />
@@ -54,15 +54,15 @@
                             </p:panel>
 
                             <p:panel  style="border: 0px;"  class="contenidoformulario" rendered="#{sansanoMapa.isVerMas}" >
-                                <p:commandLink oncomplete="PF('dlgEditarProyecto').show();" onstart="PF('dlgLoading').show();" 
-                                               onsuccess="PF('dlgLoading').hide();"  >
+                                <p:commandLink oncomplete="PF('dlgVerProyecto').show();" onstart="PF('dlgLoading').show();" 
+                                               onsuccess="PF('dlgLoading').hide();"  actionListener="#{dlgVerProyecto.cargarProyecto(sansanoMapa.musproId)}"  >
                                     <h:outputText value=" Ver Más" />
                                 </p:commandLink>                               
                             </p:panel>
 
                             <p:panel  style="border: 0px;"  class="contenidoformulario" rendered="#{sansanoMapa.isAdministrador}" >
-                                <p:commandLink oncomplete="PF('dlgEditarProyecto').show();" onstart="PF('dlgLoading').show();" 
-                                               onsuccess="PF('dlgLoading').hide();"  >
+                                <p:commandLink oncomplete="PF('dlgVerProyecto').show();" onstart="PF('dlgLoading').show();" 
+                                               onsuccess="PF('dlgLoading').hide();"  actionListener="#{dlgVerProyecto.cargarProyecto(sansanoMapa.musproId)}" >
                                     <h:outputText value=" Ver " />
                                 </p:commandLink>
                                 <h:outputText value="/" />
@@ -89,6 +89,8 @@
             <ui:include src="./../DialogGeo/dlgEditarProyecto.xhtml" />
             <ui:include src="./../DialogGeo/dlgEditarProyectoFotos.xhtml" />
             <ui:include src="./../DialogGeo/dlgEditarFoto.xhtml" />
+
+            <ui:include src="./../DialogGeo/dlgVerProyecto.xhtml" />
         </ui:insert>
 
     </ui:define> 
