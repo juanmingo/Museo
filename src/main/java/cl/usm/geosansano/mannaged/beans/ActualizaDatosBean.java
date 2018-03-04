@@ -5,19 +5,26 @@
  */
 package cl.usm.geosansano.mannaged.beans;
 
+import cl.usm.geosansano.comparators.PaisNameComparator;
 import cl.usm.geosansano.comparators.SedeNameComparator;
 import cl.usm.geosansano.entity.CarreraImparte;
+import cl.usm.geosansano.entity.MuseoUsuarioCarrera;
+import cl.usm.geosansano.entity.Pais;
 import cl.usm.geosansano.entity.Sede;
 import cl.usm.geosansano.functions.FuncionFecha;
 import cl.usm.geosansano.sessions.beans.CarreraImparteFacadeLocal;
+import cl.usm.geosansano.sessions.beans.PaisFacadeLocal;
 import cl.usm.geosansano.sessions.beans.SedeFacadeLocal;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
@@ -25,33 +32,48 @@ import javax.inject.Named;
  *
  * @author Alex
  */
-@Named(value = "registroBean")
+@Named(value = "actualizaDatosBean")
 @ViewScoped
-public class RegistroBean implements Serializable {
+public class ActualizaDatosBean implements Serializable {
 
+    @EJB
+    private PaisFacadeLocal paisFacade;
     @EJB
     private SedeFacadeLocal sedeFacade;
     @EJB
     private CarreraImparteFacadeLocal carreraImparteFacade;
-    private String nombres;
+
+    private String nombre;
     private String paterno;
     private String materno;
-    private CarreraImparte carrera;
-    private String pass;
-    private String confirmPass;
-    private String numDocu;
-    private boolean rut;
+    private Date fechaNacimiento;
+    private String correo;
+    private String fono;
+    private Integer rol;
+    private String dvRol;
+
+    private List<Pais> paises;
+    private Pais paisSelected;
     private List<Sede> sedes;
     private Sede sedeSelected;
     private List<CarreraImparte> carrerasImparte;
     private CarreraImparte carreraImparteSelected;
+    private List<MuseoUsuarioCarrera> museoUsuarioCarreras;
     private List<Integer> anios;
     private Integer anioSelected;
+
+    /**
+     * Creates a new instance of RegistroBean
+     */
+    public ActualizaDatosBean() {
+    }
 
     @PostConstruct
     public void init() {
         System.out.println("init registroBean");
-
+        paises = paisFacade.findAll();
+        Collections.sort(paises, new PaisNameComparator());
+        paises.remove(new Pais(0));
         setSedes(sedeFacade.findAll());
         setSedes(getSedes().stream().filter((sede) -> sede.getSedCodSede() >= 1 && sede.getSedCodSede() <= 5 || sede.getSedCodSede() == 15).collect(Collectors.toList()));
         Collections.sort(getSedes(), new SedeNameComparator());
@@ -68,18 +90,46 @@ public class RegistroBean implements Serializable {
         System.out.println("changueSede carrerasImparte.size(): " + carrerasImparte.size());
     }
 
-    /**
-     * @return the nombres
-     */
-    public String getNombres() {
-        return nombres;
+    public void addCarrera() {
+        System.out.println("addCarrera");
+
+        museoUsuarioCarreras = museoUsuarioCarreras == null ? new ArrayList<>() : museoUsuarioCarreras;
+        if (carreraImparteSelected == null) {
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Debe seleccionar una carrera.", "");
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+            return;
+        }
+        MuseoUsuarioCarrera muc = new MuseoUsuarioCarrera(0, carreraImparteSelected.getCarreraSede().getCarreraSedePK().getCodCarrera(),
+                carreraImparteSelected.getCarreraSede().getCarreraSedePK().getSedCodSede());
+        muc.setFechaModificacion(new Date());
+        muc.setMususuIngreso(anioSelected);
+        muc.setSedCodSedeFisica(carreraImparteSelected.getSedCodSede());
+        muc.setCarreraSede(carreraImparteSelected.getCarreraSede());
+        if (museoUsuarioCarreras.contains(muc)) {
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Ya ha sido agregada esta carrera.", "");
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+            return;
+        } else {
+            museoUsuarioCarreras.add(muc);
+        }
+    }
+
+    public void fechaStrFormat(Date fecha) {
+        FuncionFecha.fechaStrFormat(fecha);
     }
 
     /**
-     * @param nombres the nombres to set
+     * @return the nombre
      */
-    public void setNombres(String nombres) {
-        this.nombres = nombres;
+    public String getNombre() {
+        return nombre;
+    }
+
+    /**
+     * @param nombre the nombre to set
+     */
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
     /**
@@ -111,73 +161,101 @@ public class RegistroBean implements Serializable {
     }
 
     /**
-     * @return the carrera
+     * @return the fechaNacimiento
      */
-    public CarreraImparte getCarrera() {
-        return carrera;
+    public Date getFechaNacimiento() {
+        return fechaNacimiento;
     }
 
     /**
-     * @param carrera the carrera to set
+     * @param fechaNacimiento the fechaNacimiento to set
      */
-    public void setCarrera(CarreraImparte carrera) {
-        this.carrera = carrera;
+    public void setFechaNacimiento(Date fechaNacimiento) {
+        this.fechaNacimiento = fechaNacimiento;
     }
 
     /**
-     * @return the pass
+     * @return the correo
      */
-    public String getPass() {
-        return pass;
+    public String getCorreo() {
+        return correo;
     }
 
     /**
-     * @param pass the pass to set
+     * @param correo the correo to set
      */
-    public void setPass(String pass) {
-        this.pass = pass;
+    public void setCorreo(String correo) {
+        this.correo = correo;
     }
 
     /**
-     * @return the confirmPass
+     * @return the fono
      */
-    public String getConfirmPass() {
-        return confirmPass;
+    public String getFono() {
+        return fono;
     }
 
     /**
-     * @param confirmPass the confirmPass to set
+     * @param fono the fono to set
      */
-    public void setConfirmPass(String confirmPass) {
-        this.confirmPass = confirmPass;
+    public void setFono(String fono) {
+        this.fono = fono;
     }
 
     /**
-     * @return the numDocu
+     * @return the rol
      */
-    public String getNumDocu() {
-        return numDocu;
+    public Integer getRol() {
+        return rol;
     }
 
     /**
-     * @param numDocu the numDocu to set
+     * @param rol the rol to set
      */
-    public void setNumDocu(String numDocu) {
-        this.numDocu = numDocu;
+    public void setRol(Integer rol) {
+        this.rol = rol;
     }
 
     /**
-     * @return the rut
+     * @return the dvRol
      */
-    public boolean isRut() {
-        return rut;
+    public String getDvRol() {
+        return dvRol;
     }
 
     /**
-     * @param rut the rut to set
+     * @param dvRol the dvRol to set
      */
-    public void setRut(boolean rut) {
-        this.rut = rut;
+    public void setDvRol(String dvRol) {
+        this.dvRol = dvRol;
+    }
+
+    /**
+     * @return the paises
+     */
+    public List<Pais> getPaises() {
+        return paises;
+    }
+
+    /**
+     * @param paises the paises to set
+     */
+    public void setPaises(List<Pais> paises) {
+        this.paises = paises;
+    }
+
+    /**
+     * @return the paisSelected
+     */
+    public Pais getPaisSelected() {
+        return paisSelected;
+    }
+
+    /**
+     * @param paisSelected the paisSelected to set
+     */
+    public void setPaisSelected(Pais paisSelected) {
+        this.paisSelected = paisSelected;
     }
 
     /**
@@ -234,6 +312,20 @@ public class RegistroBean implements Serializable {
      */
     public void setCarreraImparteSelected(CarreraImparte carreraImparteSelected) {
         this.carreraImparteSelected = carreraImparteSelected;
+    }
+
+    /**
+     * @return the museoUsuarioCarreras
+     */
+    public List<MuseoUsuarioCarrera> getMuseoUsuarioCarreras() {
+        return museoUsuarioCarreras;
+    }
+
+    /**
+     * @param museoUsuarioCarreras the museoUsuarioCarreras to set
+     */
+    public void setMuseoUsuarioCarreras(List<MuseoUsuarioCarrera> museoUsuarioCarreras) {
+        this.museoUsuarioCarreras = museoUsuarioCarreras;
     }
 
     /**

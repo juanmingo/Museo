@@ -11,120 +11,54 @@
             <p:growl id="growl" sticky="true" showDetail="true"/>
             <div class="ui-g">
                 <div class="ui-g-2"></div>
-                <div class="ui-g-8">
-
-
-                    <p:wizard   nextLabel="Siguiente" backLabel="Anterior"  >
-                        <p:tab id="personal" title="Datos Personales">
-                            <p:panelGrid columns="4" layout="grid" >
-                                <h:outputText value="Nombres: *" />
-                                <p:inputText value="#{registroBean.nombre}" label="Nombres"/>
-
-                                <h:outputText value="Apellido Paterno: *" />
-                                <p:inputText value="#{registroBean.paterno}" label="Apellido Paterno"/>
-
-                                <h:outputText value="Apellido Materno: *" />
-                                <p:inputText  value="#{registroBean.materno}" label="Apellido Materno"/>
-
-                                <h:outputText value="Fecha de Nacimiento: " />
-                                <p:calendar value="#{registroBean.fechaNacimiento}"/>
-
-                                <h:outputText value="Nacionalidad: " />
-                                <p:selectOneMenu  value="#{registroBean.paisSelected}" filter="true" filterMatchMode="startsWith" converter="paisConverter" >
-                                    <f:selectItem  itemLabel="Seleccione" itemValue="" />
-                                    <f:selectItems value="#{registroBean.paises}" var="pais" itemLabel="#{pais.nomNacionalidad}" itemValue="#{pais}"/>
-                                </p:selectOneMenu>
-
-                                <h:outputText value="Fono: " />
-                                <p:inputText value="#{registroBean.fono}" />
-
-                                <h:outputText value="Email: *" />
-                                <p:inputText value="#{registroBean.correo}" label="Email"/>
-
-
-                            </p:panelGrid>
-                        </p:tab>
-                        <p:tab id="institucional" title="Datos Institucionales">
-                            <p:panelGrid   >
-                                <p:row>
-                                    <p:column>
-                                        <h:outputText value="Rol: *" />
-                                    </p:column>
-                                    <p:column colspan="7">
-                                        <p:inputText value="#{registroBean.rol}" label="Rol USM"/>
-                                        <h:outputText value=" - " />
-                                        <p:inputText value="#{registroBean.dvRol}" maxlength="1" size="1" label="Rol USM"/>
-                                    </p:column>
-
-                                </p:row>
-                                <p:row>
-                                    <p:column>
-                                        <h:outputText value="Sede: *" />
-                                    </p:column>
-                                    <p:column>
-                                        <p:selectOneMenu id="sedes" value="#{registroBean.sedeSelected}" filter="true" filterMatchMode="startsWith" converter="sedeConverter" >
-                                            <f:selectItem  itemLabel="Seleccione" itemValue="" />
-                                            <f:selectItems value="#{registroBean.sedes}" var="sede" itemLabel="#{sede.sedNomSede} #{sede.sedNombreCampus}" itemValue="#{sede}"/>
-                                            <p:ajax  event="change" listener="#{registroBean.changueSede()}" update="carreras"  />
-                                        </p:selectOneMenu>
-                                    </p:column>
-                                    <p:column>
-                                        <h:outputText value="Carrera: *" />
-                                    </p:column>
-                                    <p:column>
-                                        <p:selectOneMenu id="carreras" value="#{registroBean.carreraImparteSelected}" 
-                                                         style="width: 200px" 
-                                                         filter="true" filterMatchMode="startsWith" converter="carreraImparteConverter" >
-                                            <f:selectItem  itemLabel="Seleccione" itemValue="" />
-                                            <f:selectItems value="#{registroBean.carrerasImparte}" var="carrera" itemLabel="#{carrera.carreraSede.nomCarrera}" itemValue="#{carrera}"/>
-                                        </p:selectOneMenu>
-                                    </p:column>
-                                    <p:column>
-                                        <h:outputText value="Ingreso a la Carrera:" />
-                                    </p:column>
-                                    <p:column>
-                                        <p:selectOneMenu id="anios" value="#{registroBean.anioSelected}" filter="true" filterMatchMode="startsWith" >
-                                            <f:selectItems value="#{registroBean.anios}" var="anio" itemLabel="#{anio}" itemValue="#{anio}"/>
-                                        </p:selectOneMenu>
-                                    </p:column>
-                                    <p:column>
-                                        <p:commandButton actionListener="#{registroBean.addCarrera()}"  update="carrerasDataTable" icon="fa fa-plus" />
-                                    </p:column>
-                                </p:row>
-                                <p:row>
-                                    <p:column colspan="7" >
-                                        <p:dataTable id="carrerasDataTable" var="carr"  
-                                                     value="#{registroBean.museoUsuarioCarreras}" emptyMessage="No se ha agregado carrera">
-                                            <p:column headerText="Carrera" >
-                                                <p:outputLabel value="#{carr.carreraSede.nomCarrera}"/>
-                                            </p:column>
-                                            <p:column headerText="Sede" >
-                                                <p:outputLabel value="#{carr.sedCodSedeFisica.sedNomSede} #{carr.sedCodSedeFisica.sedNombreCampus}"/>
-                                            </p:column>
-                                        </p:dataTable>
-                                    </p:column>
-                                </p:row>
-                            </p:panelGrid>
-                        </p:tab>
-
-                        <p:tab id="confirm" title="Confirmación" >
-                            <p:panelGrid columns="6"  layout="grid">
-                                <h:outputText value="Nombres: " />
-                                <h:outputText />
-
-                                <h:outputText value="Apellido Paterno: " />
-                                <h:outputText  />
-
-                                <h:outputText value="Apellido Materno: " />
-                                <h:outputText  />
-                            </p:panelGrid>
-
-                            <p:commandButton value="Confirmar" update="growl" process="@this"/>
-                        </p:tab>
-                    </p:wizard>
+                <div class="ui-g-8" align="center">
+                    <p:growl id="msg" life="1600"    />
+                    <p:outputLabel value="Registro"/>
                 </div>
                 <div class="ui-g-2"></div>
             </div>
+            <div class="ui-g">
+                <div class="ui-g-4"></div>
+                <div class="ui-g-4" align="center">
+                    <p:panelGrid  class="contenidoformulario"  columns="2" >
+                        <p:outputLabel value="Nombres"/>
+                        <p:inputText value="#{registroBean.nombres}"/>
+                        <p:outputLabel value="Apellido Paterno"/>
+                        <p:inputText value="#{registroBean.paterno}"/>
+                        <p:outputLabel value="Apellido Materno"/>
+                        <p:inputText value="#{registroBean.materno}"/>
+                        <h:outputText value="Sede: *" />
+                        <p:selectOneMenu id="sedes" value="#{registroBean.sedeSelected}" filter="true" filterMatchMode="startsWith" converter="sedeConverter" >
+                            <f:selectItem  itemLabel="Seleccione" itemValue="" />
+                            <f:selectItems value="#{registroBean.sedes}" var="sede" itemLabel="#{sede.sedNomSede} #{sede.sedNombreCampus}" itemValue="#{sede}"/>
+                            <p:ajax  event="change" listener="#{registroBean.changueSede()}" update="carreras"  />
+                        </p:selectOneMenu>
+                        <p:outputLabel value="Ultima Carrera USM"/>
+                        <p:selectOneMenu id="carreras" value="#{registroBean.carreraImparteSelected}" 
+                                         style="width: 200px" 
+                                         filter="true" filterMatchMode="startsWith" converter="carreraImparteConverter" >
+                            <f:selectItem  itemLabel="Seleccione" itemValue="" />
+                            <f:selectItems value="#{registroBean.carrerasImparte}" var="carrera" itemLabel="#{carrera.carreraSede.nomCarrera}" itemValue="#{carrera}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="Año Titulación"/>
+                        <p:selectOneMenu id="anios" value="#{actualizaDatosBean.anioSelected}" filter="true" filterMatchMode="startsWith" >
+                            <f:selectItems value="#{actualizaDatosBean.anios}" var="anio" itemLabel="#{anio}" itemValue="#{anio}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="Contraseña"/>
+                        <p:inputText value="#{registroBean.pass}"/>
+                        <p:outputLabel value="Confirme Contraseña"/>
+                        <p:inputText value="#{registroBean.confirmPass}"/>
+
+
+                    </p:panelGrid>
+                    <!--
+                    <p:captcha label="Captcha" />
+                    <p:commandButton value="Check"   ajax="false" icon="ui-icon-check"/>
+                    -->
+                </div>
+                <div class="ui-g-4"></div>
+            </div>
+
         </h:form>
     </ui:define> 
 </ui:composition>

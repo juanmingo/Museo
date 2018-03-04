@@ -1,0 +1,146 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"              
+                template="./Plantilla/PlantillaSinSession.xhtml">
+    <ui:define name="contenido">        
+        <h:form id="registro" >
+            <p:growl id="growl" sticky="true" showDetail="true"/>
+            <div class="ui-g">
+                <div class="ui-g-2"></div>
+                <div class="ui-g-8">
+
+                    <p:growl id="msg" life="1600"    />
+                    <p:wizard   nextLabel="Siguiente" backLabel="Anterior"  >
+                        <p:tab id="personal" title="Datos Personales">
+                            <p:panelGrid columns="4" layout="grid" >
+                                <h:outputText value="Nombres: *" />
+                                <p:inputText value="#{actualizaDatosBean.nombre}" label="Nombres"/>
+
+                                <h:outputText value="Apellido Paterno: *" />
+                                <p:inputText value="#{actualizaDatosBean.paterno}" label="Apellido Paterno"/>
+
+                                <h:outputText value="Apellido Materno: *" />
+                                <p:inputText  value="#{actualizaDatosBean.materno}" label="Apellido Materno"/>
+
+                                <h:outputText value="Fecha de Nacimiento: " />
+                                <p:calendar value="#{actualizaDatosBean.fechaNacimiento}"/>
+
+                                <h:outputText value="Nacionalidad: " />
+                                <p:selectOneMenu  value="#{actualizaDatosBean.paisSelected}" filter="true" filterMatchMode="startsWith" converter="paisConverter" >
+                                    <f:selectItem  itemLabel="Seleccione" itemValue="" />
+                                    <f:selectItems value="#{actualizaDatosBean.paises}" var="pais" itemLabel="#{pais.nomNacionalidad}" itemValue="#{pais}"/>
+                                </p:selectOneMenu>
+
+                                <h:outputText value="Fono: " />
+                                <p:inputText value="#{actualizaDatosBean.fono}" />
+
+                                <h:outputText value="Email: *" />
+                                <p:inputText value="#{actualizaDatosBean.correo}" label="Email"/>
+
+
+                            </p:panelGrid>
+                        </p:tab>
+                        <p:tab id="institucional" title="Datos Institucionales">
+                            <p:panelGrid   >
+                                <p:row style="border: none;  background: white;" >
+                                    <p:column style="border: none;  background: white;">
+                                        <h:outputText value="Rol: *" />
+                                    </p:column>
+                                    <p:column colspan="7" style="border: none;  background: white;">
+                                        <p:inputText value="#{actualizaDatosBean.rol}" label="Rol USM"/>
+                                        <h:outputText value=" - " />
+                                        <p:inputText value="#{actualizaDatosBean.dvRol}" maxlength="1" size="1" label="Rol USM"/>
+                                    </p:column>
+
+                                </p:row>
+                                <p:row style="border: none;  background: white;">
+                                    <p:column style="border: none;  background: white;">
+                                        <h:outputText value="Sede: *" />
+                                    </p:column>
+                                    <p:column style="border: none;  background: white;">
+                                        <p:selectOneMenu id="sedes" value="#{actualizaDatosBean.sedeSelected}" filter="true" filterMatchMode="startsWith" converter="sedeConverter" >
+                                            <f:selectItem  itemLabel="Seleccione" itemValue="" />
+                                            <f:selectItems value="#{actualizaDatosBean.sedes}" var="sede" itemLabel="#{sede.sedNomSede} #{sede.sedNombreCampus}" itemValue="#{sede}"/>
+                                            <p:ajax  event="change" listener="#{actualizaDatosBean.changueSede()}" update="carreras"  />
+                                        </p:selectOneMenu>
+                                    </p:column>
+                                    <p:column style="border: none;  background: white;">
+                                        <h:outputText value="Carrera: *" />
+                                    </p:column>
+                                    <p:column style="border: none;  background: white;">
+                                        <p:selectOneMenu id="carreras" value="#{actualizaDatosBean.carreraImparteSelected}" 
+                                                         style="width: 200px" 
+                                                         filter="true" filterMatchMode="startsWith" converter="carreraImparteConverter" >
+                                            <f:selectItem  itemLabel="Seleccione" itemValue="" />
+                                            <f:selectItems value="#{actualizaDatosBean.carrerasImparte}" var="carrera" itemLabel="#{carrera.carreraSede.nomCarrera}" itemValue="#{carrera}"/>
+                                        </p:selectOneMenu>
+                                    </p:column>
+                                    <p:column style="border: none;  background: white;">
+                                        <h:outputText value="Ingreso a la Carrera:" />
+                                    </p:column>
+                                    <p:column style="border: none;  background: white;">
+                                        <p:selectOneMenu id="anios" value="#{actualizaDatosBean.anioSelected}" filter="true" filterMatchMode="startsWith" >
+                                            <f:selectItems value="#{actualizaDatosBean.anios}" var="anio" itemLabel="#{anio}" itemValue="#{anio}"/>
+                                        </p:selectOneMenu>
+                                    </p:column>
+                                    <p:column style="border: none;  background: white;">
+                                        <p:commandButton actionListener="#{actualizaDatosBean.addCarrera()}"  update="carrerasDataTable msg"  icon="fa fa-plus" />
+                                    </p:column>
+                                </p:row>
+                                <p:row style="border: none;  background: white;">
+                                    <p:column colspan="7" style="border: none;  background: white;" >
+                                        <p:dataTable id="carrerasDataTable" var="carr"  
+                                                     value="#{actualizaDatosBean.museoUsuarioCarreras}" emptyMessage="No se ha agregado carrera">
+                                            <p:column headerText="Carrera" >
+                                                <p:outputLabel value="#{carr.carreraSede.nomCarrera}"/>
+                                            </p:column>
+                                            <p:column headerText="Sede" >
+                                                <p:outputLabel value="#{carr.sedCodSedeFisica.sedNomSede} #{carr.sedCodSedeFisica.sedNombreCampus}"/>
+                                            </p:column>
+                                        </p:dataTable>
+                                    </p:column>
+                                </p:row>
+                            </p:panelGrid>
+                        </p:tab>
+
+                        <p:tab id="confirm" title="Confirmación" >
+                            <p:panelGrid columns="6" layout="grid" >
+                                <p:outputLabel value="Nombres: " />
+                                <p:outputLabel value="#{actualizaDatosBean.nombre}" />
+
+                                <p:outputLabel value="Apellido Paterno: " />
+                                <p:outputLabel value="#{actualizaDatosBean.paterno}"  />
+
+                                <p:outputLabel value="Apellido Materno: " />
+                                <p:outputLabel  value="#{actualizaDatosBean.materno}"  />
+
+                                <p:outputLabel value="Fecha de Nacimiento: " />
+                                <p:outputLabel value="#{actualizaDatosBean.fechaNacimiento}"/>
+
+                                <p:outputLabel value="Nacionalidad: " />
+                                <p:outputLabel value="#{actualizaDatosBean.paisSelected.nomNacionalidad}" />
+
+
+                                <p:outputLabel value="Fono: " />
+                                <p:outputLabel value="#{actualizaDatosBean.fono}" />
+
+                                <p:outputLabel value="Email: " />
+                                <p:outputLabel value="#{actualizaDatosBean.correo}"  />
+                            </p:panelGrid>
+                            <p:outputLabel value="Carrera/s UTFSM" />
+                            <p:dataList value="#{actualizaDatosBean.carrerasImparte}" var="carrList"   >
+                                <p:outputLabel value="#{carrList.carreraSede.nomCarrera} - #{carrList.sedCodSede.sedNomSede} #{carrList.sedCodSede.sedNombreCampus}"/>                                
+                            </p:dataList>
+                            <p:commandButton value="Confirmar" update="growl" process="@this"/>
+                        </p:tab>
+                    </p:wizard>
+                </div>
+                <div class="ui-g-2"></div>
+            </div>
+        </h:form>
+    </ui:define> 
+</ui:composition>
