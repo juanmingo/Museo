@@ -21,7 +21,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-//import org.hibernate.annotations.Type;
+import org.hibernate.annotations.Type;
 
 /**
  *
@@ -53,7 +53,7 @@ public class MuseoProyectoDetalle implements Serializable {
 
     @Lob
     @Column(name = "musprodet_archivo")
-    //@Type(type = "org.hibernate.type.BinaryType")
+    @Type(type = "org.hibernate.type.BinaryType")
     private byte[] musprodetArchivo;
 
     @Size(max = 1000)
