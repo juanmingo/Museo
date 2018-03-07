@@ -10,16 +10,21 @@
     <ui:define name="contenido">        
         <h:form id="registro" >
             <p:growl id="growl" sticky="true" showDetail="true"/>
-            <div class="ui-g  ">
+            <div class="ui-g fondoMapa">
                 <div class="ui-g-2"></div>
                 <div class="ui-g-8" align="center">
                     <div class="ui-g testbox">
-                        <div class="ui-g-12" ><h1><p:outputLabel value="Registro" style="color: #2F5E80;"/> </h1></div>
+                        <div class="ui-g-12" >
+                            <h1>
+                                <p:graphicImage value="images/logo_USM.png" class="logo"/>
+                                <p:outputLabel value="Formulario de Registro" style="color: #13418b;"/>
+                            </h1>
+                        </div>
                         <div class="ui-g-12" ><hr/></div>
                         <div class="ui-g-6" >
                             <p:graphicImage value="images/icon_perfil_credencial.png" class="iconReg"  />  
                             <p:inputText id="rut" value="#{registroBean.materno}"/>
-                            <p:watermark for="rut" value="Rut/Pasaporte" />
+                             <p:watermark for="rut" value="Rut/Pasaporte" />
                         </div>
                         <div  class="ui-g-6" >
                             <p:graphicImage value="images/icon_perfil_credencial.png" class="iconReg" />                            
@@ -57,7 +62,7 @@
                             <p:graphicImage value="images/icon_perfil_alumno.png" class="iconReg"  />
                             <p:selectOneMenu id="carreras" value="#{registroBean.carreraImparteSelected}" style="max-width: 120px"
                                              filter="true" filterMatchMode="startsWith" converter="carreraImparteConverter" >
-                                <f:selectItem  itemLabel="Ultima Carrera USM" itemValue="" />
+                                <f:selectItem  itemLabel="Última Carrera USM" itemValue="" />
                                 <f:selectItems value="#{registroBean.carrerasImparte}" var="carrera" itemLabel="#{carrera.carreraSede.nomCarrera}" itemValue="#{carrera}"/>
                                 <p:ajax  event="change"  />
                             </p:selectOneMenu>
