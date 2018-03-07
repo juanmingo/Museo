@@ -7,6 +7,9 @@ package cl.usm.geosansano.mannaged.beans;
 
 import cl.usm.geosansano.comparators.SedeNameComparator;
 import cl.usm.geosansano.entity.CarreraImparte;
+import cl.usm.geosansano.entity.MuseoUsuario;
+import cl.usm.geosansano.entity.MuseoUsuarioCarrera;
+import cl.usm.geosansano.entity.MuseoUsuarioCarreraPK;
 import cl.usm.geosansano.entity.Sede;
 import cl.usm.geosansano.functions.FuncionFecha;
 import cl.usm.geosansano.sessions.beans.CarreraImparteFacadeLocal;
@@ -40,6 +43,7 @@ public class RegistroBean implements Serializable {
     private String pass;
     private String confirmPass;
     private String numDocu;
+    private String correo;
     private boolean rut;
     private List<Sede> sedes;
     private Sede sedeSelected;
@@ -47,6 +51,7 @@ public class RegistroBean implements Serializable {
     private CarreraImparte carreraImparteSelected;
     private List<Integer> anios;
     private Integer anioSelected;
+    private String rutPasaporte;
 
     @PostConstruct
     public void init() {
@@ -66,6 +71,22 @@ public class RegistroBean implements Serializable {
         System.out.println("changueSede");
         carrerasImparte = carreraImparteFacade.findBy("CarreraImparte.findByCodSedeImparte", "codSedeImparte", sedeSelected.getSedCodSede());
         System.out.println("changueSede carrerasImparte.size(): " + carrerasImparte.size());
+    }
+
+    public void registrar() {
+        System.out.println("****** registrar");
+        Long id = (long) 0;
+        MuseoUsuario nuevoUser = new MuseoUsuario(id);
+        nuevoUser.setMususuNombres(nombres);
+        nuevoUser.setMususuPaterno(paterno);
+        nuevoUser.setMususuMaterno(materno);
+        nuevoUser.setContraseña(pass);
+        MuseoUsuarioCarrera carreraUser = new MuseoUsuarioCarrera(
+                new MuseoUsuarioCarreraPK(id,
+                        carreraImparteSelected.getCarreraImpartePK().getCodSedeImparte(),
+                        carreraImparteSelected.getCarreraImpartePK().getCodCarrera()
+                ));
+        
     }
 
     /**
@@ -262,6 +283,34 @@ public class RegistroBean implements Serializable {
      */
     public void setAnioSelected(Integer anioSelected) {
         this.anioSelected = anioSelected;
+    }
+
+    /**
+     * @return the rutPasaporte
+     */
+    public String getRutPasaporte() {
+        return rutPasaporte;
+    }
+
+    /**
+     * @param rutPasaporte the rutPasaporte to set
+     */
+    public void setRutPasaporte(String rutPasaporte) {
+        this.rutPasaporte = rutPasaporte;
+    }
+
+    /**
+     * @return the correo
+     */
+    public String getCorreo() {
+        return correo;
+    }
+
+    /**
+     * @param correo the correo to set
+     */
+    public void setCorreo(String correo) {
+        this.correo = correo;
     }
 
 }
