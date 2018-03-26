@@ -7,6 +7,7 @@ package cl.usm.geosansano.sessions.beans;
 
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 
 /**
  *
@@ -65,4 +66,14 @@ public abstract class AbstractFacade<T> {
         return getEntityManager().createNamedQuery(query).setParameter(field, param).getResultList();
     }
 
+    public Long querySimple(String query) {
+        Long retorno;
+        try {
+            retorno = (Long) getEntityManager().createNamedQuery(query).getSingleResult();
+        } catch (NoResultException nre) {
+            retorno = (long) 0;
+        }
+
+        return retorno;
+    }
 }

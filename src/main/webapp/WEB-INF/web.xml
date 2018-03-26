@@ -29,6 +29,15 @@
         <param-name>javax.faces.PARTIAL_STATE_SAVING</param-name>
         <param-value>true</param-value>
     </context-param>
+    <context-param>
+        <param-name>primefaces.PRIVATE_CAPTCHA_KEY</param-name>
+        <param-value>6LfmjEsUAAAAAO0hXVLe0R5pPGvfDwlueCtmn18v</param-value>
+    </context-param>
+    <context-param>
+        <param-name>primefaces.PUBLIC_CAPTCHA_KEY</param-name>
+        <param-value>6LfmjEsUAAAAAAJdUZ9V7tR9HjNcQI2y0szl2Tso</param-value>
+    </context-param>
+    
     <servlet-mapping>
         <servlet-name>Faces Servlet</servlet-name>
         <url-pattern>*.jsf</url-pattern>

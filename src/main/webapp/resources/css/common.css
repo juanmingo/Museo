@@ -453,7 +453,7 @@ body {
 .testbox {
 
     margin: 5px auto;
-    width: 40%; 
+    width: 50%; 
     height: 100%;
     -webkit-border-radius: 8px/7px; 
     -moz-border-radius: 8px/7px; 
@@ -473,7 +473,7 @@ body {
     max-width: 250px;
 }
 .iconReg {
-    width: 30px;
+    width: 40px;
     /*display: inline-block;
     background-color: #3a57af;
     padding: 8px 0px 8px 15px;
@@ -493,5 +493,9 @@ body {
 hr{
     color: #a9a9a9;
     opacity: 0.3;
+}
+
+.inputRegistro{
+    width: 100%;
 }
 

@@ -29,10 +29,11 @@ public interface MuseoUsuarioFacadeLocal {
     List<MuseoUsuario> findRange(int[] range);
 
     int count();
-    
+
     //Busqueda Cuenta
     MuseoUsuario findByCuenta(String correo, String contraseña);
 
     MuseoUsuario findByCorreo(String correo);
 
+    Long querySimple(String query);
 }

@@ -21,74 +21,53 @@
                             </h1>
                         </div>
                         <div class="ui-g-12" ><hr/></div>
-                        <div class="ui-g-6" >
-                            <p:graphicImage value="images/icon_perfil_credencial.png" class="iconReg"  />  
-                            <p:inputText id="rut" value="#{registroBean.materno}" style="width: 100%" />
-                             <p:watermark for="rut" value="Rut/Pasaporte" />
-                        </div>
-                        <div  class="ui-g-6" >
+                        <div  class="ui-g-12" >
                             <p:graphicImage value="images/icon_perfil_credencial.png" class="iconReg" />                            
-                            <p:inputText id="nom" value="#{registroBean.nombres}" style="width: 100%" />
+                            <p:inputText id="nom" value="#{registroBean.nombres}" class="inputRegistro" validator="stringObligatorioValidator" >
+                                <f:attribute name="strReturnValidator" value="Debe ingresar un Nombre." />
+                            </p:inputText>
                             <p:watermark for="nom" value="Nombre"  />
                         </div>
 
                         <div class="ui-g-6" >
                             <p:graphicImage value="images/icon_perfil_credencial.png" class="iconReg"/>  
-                            <p:inputText id="pat" value="#{registroBean.paterno}" style="width: 100%" />
+                            <p:inputText id="pat" value="#{registroBean.paterno}" class="inputRegistro"  validator="stringObligatorioValidator"  >
+                                <f:attribute name="strReturnValidator" value="Debe ingresar Apellido Paterno." />
+                            </p:inputText>
                             <p:watermark for="pat" value="Apellido Paterno" />
                         </div>
 
                         <div class="ui-g-6" >
                             <p:graphicImage value="images/icon_perfil_credencial.png" class="iconReg"  />  
-                            <p:inputText id="mat" value="#{registroBean.materno}" style="width: 100%"/>
+                            <p:inputText id="mat" value="#{registroBean.materno}" class="inputRegistro"  validator="stringObligatorioValidator"  >
+                                <f:attribute name="strReturnValidator" value="Debe ingresar Apellido Materno." />
+                            </p:inputText>
                             <p:watermark for="mat" value="Apellido Materno" />
                         </div>
                         <div class="ui-g-6" >
                             <p:graphicImage value="images/icon_perfil_credencial.png" class="iconReg"  />  
-                            <p:inputText id="mail" value="#{registroBean.materno}" style="width: 100%" />
+                            <p:inputText id="mail" value="#{registroBean.correo}" class="inputRegistro" binding="#{mail}" validator="emailValidator"   >
+                            </p:inputText>
                             <p:watermark for="mail" value="Correo" />
                         </div>
-                        <div class="ui-g-12" ><hr/></div>
-                        <div class="ui-g-8"  >
-                            <p:graphicImage value="images/icon_perfil_alumno.png" class="iconReg"  />
-                            <p:selectOneMenu id="sedes" value="#{registroBean.sedeSelected}" 
-                                             filter="true" filterMatchMode="startsWith" converter="sedeConverter" >
-                                <f:selectItem  itemLabel="Sede Ultima Carrrera USM" itemValue="" />
-                                <f:selectItems value="#{registroBean.sedes}" var="sede" itemLabel="#{sede.sedNomSede} #{sede.sedNombreCampus}" itemValue="#{sede}"/>
-                                <p:ajax  event="change" listener="#{registroBean.changueSede()}" update="carreras"  />
-                            </p:selectOneMenu>
-                        </div>
                         <div class="ui-g-6" >
-                            <p:graphicImage value="images/icon_perfil_alumno.png" class="iconReg"  />
-                            <p:selectOneMenu id="carreras" value="#{registroBean.carreraImparteSelected}" style="max-width: 120px"
-                                             filter="true" filterMatchMode="startsWith" converter="carreraImparteConverter" >
-                                <f:selectItem  itemLabel="Última Carrera USM" itemValue="" />
-                                <f:selectItems value="#{registroBean.carrerasImparte}" var="carrera" itemLabel="#{carrera.carreraSede.nomCarrera}" itemValue="#{carrera}"/>
-                                <p:ajax  event="change"  />
-                            </p:selectOneMenu>
+                            <p:graphicImage value="images/icon_perfil_credencial.png" class="iconReg"  />  
+                            <p:inputText id="mailconfirm" value="#{registroBean.correoConfirm}" class="inputRegistro" validator="emailValidator">
+                                <f:attribute name="mail" value="#{mail}"  />
+                            </p:inputText>
+                            <p:watermark for="mailconfirm" value="Confirme Correo" />
                         </div>
-
-                        <div class="ui-g-6" >
-                            <p:graphicImage value="images/icon_perfil_alumno.png" class="iconReg"  />  
-                            <p:selectOneMenu id="anios" value="#{registroBean.anioSelected}"  style="max-width: 80px"
-                                             filter="true" filterMatchMode="startsWith" >
-                                <f:selectItem  itemLabel="Año Titulo" itemValue="" />
-                                <f:selectItems value="#{registroBean.anios}" var="anio" itemLabel="#{anio}" itemValue="#{anio}"/>
-                                <p:ajax  event="change"  />
-                            </p:selectOneMenu>
-                        </div>
-
                         <div class="ui-g-12" ><hr/></div>
-
                         <div class="ui-g-6" >
                             <p:graphicImage value="images/icon_perfil_llave.png" class="iconReg"  />  
-                            <p:password id="pass" value="#{registroBean.pass}" />
+                            <p:password id="pass" value="#{registroBean.pass}" class="inputRegistro" binding="#{password}" validator="passwValidator" />
                             <p:watermark for="pass" value="Contraseña" />
                         </div>
-
                         <div class="ui-g-6" >
                             <p:graphicImage value="images/icon_perfil_llave.png" class="iconReg"  />  
-                            <p:password id="confirmPass" value="#{registroBean.confirmPass}" />
+                            <p:password id="confirmPass" value="#{registroBean.confirmPass}" class="inputRegistro" validator="passwValidator"  >
+                                <f:attribute name="password" value="#{password}"  />
+                            </p:password>
                             <p:watermark for="confirmPass" value="Confirma Contraseña" />
                         </div>
 
@@ -96,19 +75,15 @@
 
 
                         <div class="ui-g-8" >
-                            <p:outputLabel value="aqui va un captcha "/>
+                            <!--p:captcha label="Captcha"  language="es" /-->
                         </div> 
 
                         <div class="ui-g-4" >
-                            <p:commandButton value="Registrar" actionListener="#{registroBean.registrar()}" icon="fa fa-check"/>
+                            <p:commandButton value="Registrar" update="growl" actionListener="#{registroBean.registrar()}" style="width: 100%;" icon="fa fa-check"/>
                         </div> 
 
                     </div>
 
-                    <!--
-                    <p:captcha label="Captcha" />
-                    <p:commandButton value="Check"   ajax="false" icon="ui-icon-check"/>
-                    -->
                 </div>
                 <div class="ui-g-2"></div>
             </div>

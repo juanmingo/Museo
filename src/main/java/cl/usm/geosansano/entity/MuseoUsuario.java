@@ -50,16 +50,16 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "MuseoUsuario.findByMususuRolDv", query = "SELECT m FROM MuseoUsuario m WHERE m.mususuRolDv = :mususuRolDv")
     , @NamedQuery(name = "MuseoUsuario.findByMususuIdUsu", query = "SELECT m FROM MuseoUsuario m WHERE m.mususuIdUsu = :mususuIdUsu")
     , @NamedQuery(name = "MuseoUsuario.findByFechaModificacion", query = "SELECT m FROM MuseoUsuario m WHERE m.fechaModificacion = :fechaModificacion")
+    , @NamedQuery(name = "MuseoUsuario.maxMususuId", query = "SELECT COALESCE(MAX(m.mususuId),0) FROM MuseoUsuario m")
 
     //Busqueda Cuenta
     , @NamedQuery(name = "MuseoUsuario.findByCuenta", query = "SELECT m FROM MuseoUsuario m WHERE m.correo = :correo AND m.contraseña = :contraseña")
 })
 public class MuseoUsuario implements Serializable {
 
-    @Lob
+    /* @Lob
     @Column(name = "mususu_archivo")
-    private byte[] mususuArchivo;
-
+    private byte[] mususuArchivo;*/
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -210,14 +210,13 @@ public class MuseoUsuario implements Serializable {
         this.mususuRolDv = mususuRolDv;
     }
 
-    public byte[] getMususuArchivo() {
+    /* public byte[] getMususuArchivo() {
         return mususuArchivo;
     }
 
     public void setMususuArchivo(byte[] mususuArchivo) {
         this.mususuArchivo = mususuArchivo;
-    }
-
+    }*/
     public BigInteger getMususuIdUsu() {
         return mususuIdUsu;
     }
