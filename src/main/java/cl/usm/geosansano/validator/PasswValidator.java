@@ -26,8 +26,8 @@ public class PasswValidator implements javax.faces.validator.Validator {
 
         UIInput passUI = (UIInput) component.getAttributes().get("password");
         String pass = "";
-        
-        if (passUI != null) {
+
+        if (passUI != null && passUI.getValue() != null) {
             pass = (String) passUI.getValue().toString();
         }
 

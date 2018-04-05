@@ -488,7 +488,7 @@ body {
     border: solid 0px #cbc9c9;*/
 }
 .logo{
-    width: 80px;
+    max-width: 160px;
 }
 hr{
     color: #a9a9a9;
@@ -497,5 +497,8 @@ hr{
 
 .inputRegistro{
     width: 100%;
+}
+.titulo{
+    font-size: x-large;
 }
 

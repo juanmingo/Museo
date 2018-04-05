@@ -26,8 +26,8 @@ public class EmailValidator implements javax.faces.validator.Validator {
 
         UIInput correoUI = (UIInput) component.getAttributes().get("mail");
         String correo = "";
-        
-        if (correoUI != null) {
+
+        if (correoUI != null && correoUI.getValue() != null) {
             correo = (String) correoUI.getValue().toString();
         }
 
