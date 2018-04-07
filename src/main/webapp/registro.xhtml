@@ -5,18 +5,18 @@
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"              
-                template="./Plantilla/PlantillaSinSession.xhtml">
+                template="./Plantilla/PlantillaRegistro.xhtml">
     <link href="resources/css/common.css" rel="stylesheet" type="text/css"/>
     <ui:define name="contenido">        
         <h:form id="registro" >
-            <p:growl id="growl" sticky="true" showDetail="true"/>
+            <p:growl id="growl" sticky="true" showDetail="true"  />
 
-            <div class="ui-g ui-fluid fondoMapa" >
+            <div class="ui-g ui-fluid " >
                 <div class="ui-g-2 "></div>
-                <div class="ui-g-8 " >
+                <div class="ui-g-8 " style="height: 610px;" >
                     <div class="testbox">
                         <div class="ui-g-12" align="center" >
-                            <p:graphicImage value="images/logo_USM.png" class="logo" />
+                            <p:graphicImage value="images/logo_USM.png" class="logo" style="width: 90%;" />
                         </div>
                         <div class="ui-g-12" align="center" >
                             <p:outputLabel value="Formulario de Registro" style="color: #13418b;"/>
@@ -59,10 +59,12 @@
                         <div class="ui-g-12" >
                             <!--p:captcha label="Captcha"  language="es" /-->
                         </div> 
-                        <p:commandButton value="Registrar" update="growl"  actionListener="#{registroBean.registrar()}" icon="fa fa-check"/>
+                        <div class="ui-g-12" align="center" >
+                            <p:commandButton value="Registrar" update="growl"  actionListener="#{registroBean.registrar()}" icon="fa fa-check" style="width: 90%;" />
+                        </div>
                     </div>
                 </div>
-                <div class="ui-g-2 "></div>
+               
             </div>
         </h:form>
     </ui:define> 
