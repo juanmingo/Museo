@@ -94,7 +94,14 @@ public class GeneralMapa implements Serializable {
          */
         this.central_latitud = event.getCenter().getLat();
         this.central_longitud = event.getCenter().getLng();
-        this.central_zoom = event.getZoomLevel();
+
+        if (event.getZoomLevel() < 4) {
+            this.central_zoom = 4;
+        } else {
+            this.central_zoom = event.getZoomLevel();
+
+        }
+
         LatLngBounds coordenadas = event.getBounds();
 
         this.mapModel = new DefaultMapModel();
@@ -111,6 +118,11 @@ public class GeneralMapa implements Serializable {
             }
             this.mapModel.addOverlay(marker);
         }
+
+        RequestContext context = RequestContext.getCurrentInstance();
+        context.update("formGeneral:msjProyectosGeneral");
+        context.update("formGeneral:mapGeoGeneral");
+
     }
 
     public void addMessage(FacesMessage message) {

@@ -4,9 +4,8 @@ package cl.usm.geosansano.webapp.dialog;
 import cl.usm.geosansano.entity.MuseoProyecto;
 import cl.usm.geosansano.entity.MuseoProyectoDetalle;
 import cl.usm.geosansano.entity.MuseoUsuario;
-import cl.usm.geosansano.entity.Pais;
+import cl.usm.geosansano.functions.FuncionFotoMuseo;
 import cl.usm.geosansano.functions.FuncionNumero;
-import cl.usm.geosansano.functions.FuncionSelectItem;
 import cl.usm.geosansano.sessions.beans.MuseoProyectoDetalleFacadeLocal;
 import cl.usm.geosansano.sessions.beans.MuseoProyectoFacadeLocal;
 import cl.usm.geosansano.sessions.beans.MuseoUsuarioFacadeLocal;
@@ -15,15 +14,12 @@ import cl.usm.geosansano.sessions.beans.TipoVigenciaFacadeLocal;
 import cl.usm.geosansano.sistema.Common;
 import java.io.Serializable;
 import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.model.SelectItem;
 import org.primefaces.context.RequestContext;
 import org.primefaces.model.StreamedContent;
 
@@ -54,10 +50,12 @@ public class DlgVerProyecto implements Serializable {
     private BigInteger mususuId;
 
     //
-    private StreamedContent objStreamedContent;
     //
     private List<MuseoProyectoDetalle> museoProyectoDetalleList;
+    private List<StreamedContent> fotoProyectoList;
+    private StreamedContent fotoProyecto;
 
+    //private StreamedContent objStreamedContent;
 //</editor-fold>
     public void cargarProyecto(long musproId) {
 
@@ -69,6 +67,21 @@ public class DlgVerProyecto implements Serializable {
         System.out.println("musproId: " + musproId);
 
         this.museoProyectoDetalleList = museoProyectoDetalleFL.findByDetalleActivo(this.museoProyect.getMusproId());
+
+        this.fotoProyectoList = FuncionFotoMuseo.obtenerFotoDetalleList(this.museoProyectoDetalleList);
+
+        for (StreamedContent objFoto : this.fotoProyectoList) {
+            this.fotoProyecto = objFoto;
+
+            System.out.println("getName: " + objFoto.getName());
+            System.out.println("getContentEncoding: " + objFoto.getContentEncoding());
+            System.out.println("getContentType: " + objFoto.getContentType());
+            System.out.println("getStream: " + objFoto.getStream());
+
+            break;
+        }
+
+        System.out.println("this.fotosProyectoList: " + this.fotoProyectoList.size());
 
         RequestContext context = RequestContext.getCurrentInstance();
         context.update("formVerProyecto:dlgVerProyecto");
@@ -86,6 +99,29 @@ public class DlgVerProyecto implements Serializable {
     public void setMuseoProyect(MuseoProyecto museoProyect) {
         this.museoProyect = museoProyect;
     }
-//</editor-fold>
 
+    public List<StreamedContent> getFotoProyectoList() {
+        return fotoProyectoList;
+    }
+
+    public void setFotoProyectoList(List<StreamedContent> fotoProyectoList) {
+        this.fotoProyectoList = fotoProyectoList;
+    }
+
+    public StreamedContent getFotoProyecto() {
+        return fotoProyecto;
+    }
+
+    public void setFotoProyecto(StreamedContent fotoProyecto) {
+        this.fotoProyecto = fotoProyecto;
+    }
+
+    public List<MuseoProyectoDetalle> getMuseoProyectoDetalleList() {
+        return museoProyectoDetalleList;
+    }
+
+    public void setMuseoProyectoDetalleList(List<MuseoProyectoDetalle> museoProyectoDetalleList) {
+        this.museoProyectoDetalleList = museoProyectoDetalleList;
+    }
+    //</editor-fold>
 }

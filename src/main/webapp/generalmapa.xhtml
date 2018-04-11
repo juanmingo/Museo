@@ -15,21 +15,21 @@
                 <p:gmap id="mapGeoGeneral" model="#{generalMapa.mapModel}" center="#{generalMapa.central_latitud}, #{generalMapa.central_longitud}" 
                         zoom="#{generalMapa.central_zoom}" type="HYBRID" style="width:100%;height:92%" >
 
-                    <p:ajax event="stateChange" listener="#{generalMapa.onStateChange}" update="msjProyectosGeneral mapGeoGeneral" />
-
+                    <p:ajax event="stateChange" listener="#{generalMapa.onStateChange}"  />
                     <p:ajax event="overlaySelect" listener="#{generalMapa.onMarkerSelect}" />
+
                     <p:gmapInfoWindow id="infoWindow">
                         <p:outputPanel style="text-align: center; display: block; margin: auto">
-
                             <h:outputText value="#{generalMapa.museoProyect.musproNombre}" />
-
-
                         </p:outputPanel>
                     </p:gmapInfoWindow>
 
                 </p:gmap>
             </f:view> 
 
+        </h:form>
+
+        <h:form id="formLogin" class="formSinBordes" >
             <p:dialog header="Acceso Geo Museo Sansano" id="dlgLoginUsuario" widgetVar="dlgLoginUsuario" 
                       modal="true" width="290" height="160" draggable="false" resizable="false">
 
@@ -76,8 +76,9 @@
                 </h:panelGrid>
 
             </p:dialog>
-
         </h:form>
+
+
 
     </ui:define> 
 </ui:composition>

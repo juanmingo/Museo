@@ -13,7 +13,7 @@
 
                 <h:form id="formVerProyecto" class="formSinBordes contenidoformulario">
 
-                    <p:dialog id="dlgVerProyecto" widgetVar="dlgVerProyecto" header="Editar Proyecto"
+                    <p:dialog id="dlgVerProyecto" widgetVar="dlgVerProyecto" header="Ver Proyecto"
                               showEffect="fade" modal="true" resizable="false" closable="true" width="50%"  >
 
 
@@ -68,6 +68,13 @@
                             <p:outputLabel value="#{dlgVerProyecto.museoProyect.musproLongitud}" />
 
                         </h:panelGrid>
+
+
+
+                        <p:galleria value="#{dlgVerProyecto.fotoProyectoList}" var="image"  >
+                            <p:graphicImage value="#{dlgVerProyecto.fotoProyecto}" />
+                        </p:galleria>
+
 
 
                     </p:dialog>
