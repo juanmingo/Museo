@@ -10,6 +10,8 @@ public abstract class Pagina implements Serializable {
 
     public static final String NOMBRE_WAR = "geosansano";
 
+    public static final String CARPETA_IMAGENES_PROYECTO = "FotosProyectos/";
+
     public static final String COLOR_ESTADO_PENDIENTE = "color: #89004B; font-weight: bold;";
     public static final String COLOR_ESTADO_ENVIADA = "color: #FFD102; font-weight: bold;";
     public static final String COLOR_ESTADO_APROBADA = "color: #0D8542; font-weight: bold;";

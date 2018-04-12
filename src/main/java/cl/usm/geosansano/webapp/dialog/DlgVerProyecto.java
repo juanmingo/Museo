@@ -12,6 +12,8 @@ import cl.usm.geosansano.sessions.beans.MuseoUsuarioFacadeLocal;
 import cl.usm.geosansano.sessions.beans.PaisFacadeLocal;
 import cl.usm.geosansano.sessions.beans.TipoVigenciaFacadeLocal;
 import cl.usm.geosansano.sistema.Common;
+import cl.usm.geosansano.sistema.Pagina;
+import java.io.File;
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.List;
@@ -20,6 +22,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.servlet.ServletContext;
 import org.primefaces.context.RequestContext;
 import org.primefaces.model.StreamedContent;
 
@@ -54,6 +57,7 @@ public class DlgVerProyecto implements Serializable {
     private List<MuseoProyectoDetalle> museoProyectoDetalleList;
     private List<StreamedContent> fotoProyectoList;
     private StreamedContent fotoProyecto;
+    private String rutaCarpetaServer = "";
 
     //private StreamedContent objStreamedContent;
 //</editor-fold>
@@ -72,16 +76,16 @@ public class DlgVerProyecto implements Serializable {
 
         for (StreamedContent objFoto : this.fotoProyectoList) {
             this.fotoProyecto = objFoto;
-
-            System.out.println("getName: " + objFoto.getName());
-            System.out.println("getContentEncoding: " + objFoto.getContentEncoding());
-            System.out.println("getContentType: " + objFoto.getContentType());
-            System.out.println("getStream: " + objFoto.getStream());
-
-            break;
+            System.out.println("D:/Servidores/Wildfly-11.0.0.Final/bin/FotosProyectos/" + objFoto.getName());
         }
 
-        System.out.println("this.fotosProyectoList: " + this.fotoProyectoList.size());
+        System.out.println("2 ******************: " + Common.obtenerAbsolutePath());
+
+        FuncionFotoMuseo.guardarFotosProyectoServidor(this.museoProyectoDetalleList);
+
+        ServletContext sc = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+        this.rutaCarpetaServer = sc.getRealPath(Pagina.CARPETA_IMAGENES_PROYECTO) + "/";
+        System.out.println("** rutaCarpetaServer: " + this.rutaCarpetaServer);
 
         RequestContext context = RequestContext.getCurrentInstance();
         context.update("formVerProyecto:dlgVerProyecto");
@@ -122,6 +126,14 @@ public class DlgVerProyecto implements Serializable {
 
     public void setMuseoProyectoDetalleList(List<MuseoProyectoDetalle> museoProyectoDetalleList) {
         this.museoProyectoDetalleList = museoProyectoDetalleList;
+    }
+
+    public String getRutaCarpetaServer() {
+        return rutaCarpetaServer;
+    }
+
+    public void setRutaCarpetaServer(String rutaCarpetaServer) {
+        this.rutaCarpetaServer = rutaCarpetaServer;
     }
     //</editor-fold>
 }

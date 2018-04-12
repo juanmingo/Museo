@@ -1,5 +1,6 @@
 package cl.usm.geosansano.sistema;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 import javax.faces.bean.ManagedBean;
@@ -105,6 +106,12 @@ public class Common implements Serializable {
         HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         String url = request.getRequestURL().toString();
         return url.substring(0, url.length() - request.getRequestURI().length()) + request.getContextPath();
+    }
+
+    public static String obtenerAbsolutePath() {
+        String ruta = new File(".").getAbsolutePath();
+        ruta = ruta.substring(0, ruta.length() - 1);
+        return ruta;
     }
 
     public static void doNoCache() {
