@@ -1,6 +1,7 @@
 package cl.usm.geosansano.webapp;
 
 //<editor-fold defaultstate="collapsed" desc="Imports">
+import cl.usm.geosansano.correo.EnviarCorreoGmail;
 import cl.usm.geosansano.entity.MuseoUsuario;
 import cl.usm.geosansano.functions.FuncionCorreo;
 import cl.usm.geosansano.functions.FuncionMD5;
@@ -33,7 +34,7 @@ public class NavegacionUser implements Serializable {
     //
     private String cuentaUsuario = "";
     private String cuentaContraseña = "";
-    private String mensajeErrorLogin = "";    
+    private String mensajeErrorLogin = "";
 
     public void limpiarVariables() {
         this.cuentaUsuario = "";
@@ -64,6 +65,16 @@ public class NavegacionUser implements Serializable {
                 if (this.museoUsuario == null) {
                     this.mensajeErrorLogin = "¡Usuario y/o Contraseña Incorrectos!";
                 } else {
+
+                    String nombrePersonalFrom = "Registro Geo UTFSM - Sansanos por el Mundo";
+                    String destinatario = "juan.delgador@gmail.com";
+                    //String copia = "juan.delgado@usm.cl";
+                    String asunto = "Prueba Desarrollo USM";
+                    String mensaje = "Alo!! Probando!! D: <br/>";
+
+                    EnviarCorreoGmail objEnviarCorreoGmail = new EnviarCorreoGmail();
+                    objEnviarCorreoGmail.correo(nombrePersonalFrom, destinatario, null, asunto, mensaje);
+
                     FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("cuentaUsuario", this.cuentaUsuario);
                     FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("codPerfil", this.museoUsuario.getCodPerfil());
                     FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("mususuId", this.museoUsuario.getMususuId());
