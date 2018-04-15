@@ -11,75 +11,79 @@
         <h:body>
             <ui:composition>
 
-                <h:form id="formVerProyecto" class="formSinBordes contenidoformulario">
+                <p:dialog id="dlgVerProyecto"  widgetVar="dlgVerProyecto" class="contenidoformulario"
+                          header="Ver Proyecto" position="top top"
+                          showEffect="fade" modal="true" resizable="false" closable="true" style="width: 500px; height: 300px;" >
 
-                    <p:dialog id="dlgVerProyecto" widgetVar="dlgVerProyecto" header="Ver Proyecto"
-                              showEffect="fade" modal="true" resizable="false" closable="true" width="50%"  >
+                    <h:panelGrid id="pnVerProyecto" cellspacing="1" columns="5" class="contenidoformulario" style="width: 500px;">
 
+                        <p:outputLabel value="Nombre" />
+                        <h:panelGrid width="1px" />
+                        <p:outputLabel value=":" />
+                        <h:panelGrid width="1px" />                            
+                        <p:outputLabel value="#{dlgVerProyecto.museoProyect.musproNombre}" />
 
-                        <h:panelGrid cellspacing="5" columns="5" class="contenidoformulario" width="100%">
+                        <p:outputLabel value="Descripción" />
+                        <h:panelGrid width="1px" />
+                        <p:outputLabel value=":" />
+                        <h:panelGrid width="1px" />
+                        <p:outputLabel value="#{dlgVerProyecto.museoProyect.musproDescripcion}" />
 
-                            <p:outputLabel value="Nombre" />
-                            <h:panelGrid width="1px" />
-                            <p:outputLabel value=":" />
-                            <h:panelGrid width="1px" />                            
-                            <p:outputLabel value="#{dlgVerProyecto.museoProyect.musproNombre}" />
-
-                            <p:outputLabel value="Descripción" />
-                            <h:panelGrid width="1px" />
-                            <p:outputLabel value=":" />
-                            <h:panelGrid width="1px" />
-                            <p:outputLabel value="#{dlgVerProyecto.museoProyect.musproDescripcion}" />
-
-                            <p:outputLabel value="Pais" />
-                            <h:panelGrid width="1px" />
-                            <p:outputLabel value=":" />
-                            <h:panelGrid width="1px" />
-                            <p:outputLabel value="#{dlgVerProyecto.museoProyect.codPais.nomPais}" />
+                        <p:outputLabel value="Pais" />
+                        <h:panelGrid width="1px" />
+                        <p:outputLabel value=":" />
+                        <h:panelGrid width="1px" />
+                        <p:outputLabel value="#{dlgVerProyecto.museoProyect.codPais.nomPais}" />
 
 
-                            <p:outputLabel value="Ciudad" />
-                            <h:panelGrid width="1px" />
-                            <p:outputLabel value=":" />
-                            <h:panelGrid width="1px" />                            
-                            <p:outputLabel value="#{dlgVerProyecto.museoProyect.musproCiudad}" />
+                        <p:outputLabel value="Ciudad" />
+                        <h:panelGrid width="1px" />
+                        <p:outputLabel value=":" />
+                        <h:panelGrid width="1px" />                            
+                        <p:outputLabel value="#{dlgVerProyecto.museoProyect.musproCiudad}" />
 
 
-                            <p:outputLabel value="Año" />
-                            <h:panelGrid width="1px" />
-                            <p:outputLabel value=":" />
-                            <h:panelGrid width="1px" />                            
-                            <p:outputLabel value="#{dlgVerProyecto.museoProyect.musproAño}" />
+                        <p:outputLabel value="Año" />
+                        <h:panelGrid width="1px" />
+                        <p:outputLabel value=":" />
+                        <h:panelGrid width="1px" />                            
+                        <p:outputLabel value="#{dlgVerProyecto.museoProyect.musproAño}" />
 
-                            <h:panelGrid/><h:panelGrid/><h:panelGrid/><h:panelGrid/><h:panelGrid/>
+                        <h:panelGrid/><h:panelGrid/><h:panelGrid/><h:panelGrid/><h:panelGrid/>
 
-                            <p:outputLabel value="Latitud" />
-                            <h:panelGrid width="1px" />
-                            <p:outputLabel value=":" />
-                            <h:panelGrid width="1px" />
-                            <p:outputLabel value="#{dlgVerProyecto.museoProyect.musproLatitud}" />
+                        <p:outputLabel value="Latitud" />
+                        <h:panelGrid width="1px" />
+                        <p:outputLabel value=":" />
+                        <h:panelGrid width="1px" />
+                        <p:outputLabel value="#{dlgVerProyecto.museoProyect.musproLatitud}" />
 
-                            <h:panelGrid/><h:panelGrid/><h:panelGrid/><h:panelGrid/><h:panelGrid/>
+                        <h:panelGrid/><h:panelGrid/><h:panelGrid/><h:panelGrid/><h:panelGrid/>
 
-                            <p:outputLabel value="Longitud" />
-                            <h:panelGrid width="1px" />
-                            <p:outputLabel value=":" />
-                            <h:panelGrid width="1px" />
-                            <p:outputLabel value="#{dlgVerProyecto.museoProyect.musproLongitud}" />
+                        <p:outputLabel value="Longitud" />
+                        <h:panelGrid width="1px" />
+                        <p:outputLabel value=":" />
+                        <h:panelGrid width="1px" />
+                        <p:outputLabel value="#{dlgVerProyecto.museoProyect.musproLongitud}" />
 
-                        </h:panelGrid>
+                    </h:panelGrid>   
 
-                        <p:outputLabel value="#{dlgVerProyecto.rutaCarpetaServer}" />
+                    <h:panelGrid columns="2" class="contenidoformulario">
+                        <p:commandButton type="button" onclick="PF('switcher').previous();"
+                                         icon="ui-icon-circle-triangle-w" id="prev"/>
+                        <p:commandButton type="button" onclick="PF('switcher').next();"
+                                         icon="ui-icon-circle-triangle-e" id="next"/>
+                    </h:panelGrid>
+                    <p:imageSwitch  effect="wipe" widgetVar="switcher" id="manuelSwitcher"
+                                    slideshowAuto="true" style="width: 500px; height: 300px;" >
+                        <ui:repeat value="#{dlgVerProyecto.listarImagenProyecto}"
+                                   var="image" id="manuelSwitcherImages"  >
+                            <p:graphicImage value="#{image.rutaImagen}"  style="width: 500px; height: 300px;"
+                                            alt="#{image.museoProyectoDetalle.musprodetDescripcion}" 
+                                            title="#{image.museoProyectoDetalle.musprodetNombre}"/>
+                        </ui:repeat>
+                    </p:imageSwitch>
 
-                        <p:galleria value="#{dlgVerProyecto.fotoProyectoList}" var="image"  >
-                            <p:graphicImage value="D:/Servidores/Wildfly-11.0.0.Final/standalone/deployments/FotosProyectos/2_1.PNG"  />
-                        </p:galleria>
-
-
-
-                    </p:dialog>
-
-                </h:form>
+                </p:dialog>
 
             </ui:composition>
         </h:body>

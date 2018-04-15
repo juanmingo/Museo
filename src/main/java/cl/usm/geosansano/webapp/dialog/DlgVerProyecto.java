@@ -1,6 +1,8 @@
 package cl.usm.geosansano.webapp.dialog;
 
 //<editor-fold defaultstate="collapsed" desc="Imports">
+import cl.usm.geosansano.controller.ImagenProyectoControler;
+import cl.usm.geosansano.dto.ImagenProyectoDTO;
 import cl.usm.geosansano.entity.MuseoProyecto;
 import cl.usm.geosansano.entity.MuseoProyectoDetalle;
 import cl.usm.geosansano.entity.MuseoUsuario;
@@ -55,9 +57,7 @@ public class DlgVerProyecto implements Serializable {
     //
     //
     private List<MuseoProyectoDetalle> museoProyectoDetalleList;
-    private List<StreamedContent> fotoProyectoList;
-    private StreamedContent fotoProyecto;
-    private String rutaCarpetaServer = "";
+    private List<ImagenProyectoDTO> listarImagenProyecto;
 
     //private StreamedContent objStreamedContent;
 //</editor-fold>
@@ -71,24 +71,10 @@ public class DlgVerProyecto implements Serializable {
         System.out.println("musproId: " + musproId);
 
         this.museoProyectoDetalleList = museoProyectoDetalleFL.findByDetalleActivo(this.museoProyect.getMusproId());
-
-        this.fotoProyectoList = FuncionFotoMuseo.obtenerFotoDetalleList(this.museoProyectoDetalleList);
-
-        for (StreamedContent objFoto : this.fotoProyectoList) {
-            this.fotoProyecto = objFoto;
-            System.out.println("D:/Servidores/Wildfly-11.0.0.Final/bin/FotosProyectos/" + objFoto.getName());
-        }
-
-        System.out.println("2 ******************: " + Common.obtenerAbsolutePath());
-
-        FuncionFotoMuseo.guardarFotosProyectoServidor(this.museoProyectoDetalleList);
-
-        ServletContext sc = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
-        this.rutaCarpetaServer = sc.getRealPath(Pagina.CARPETA_IMAGENES_PROYECTO) + "/";
-        System.out.println("** rutaCarpetaServer: " + this.rutaCarpetaServer);
+        this.listarImagenProyecto = ImagenProyectoControler.listarImagenProyecto(this.museoProyectoDetalleList);
 
         RequestContext context = RequestContext.getCurrentInstance();
-        context.update("formVerProyecto:dlgVerProyecto");
+        context.update("formSansano:dlgVerProyecto");
     }
 
     public void addMessage(FacesMessage message) {
@@ -104,22 +90,6 @@ public class DlgVerProyecto implements Serializable {
         this.museoProyect = museoProyect;
     }
 
-    public List<StreamedContent> getFotoProyectoList() {
-        return fotoProyectoList;
-    }
-
-    public void setFotoProyectoList(List<StreamedContent> fotoProyectoList) {
-        this.fotoProyectoList = fotoProyectoList;
-    }
-
-    public StreamedContent getFotoProyecto() {
-        return fotoProyecto;
-    }
-
-    public void setFotoProyecto(StreamedContent fotoProyecto) {
-        this.fotoProyecto = fotoProyecto;
-    }
-
     public List<MuseoProyectoDetalle> getMuseoProyectoDetalleList() {
         return museoProyectoDetalleList;
     }
@@ -128,12 +98,13 @@ public class DlgVerProyecto implements Serializable {
         this.museoProyectoDetalleList = museoProyectoDetalleList;
     }
 
-    public String getRutaCarpetaServer() {
-        return rutaCarpetaServer;
+    //</editor-fold>
+    public List<ImagenProyectoDTO> getListarImagenProyecto() {
+        return listarImagenProyecto;
     }
 
-    public void setRutaCarpetaServer(String rutaCarpetaServer) {
-        this.rutaCarpetaServer = rutaCarpetaServer;
+    public void setListarImagenProyecto(List<ImagenProyectoDTO> listarImagenProyecto) {
+        this.listarImagenProyecto = listarImagenProyecto;
     }
-    //</editor-fold>
+
 }

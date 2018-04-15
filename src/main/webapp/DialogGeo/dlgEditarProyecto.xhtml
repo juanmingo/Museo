@@ -17,7 +17,7 @@
                               showEffect="fade" modal="true" resizable="false" closable="true" width="50%" focus="btnCerrarEditarProyecto" >
 
 
-                        <h:panelGrid cellspacing="5" columns="5" class="contenidoformulario" width="100%">
+                        <h:panelGrid cellspacing="2" columns="5" class="contenidoformulario" width="100%">
 
                             <p:outputLabel value="Nombre" />
                             <h:panelGrid width="1px" />
@@ -31,7 +31,7 @@
                             <h:panelGrid width="1px" />
                             <p:inputTextarea value="#{dlgEditarProyecto.museoProyect.musproDescripcion}"
                                              rows="10" cols="55"  maxlength="3000" 
-                                             autoResize="false" style="width: 100%; height: 40px; resize: none;margin-top: 0"
+                                             autoResize="false" style="width: 100%; height: 45px; resize: none;margin-top: 0"
                                              queryDelay="750" minQueryLength="4"   >                                    
                             </p:inputTextarea>
 
@@ -75,7 +75,7 @@
 
                         </h:panelGrid>
 
-                        <br/>
+                       
                         <h:panelGrid cellspacing="5" columns="5" class="contenidoformulario">
                             <p:commandLink id="cdlAddImages" actionListener="#{dlgEditarProyecto.cargarAgregarFoto()}" oncomplete="PF('dlgEditarProyectoFotos').show();" 
                                            onstart="PF('dlgLoading').show();" onsuccess="PF('dlgLoading').hide();"   >
@@ -83,7 +83,7 @@
                                 <p:tooltip for="cdlAddImages" value="Agregar Imagen" trackMouse="true" style="font-size: 12px" />
                             </p:commandLink>
                         </h:panelGrid>                        
-                        <br/>
+                        
 
                         <p:panel id="pnFotosProyecto" style="border: 0px;" visible="#{dlgEditarProyecto.isVisibleFotosAgregadas}" > 
                             <p:dataTable id="dataFotosProyecto" var="obj"  value="#{dlgEditarProyecto.museoProyectoDetalleList}" editable="true" 

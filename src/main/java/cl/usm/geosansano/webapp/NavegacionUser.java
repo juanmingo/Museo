@@ -65,7 +65,8 @@ public class NavegacionUser implements Serializable {
                 if (this.museoUsuario == null) {
                     this.mensajeErrorLogin = "¡Usuario y/o Contraseña Incorrectos!";
                 } else {
-
+                    
+                    /*
                     String nombrePersonalFrom = "Registro Geo UTFSM - Sansanos por el Mundo";
                     String destinatario = "juan.delgador@gmail.com";
                     //String copia = "juan.delgado@usm.cl";
@@ -74,6 +75,7 @@ public class NavegacionUser implements Serializable {
 
                     EnviarCorreoGmail objEnviarCorreoGmail = new EnviarCorreoGmail();
                     objEnviarCorreoGmail.correo(nombrePersonalFrom, destinatario, null, asunto, mensaje);
+                     */
 
                     FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("cuentaUsuario", this.cuentaUsuario);
                     FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("codPerfil", this.museoUsuario.getCodPerfil());

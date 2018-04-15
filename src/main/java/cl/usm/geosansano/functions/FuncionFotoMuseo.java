@@ -82,14 +82,14 @@ public abstract class FuncionFotoMuseo {
                 File files = new File(Common.obtenerAbsolutePath() + Pagina.CARPETA_IMAGENES_PROYECTO);
                 if (!files.exists()) {
                     if (files.mkdirs()) {
-                        System.out.println("Multiple directories are created!: " + Common.obtenerAbsolutePath() + Pagina.CARPETA_IMAGENES_PROYECTO);
+                        //System.out.println("Multiple directories are created!: " + Common.obtenerAbsolutePath() + Pagina.CARPETA_IMAGENES_PROYECTO);
                     } else {
-                        System.out.println("Failed to create multiple directories!: " + Common.obtenerAbsolutePath() + Pagina.CARPETA_IMAGENES_PROYECTO);
+                        //System.out.println("Failed to create multiple directories!: " + Common.obtenerAbsolutePath() + Pagina.CARPETA_IMAGENES_PROYECTO);
                     }
                 }
                 //File file = new File(Common.obtenerAbsolutePath() + Pagina.CARPETA_IMAGENES_PROYECTO + objMuseoDet.getMuseoProyecto().getMususuId() + "_" + objMuseoDet.getMuseoProyectoDetallePK().getMusprodetId() + ".PNG");
                 File file = new File(SC.getRealPath(Pagina.CARPETA_IMAGENES_PROYECTO) + "/" + objMuseoDet.getMuseoProyecto().getMususuId() + "_" + objMuseoDet.getMuseoProyectoDetallePK().getMusprodetId() + ".PNG");
-                System.out.println("-> " + SC.getRealPath(Pagina.CARPETA_IMAGENES_PROYECTO) + "/" + objMuseoDet.getMuseoProyecto().getMususuId() + "_" + objMuseoDet.getMuseoProyectoDetallePK().getMusprodetId() + ".PNG");
+                //System.out.println("-> " + SC.getRealPath(Pagina.CARPETA_IMAGENES_PROYECTO) + "/" + objMuseoDet.getMuseoProyecto().getMususuId() + "_" + objMuseoDet.getMuseoProyectoDetallePK().getMusprodetId() + ".PNG");
                 FileOutputStream fop = new FileOutputStream(file);
                 if (!file.exists()) {
                     file.createNewFile();
@@ -97,7 +97,7 @@ public abstract class FuncionFotoMuseo {
                 fop.write(objMuseoDet.getMusprodetArchivo());
                 fop.flush();
                 fop.close();
-                System.out.println("Done");
+                //System.out.println("Done");
             } catch (IOException e) {
                 e.printStackTrace();
             } finally {

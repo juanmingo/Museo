@@ -269,7 +269,11 @@ public class SansanoMapa implements Serializable {
 
         RequestContext context = RequestContext.getCurrentInstance();
         //context.update("formSansano:mapGeoSansano");
-        context.update("formSansano:infoWindow");
+        //context.update("formSansano:infoWindow");
+        //context.update("formSansano:mapGeoSansano");
+
+        //context.update("formVerProyecto:dlgVerProyecto");
+        //context.update("formVerProyecto:galeriaProyecto");
 
     }
 

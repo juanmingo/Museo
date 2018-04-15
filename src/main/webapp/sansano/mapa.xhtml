@@ -19,8 +19,9 @@
                     <p:ajax event="pointSelect" listener="#{sansanoMapa.onPointSelect}" />
 
                     <p:ajax event="overlaySelect" listener="#{sansanoMapa.onMarkerSelect}" />
-                    <p:gmapInfoWindow id="infoWindow"  >
-                        <p:outputPanel style="text-align: center; display: block; margin: auto">
+                    <p:gmapInfoWindow id="infoWindow" class="contenidoformulario"  >
+
+                        <p:outputPanel style="text-align: center; display: block; margin: auto" class="contenidoformulario">
 
                             <h:outputText value="#{sansanoMapa.museoProyect.musproNombre}" />
 
@@ -62,7 +63,8 @@
 
                             <p:panel  style="border: 0px;"  class="contenidoformulario" rendered="#{sansanoMapa.isAdministrador}" >
                                 <p:commandLink oncomplete="PF('dlgVerProyecto').show();" onstart="PF('dlgLoading').show();" 
-                                               onsuccess="PF('dlgLoading').hide();"  actionListener="#{dlgVerProyecto.cargarProyecto(sansanoMapa.musproId)}" >
+                                               onsuccess="PF('dlgLoading').hide();"  actionListener="#{dlgVerProyecto.cargarProyecto(sansanoMapa.musproId)}"
+                                               update="dlgVerProyecto">
                                     <h:outputText value=" Ver " />
                                 </p:commandLink>
                                 <h:outputText value="/" />
@@ -81,7 +83,13 @@
                     </p:gmapInfoWindow>
 
                 </p:gmap>
-            </f:view>            
+
+
+            </f:view>          
+
+            <ui:insert>
+                <ui:include src="./../DialogGeo/dlgVerProyecto.xhtml" />
+            </ui:insert>
 
         </h:form>
 
@@ -90,7 +98,7 @@
             <ui:include src="./../DialogGeo/dlgEditarProyectoFotos.xhtml" />
             <ui:include src="./../DialogGeo/dlgEditarFoto.xhtml" />
 
-            <ui:include src="./../DialogGeo/dlgVerProyecto.xhtml" />
+
         </ui:insert>
 
     </ui:define> 
