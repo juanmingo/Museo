@@ -114,7 +114,12 @@ public class DlgEditarProyecto implements Serializable {
 
     public void guardarCambiosProyecto() {
 
-        this.museoProyect.setMusproDescripcion(this.museoProyect.getMusproDescripcion().toUpperCase());
+        if (this.museoProyect.getMusproId() == 0 || this.museoProyect.getMusproId() == 1 || this.museoProyect.getMusproId() == 2 || this.museoProyect.getMusproId() == 3 || this.museoProyect.getMusproId() == 4 || this.museoProyect.getMusproId() == 5) {
+            this.museoProyect.setMusproDescripcion(this.museoProyect.getMusproDescripcion().toLowerCase());
+        } else {
+            this.museoProyect.setMusproDescripcion(this.museoProyect.getMusproDescripcion().toUpperCase());
+        }
+
         this.museoProyect.setMusproNombre(this.museoProyect.getMusproNombre().toUpperCase());
         this.museoProyect.setMusproCiudad(this.museoProyect.getMusproCiudad().toUpperCase());
 

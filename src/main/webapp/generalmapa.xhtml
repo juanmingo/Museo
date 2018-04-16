@@ -18,9 +18,19 @@
                     <p:ajax event="stateChange" listener="#{generalMapa.onStateChange}"  />
                     <p:ajax event="overlaySelect" listener="#{generalMapa.onMarkerSelect}" />
 
-                    <p:gmapInfoWindow id="infoWindow">
-                        <p:outputPanel style="text-align: center; display: block; margin: auto">
-                            <h:outputText value="#{generalMapa.museoProyect.musproNombre}" />
+                    <p:gmapInfoWindow id="infoWindow" class="contenidoformulario"  >
+
+                        <p:outputPanel style="text-align: center; display: block; margin: auto" class="contenidoformulario">
+
+                            <h:outputText value="#{generalMapa.museoProyect.musproNombre}" />    
+
+                            <p:panel  style="border: 0px;"  class="contenidoformulario"  >
+                                <p:commandLink  onstart="PF('dlgLoading').show();"  actionListener="#{dlgVerProyecto.cargarProyectoGeneral(generalMapa.museoProyect.musproId)}"
+                                                onsuccess="PF('dlgLoading').hide();"    >
+                                    <h:outputText value=" Ver Más" />
+                                </p:commandLink>                               
+                            </p:panel>                           
+
                         </p:outputPanel>
                     </p:gmapInfoWindow>
 
@@ -78,7 +88,10 @@
             </p:dialog>
         </h:form>
 
-
+        <ui:insert>
+            <ui:include src="./DialogGeo/dlgVerCampus.xhtml" />
+            <ui:include src="./DialogGeo/dlgVerProyecto.xhtml" />
+        </ui:insert>        
 
     </ui:define> 
 </ui:composition>

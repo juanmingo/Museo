@@ -55,8 +55,8 @@
                             </p:panel>
 
                             <p:panel  style="border: 0px;"  class="contenidoformulario" rendered="#{sansanoMapa.isVerMas}" >
-                                <p:commandLink oncomplete="PF('dlgVerProyecto').show();" onstart="PF('dlgLoading').show();" 
-                                               onsuccess="PF('dlgLoading').hide();"  actionListener="#{dlgVerProyecto.cargarProyecto(sansanoMapa.musproId)}"  >
+                                <p:commandLink  onstart="PF('dlgLoading').show();" 
+                                                onsuccess="PF('dlgLoading').hide();"  actionListener="#{dlgVerProyecto.cargarProyecto(sansanoMapa.musproId)}"  >
                                     <h:outputText value=" Ver Más" />
                                 </p:commandLink>                               
                             </p:panel>
@@ -89,7 +89,7 @@
 
             <ui:insert>
                 <ui:include src="./../DialogGeo/dlgVerProyecto.xhtml" />
-                
+
             </ui:insert>
 
         </h:form>
@@ -99,8 +99,10 @@
             <ui:include src="./../DialogGeo/dlgEditarProyectoFotos.xhtml" />
             <ui:include src="./../DialogGeo/dlgEditarFoto.xhtml" />
             <ui:include src="./../DialogGeo/dlgEditarFotoEliminar.xhtml" />
-            
+
             <ui:include src="./../DialogGeo/dlgEliminarProyecto.xhtml" />
+
+            <ui:include src="./../DialogGeo/dlgVerCampus.xhtml" />
         </ui:insert>        
 
     </ui:define> 

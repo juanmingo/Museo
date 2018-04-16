@@ -25,9 +25,9 @@ public class ImagenProyectoControler {
             objDTO.setMuseoProyectoDetalle(objMuseoProyectoDetalle);
             objDTO.setStreamedContent(FuncionFotoMuseo.obtenerFoto(objMuseoProyectoDetalle.getMusprodetArchivo(), objMuseoProyectoDetalle.getMusprodetNombre(), "./../images/icon_sin_imagen.png"));
             
-            String rutaImagen = "/FotosProyectos/" + objMuseoProyectoDetalle.getMuseoProyecto().getMususuId() + "_" + objMuseoProyectoDetalle.getMuseoProyectoDetallePK().getMusprodetId() + ".PNG";
+            String rutaImagen = "/FotosProyectos/" + objMuseoProyectoDetalle.getMuseoProyecto().getMusproId() + "_" + objMuseoProyectoDetalle.getMuseoProyectoDetallePK().getMusprodetId() + ".PNG";
             objDTO.setRutaImagen(rutaImagen);
-            objDTO.setNombreArchivo(objMuseoProyectoDetalle.getMuseoProyecto().getMususuId() + "_" + objMuseoProyectoDetalle.getMuseoProyectoDetallePK().getMusprodetId() + ".PNG");
+            objDTO.setNombreArchivo(objMuseoProyectoDetalle.getMuseoProyecto().getMusproId() + "_" + objMuseoProyectoDetalle.getMuseoProyectoDetallePK().getMusprodetId() + ".PNG");
             
             listObjDTO.add(objDTO);
         }

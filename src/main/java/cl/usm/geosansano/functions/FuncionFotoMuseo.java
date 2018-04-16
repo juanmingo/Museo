@@ -52,7 +52,7 @@ public abstract class FuncionFotoMuseo {
         StreamedContent objStrCon;
         if (objMuseoProyectoDetalle != null) {
             ByteArrayInputStream fotoInputStream = new ByteArrayInputStream(objMuseoProyectoDetalle.getMusprodetArchivo());
-            objStrCon = new DefaultStreamedContent(fotoInputStream, "PNG", objMuseoProyectoDetalle.getMuseoProyecto().getMususuId() + "_" + objMuseoProyectoDetalle.getMuseoProyectoDetallePK().getMusprodetId() + ".PNG");
+            objStrCon = new DefaultStreamedContent(fotoInputStream, "PNG", objMuseoProyectoDetalle.getMuseoProyecto().getMusproId() + "_" + objMuseoProyectoDetalle.getMuseoProyectoDetallePK().getMusprodetId() + ".PNG");
         } else {
             ServletContext context = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
             String rutaImagen = context.getRealPath(rutaImagenPorDefecto);
@@ -88,7 +88,7 @@ public abstract class FuncionFotoMuseo {
                     }
                 }
                 //File file = new File(Common.obtenerAbsolutePath() + Pagina.CARPETA_IMAGENES_PROYECTO + objMuseoDet.getMuseoProyecto().getMususuId() + "_" + objMuseoDet.getMuseoProyectoDetallePK().getMusprodetId() + ".PNG");
-                File file = new File(SC.getRealPath(Pagina.CARPETA_IMAGENES_PROYECTO) + "/" + objMuseoDet.getMuseoProyecto().getMususuId() + "_" + objMuseoDet.getMuseoProyectoDetallePK().getMusprodetId() + ".PNG");
+                File file = new File(SC.getRealPath(Pagina.CARPETA_IMAGENES_PROYECTO) + "/" + objMuseoDet.getMuseoProyecto().getMusproId() + "_" + objMuseoDet.getMuseoProyectoDetallePK().getMusprodetId() + ".PNG");
                 //System.out.println("-> " + SC.getRealPath(Pagina.CARPETA_IMAGENES_PROYECTO) + "/" + objMuseoDet.getMuseoProyecto().getMususuId() + "_" + objMuseoDet.getMuseoProyectoDetallePK().getMusprodetId() + ".PNG");
                 FileOutputStream fop = new FileOutputStream(file);
                 if (!file.exists()) {

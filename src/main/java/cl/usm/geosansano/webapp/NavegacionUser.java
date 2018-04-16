@@ -52,8 +52,8 @@ public class NavegacionUser implements Serializable {
 
         this.mensajeErrorLogin = "";
 
-        this.cuentaUsuario = "juan.delgado2@usm.cl";
-        //this.cuentaUsuario = "juan.delgado@usm.cl";
+        //this.cuentaUsuario = "juan.delgado2@usm.cl";
+        this.cuentaUsuario = "juan.delgado@usm.cl";
         this.cuentaContraseña = "juan";
 
         if (!"".equals(FuncionTexto.nvlTexto(this.cuentaUsuario, "")) && !"".equals(FuncionTexto.nvlTexto(this.cuentaContraseña, ""))) {

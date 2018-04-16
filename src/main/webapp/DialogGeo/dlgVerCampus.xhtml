@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"         
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"        
+      xmlns:f="http://java.sun.com/jsf/core">    
+    <f:view contentType="text/html">       
+        <h:body>
+            <ui:composition>
+
+                <h:form id="formCampus" class="formSinBordes contenidoformulario">
+
+                    <p:dialog id="dlgVerCampus"  widgetVar="dlgVerCampus" class="contenidoformulario"
+                              header="Campus / Sede" position="center center" focus="btnCerrarVerCampus"
+                              showEffect="fade" modal="true" resizable="false" closable="true" style="width: 500px;" >
+
+                        <h:panelGrid id="pnVerCampus" cellspacing="1" columns="5" 
+                                     class="contenidoformulario">
+
+                            <p:outputLabel value="Nombre" />
+                            <h:panelGrid width="1px" />
+                            <p:outputLabel value=":" />
+                            <h:panelGrid width="1px" />                            
+                            <p:outputLabel value="#{dlgVerProyecto.museoProyect.musproNombre}" />                           
+
+                            <p:outputLabel value="Dirección" />
+                            <h:panelGrid width="1px" />
+                            <p:outputLabel value=":" />
+                            <h:panelGrid width="1px" />                            
+                            <p:outputLabel value="#{dlgVerProyecto.museoProyect.musproCiudad}" />
+
+                            <p:outputLabel value="URL" />
+                            <h:panelGrid width="1px" />
+                            <p:outputLabel value=":" />
+                            <h:panelGrid width="1px" />
+                            <h:outputLink value="#{dlgVerProyecto.museoProyect.musproDescripcion}" target="_blank"  >
+                                <h:outputText value="#{dlgVerProyecto.museoProyect.musproDescripcion}"/>
+                            </h:outputLink>
+
+                        </h:panelGrid>   
+
+                        <h:panelGrid columns="2" class="contenidoformulario">
+                            <p:commandButton type="button" onclick="PF('switcher').previous();"
+                                             icon="ui-icon-circle-triangle-w" id="prev"/>
+                            <p:commandButton type="button" onclick="PF('switcher').next();"
+                                             icon="ui-icon-circle-triangle-e" id="next"/>
+                        </h:panelGrid>
+                        <p:imageSwitch  effect="wipe" widgetVar="switcher"
+                                        slideshowAuto="true" style="width: 500px; height: 250px;" >
+                            <ui:repeat value="#{dlgVerProyecto.listarImagenProyecto}"
+                                       var="image">
+                                <p:graphicImage value="#{image.rutaImagen}"  style="width: 500px; height: 250px;"
+                                                alt="#{image.museoProyectoDetalle.musprodetDescripcion}" 
+                                                title="#{image.museoProyectoDetalle.musprodetNombre}"/>
+                            </ui:repeat>
+                        </p:imageSwitch>
+
+                        <br/>
+
+                        <h:panelGrid class="contenidoformulario">
+                            <p:commandButton id="btnCerrarVerCampus" value="Cerrar" oncomplete="PF('dlgVerCampus').hide();" icon="ui-icon-check" /> 
+                        </h:panelGrid>
+
+                    </p:dialog>
+
+                </h:form>
+
+            </ui:composition>
+        </h:body>
+    </f:view>   
+</html>
