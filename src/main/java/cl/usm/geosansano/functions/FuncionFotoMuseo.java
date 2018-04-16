@@ -78,6 +78,8 @@ public abstract class FuncionFotoMuseo {
     public static void guardarFotosProyectoServidor(List<MuseoProyectoDetalle> museoProyectoDetalleList) {
         for (MuseoProyectoDetalle objMuseoDet : museoProyectoDetalleList) {
             System.out.println("" + SC.getRealPath(Pagina.CARPETA_IMAGENES_PROYECTO));
+            FileOutputStream fop = null;
+            File file;
             try {
                 File files = new File(Common.obtenerAbsolutePath() + Pagina.CARPETA_IMAGENES_PROYECTO);
                 if (!files.exists()) {
@@ -88,9 +90,9 @@ public abstract class FuncionFotoMuseo {
                     }
                 }
                 //File file = new File(Common.obtenerAbsolutePath() + Pagina.CARPETA_IMAGENES_PROYECTO + objMuseoDet.getMuseoProyecto().getMususuId() + "_" + objMuseoDet.getMuseoProyectoDetallePK().getMusprodetId() + ".PNG");
-                File file = new File(SC.getRealPath(Pagina.CARPETA_IMAGENES_PROYECTO) + "/" + objMuseoDet.getMuseoProyecto().getMusproId() + "_" + objMuseoDet.getMuseoProyectoDetallePK().getMusprodetId() + ".PNG");
+                file = new File(SC.getRealPath(Pagina.CARPETA_IMAGENES_PROYECTO) + "/" + objMuseoDet.getMuseoProyecto().getMusproId() + "_" + objMuseoDet.getMuseoProyectoDetallePK().getMusprodetId() + ".PNG");
                 //System.out.println("-> " + SC.getRealPath(Pagina.CARPETA_IMAGENES_PROYECTO) + "/" + objMuseoDet.getMuseoProyecto().getMususuId() + "_" + objMuseoDet.getMuseoProyectoDetallePK().getMusprodetId() + ".PNG");
-                FileOutputStream fop = new FileOutputStream(file);
+                fop = new FileOutputStream(file);
                 if (!file.exists()) {
                     file.createNewFile();
                 }
@@ -101,6 +103,13 @@ public abstract class FuncionFotoMuseo {
             } catch (IOException e) {
                 e.printStackTrace();
             } finally {
+                try {
+                    if (fop != null) {
+                        fop.close();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
