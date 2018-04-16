@@ -96,7 +96,7 @@ public class DlgVerProyecto implements Serializable {
             context.execute("PF('dlgVerCampus').show()");
             System.out.println("dlgVerCampus");
         } else {
-            context.update("formSansano:dlgVerProyecto");
+            context.update("formGeneral:dlgVerProyecto");
             context.execute("PF('dlgVerProyecto').show()");
             System.out.println("dlgVerProyecto");
         }
