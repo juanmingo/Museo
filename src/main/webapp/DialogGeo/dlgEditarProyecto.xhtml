@@ -75,7 +75,7 @@
 
                         </h:panelGrid>
 
-                       
+
                         <h:panelGrid cellspacing="5" columns="5" class="contenidoformulario">
                             <p:commandLink id="cdlAddImages" actionListener="#{dlgEditarProyecto.cargarAgregarFoto()}" oncomplete="PF('dlgEditarProyectoFotos').show();" 
                                            onstart="PF('dlgLoading').show();" onsuccess="PF('dlgLoading').hide();"   >
@@ -83,7 +83,7 @@
                                 <p:tooltip for="cdlAddImages" value="Agregar Imagen" trackMouse="true" style="font-size: 12px" />
                             </p:commandLink>
                         </h:panelGrid>                        
-                        
+
 
                         <p:panel id="pnFotosProyecto" style="border: 0px;" visible="#{dlgEditarProyecto.isVisibleFotosAgregadas}" > 
                             <p:dataTable id="dataFotosProyecto" var="obj"  value="#{dlgEditarProyecto.museoProyectoDetalleList}" editable="true" 
@@ -93,7 +93,8 @@
                                 <p:ajax event="rowEditCancel" listener="#{dlgEditarProyecto.onRowCancel}"  />
 
                                 <p:column headerText="Eliminar" width="10%" class="contenidoformulario contDatatableCen"  >
-                                    <p:commandLink class="contenidoformulario" >
+                                    <p:commandLink actionListener="#{dlgEditarProyecto.cargarEditarFotoEliminar(obj)}" oncomplete="PF('dlgEditarFotoEliminar').show();"
+                                                   onstart="PF('dlgLoading').show();" onsuccess="PF('dlgLoading').hide();" class="contenidoformulario">
                                         <p:graphicImage value="./../images/icon_accion_eliminar.png"  style="width: 15px" />
                                     </p:commandLink>
                                 </p:column>
@@ -138,9 +139,11 @@
 
 
 
-                    </p:dialog>
+                    </p:dialog>                   
 
                 </h:form>
+
+
 
             </ui:composition>
         </h:body>

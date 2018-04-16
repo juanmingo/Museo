@@ -7,9 +7,9 @@
                 template="./../Plantilla/PlantillaSession.xhtml">
     <ui:define name="contenido">        
 
-        <h:form id="formSansano" class="formSinBordes" >
+        <h:form id="formSansano" class="formSinBordes contenidoformulario" >
 
-            <p:growl id="msjProyectos" showDetail="true"  life="20000" />
+            <p:growl id="msjProyectos" class="contenidoformulario" showDetail="true"  life="20000" />
 
             <f:view contentType="text/html">
                 <p:gmap id="mapGeoSansano" model="#{sansanoMapa.mapModel}" center="#{sansanoMapa.central_latitud}, #{sansanoMapa.central_longitud}"
@@ -48,8 +48,8 @@
                                     <h:outputText value=" Editar " />
                                 </p:commandLink>
                                 <h:outputText value="/" />
-                                <p:commandLink oncomplete="PF('dlgEditarProyecto').show();" onstart="PF('dlgLoading').show();" 
-                                               onsuccess="PF('dlgLoading').hide();"  >
+                                <p:commandLink oncomplete="PF('dlgEliminarProyecto').show();" onstart="PF('dlgLoading').show();" 
+                                               onsuccess="PF('dlgLoading').hide();" actionListener="#{dlgEditarProyecto.cargarProyectoEliminar(sansanoMapa.musproId)}" >
                                     <h:outputText value=" Eliminar " />
                                 </p:commandLink>
                             </p:panel>
@@ -89,6 +89,7 @@
 
             <ui:insert>
                 <ui:include src="./../DialogGeo/dlgVerProyecto.xhtml" />
+                
             </ui:insert>
 
         </h:form>
@@ -97,9 +98,10 @@
             <ui:include src="./../DialogGeo/dlgEditarProyecto.xhtml" />
             <ui:include src="./../DialogGeo/dlgEditarProyectoFotos.xhtml" />
             <ui:include src="./../DialogGeo/dlgEditarFoto.xhtml" />
-
-
-        </ui:insert>
+            <ui:include src="./../DialogGeo/dlgEditarFotoEliminar.xhtml" />
+            
+            <ui:include src="./../DialogGeo/dlgEliminarProyecto.xhtml" />
+        </ui:insert>        
 
     </ui:define> 
 </ui:composition>

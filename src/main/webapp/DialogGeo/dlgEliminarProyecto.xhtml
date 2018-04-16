@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"         
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"        
+      xmlns:f="http://java.sun.com/jsf/core">    
+    <f:view contentType="text/html">       
+        <h:body>
+            <ui:composition>
+
+                <h:form id="formEliminarProyecto" class="formSinBordes contenidoformulario">
+
+                    <p:dialog id="dlgEliminarProyecto"  widgetVar="dlgEliminarProyecto" class="contenidoformulario"
+                              header="Eliminar Proyecto" position="center center" focus="btnCerrarEliminarProyecto"
+                              showEffect="fade" modal="true" resizable="false" closable="true" style="width: 500px;" >
+
+                        <h:panelGrid id="pnEliminarProyecto" cellspacing="1" columns="5" 
+                                     class="contenidoformulario" style="width: 500px;">
+
+                            <p:outputLabel value="Nombre" />
+                            <h:panelGrid width="1px" />
+                            <p:outputLabel value=":" />
+                            <h:panelGrid width="1px" />                            
+                            <p:outputLabel value="#{dlgEditarProyecto.museoProyect.musproNombre}" />
+
+                            <p:outputLabel value="Descripción" />
+                            <h:panelGrid width="1px" />
+                            <p:outputLabel value=":" />
+                            <h:panelGrid width="1px" />
+                            <p:outputLabel value="#{dlgEditarProyecto.museoProyect.musproDescripcion}" />
+
+                            <p:outputLabel value="Pais" />
+                            <h:panelGrid width="1px" />
+                            <p:outputLabel value=":" />
+                            <h:panelGrid width="1px" />
+                            <p:outputLabel value="#{dlgEditarProyecto.museoProyect.codPais.nomPais}" />
+
+
+                            <p:outputLabel value="Ciudad" />
+                            <h:panelGrid width="1px" />
+                            <p:outputLabel value=":" />
+                            <h:panelGrid width="1px" />                            
+                            <p:outputLabel value="#{dlgEditarProyecto.museoProyect.musproCiudad}" />
+
+
+                            <p:outputLabel value="Año" />
+                            <h:panelGrid width="1px" />
+                            <p:outputLabel value=":" />
+                            <h:panelGrid width="1px" />                            
+                            <p:outputLabel value="#{dlgEditarProyecto.museoProyect.musproAño}" />
+
+                            <h:panelGrid/><h:panelGrid/><h:panelGrid/><h:panelGrid/><h:panelGrid/>
+
+                            <p:outputLabel value="Latitud" />
+                            <h:panelGrid width="1px" />
+                            <p:outputLabel value=":" />
+                            <h:panelGrid width="1px" />
+                            <p:outputLabel value="#{dlgEditarProyecto.museoProyect.musproLatitud}" />
+
+                            <h:panelGrid/><h:panelGrid/><h:panelGrid/><h:panelGrid/><h:panelGrid/>
+
+                            <p:outputLabel value="Longitud" />
+                            <h:panelGrid width="1px" />
+                            <p:outputLabel value=":" />
+                            <h:panelGrid width="1px" />
+                            <p:outputLabel value="#{dlgEditarProyecto.museoProyect.musproLongitud}" />
+
+                        </h:panelGrid>   
+
+                        <h:panelGrid columns="2" class="contenidoformulario">
+                            <p:commandButton type="button" onclick="PF('switcher').previous();"
+                                             icon="ui-icon-circle-triangle-w" id="prev"/>
+                            <p:commandButton type="button" onclick="PF('switcher').next();"
+                                             icon="ui-icon-circle-triangle-e" id="next"/>
+                        </h:panelGrid>
+                        <p:imageSwitch  effect="wipe" widgetVar="switcher" id="manuelSwitcher"
+                                        slideshowAuto="true" style="width: 500px; height: 250px;" >
+                            <ui:repeat value="#{dlgEditarProyecto.listarImagenProyecto}"
+                                       var="image" id="manuelSwitcherImages2"  >
+                                <p:graphicImage value="#{image.rutaImagen}"  style="width: 500px; height: 250px;"
+                                                alt="#{image.museoProyectoDetalle.musprodetDescripcion}" 
+                                                title="#{image.museoProyectoDetalle.musprodetNombre}"/>
+                            </ui:repeat>
+                        </p:imageSwitch>
+
+                        <br/>
+
+                        <br/>
+
+                        <h:panelGrid columns="3" class="contenidoformulario">
+                            <p:commandButton value="Eliminar" oncomplete="PF('dlgConfirmarEliminarProyecto').show();"  icon="ui-icon-close" /> 
+                            <h:panelGrid/>
+                            <p:commandButton id="btnCerrarEliminarProyecto" value="Cancelar" 
+                                             oncomplete="PF('dlgEliminarProyecto').hide();" icon="ui-icon-check" /> 
+                        </h:panelGrid>
+
+                    </p:dialog>
+
+                    <p:dialog id="dlgConfirmarEliminarProyecto" widgetVar="dlgConfirmarEliminarProyecto" header="Confirmar Eliminar" 
+                              position="center center" showEffect="fade" modal="true" resizable="false" closable="true" 
+                              focus="btnCencelarConfirmarEliminarProyecto" >
+
+                        <h:panelGrid cellspacing="1" columns="5" class="contenidoformulario" >
+                            <p:outputLabel value="Nombre" />
+                        </h:panelGrid>
+
+                        <br/>
+
+                        <h:panelGrid columns="3" class="contenidoformulario">
+                            <p:commandButton value="Eliminar" actionListener="#{sansanoMapa.recarfarMarkerEliminados(dlgEditarProyecto.museoProyect)}"
+                                             oncomplete="PF('dlgConfirmarEliminarProyecto').hide();PF('dlgEliminarProyecto').hide();PF('dlgLoading').hide();" 
+                                             icon="ui-icon-close" onclick="PF('dlgLoading').show();" /> 
+                            <h:panelGrid/>
+                            <p:commandButton id="btnCencelarConfirmarEliminarProyecto" value="Cancelar" 
+                                             oncomplete="PF('dlgConfirmarEliminarProyecto').hide();" 
+                                             icon="ui-icon-check" /> 
+                        </h:panelGrid>
+
+                    </p:dialog>
+
+                </h:form>
+
+            </ui:composition>
+        </h:body>
+    </f:view>   
+</html>

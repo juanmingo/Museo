@@ -10,10 +10,10 @@
         <h:body>
             <ui:composition>
 
-                <h:form id="formEditarFoto" class="formSinBordes contenidoformulario">
+                <h:form id="formEditarFotoEliminar" class="formSinBordes contenidoformulario">
 
-                    <p:dialog id="dlgEditarFoto" widgetVar="dlgEditarFoto" header="Ver Foto" position="center center"
-                              showEffect="fade" modal="true" resizable="false" closable="true" focus="btnAceptarEditarFoto" >
+                    <p:dialog id="dlgEditarFotoEliminar" widgetVar="dlgEditarFotoEliminar" header="Eliminar Foto" position="center center"
+                              showEffect="fade" modal="true" resizable="false" closable="true" focus="btnAceptarEditarFotoEliminar" >
 
                         <h:panelGrid id="pnVerProyecto" cellspacing="1" columns="5" 
                                      class="contenidoformulario" >
@@ -35,14 +35,18 @@
                         <h:panelGrid/>
 
                         <h:panelGrid class="contenidoformulario">
-                            <p:graphicImage id="grFotoAlumno" value="#{dlgEditarProyecto.objStreamedContent}"  stream="false"
+                            <p:graphicImage id="grFotoAlumnoEliminar" value="#{dlgEditarProyecto.objStreamedContent}"  stream="false"
                                             style="width: 500px; height: 250px;"/>
                         </h:panelGrid>
 
                         <br/>
 
-                        <h:panelGrid class="contenidoformulario">
-                            <p:commandButton id="btnAceptarEditarFoto" value="Cerrar" oncomplete="PF('dlgEditarFoto').hide();" icon="ui-icon-check" /> 
+                        <h:panelGrid columns="3" class="contenidoformulario">
+                            <p:commandButton value="Eliminar" actionListener="#{dlgEditarProyecto.eliminarFotoProyecto()}"
+                                             oncomplete="PF('dlgEditarFotoEliminar').hide();" icon="ui-icon-close" /> 
+                            <h:panelGrid/>
+                            <p:commandButton id="btnAceptarEditarFotoEliminar" value="Cancelar" 
+                                             oncomplete="PF('dlgEditarFotoEliminar').hide();" icon="ui-icon-check" /> 
                         </h:panelGrid>
 
                     </p:dialog>

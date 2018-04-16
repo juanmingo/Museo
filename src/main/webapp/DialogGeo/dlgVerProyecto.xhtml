@@ -4,18 +4,18 @@
 <html xmlns="http://www.w3.org/1999/xhtml"         
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:p="http://primefaces.org/ui"  
-      xmlns:pe="http://primefaces.org/ui/extensions"
+      xmlns:p="http://primefaces.org/ui"        
       xmlns:f="http://java.sun.com/jsf/core">    
     <f:view contentType="text/html">       
         <h:body>
             <ui:composition>
 
                 <p:dialog id="dlgVerProyecto"  widgetVar="dlgVerProyecto" class="contenidoformulario"
-                          header="Ver Proyecto" position="top top"
-                          showEffect="fade" modal="true" resizable="false" closable="true" style="width: 500px; height: 300px;" >
+                          header="Ver Proyecto" position="center center" focus="btnCerrarVer"
+                          showEffect="fade" modal="true" resizable="false" closable="true" style="width: 500px;" >
 
-                    <h:panelGrid id="pnVerProyecto" cellspacing="1" columns="5" class="contenidoformulario" style="width: 500px;">
+                    <h:panelGrid id="pnVerProyecto" cellspacing="1" columns="5" 
+                                 class="contenidoformulario" style="width: 500px;">
 
                         <p:outputLabel value="Nombre" />
                         <h:panelGrid width="1px" />
@@ -74,14 +74,20 @@
                                          icon="ui-icon-circle-triangle-e" id="next"/>
                     </h:panelGrid>
                     <p:imageSwitch  effect="wipe" widgetVar="switcher" id="manuelSwitcher"
-                                    slideshowAuto="true" style="width: 500px; height: 300px;" >
+                                    slideshowAuto="true" style="width: 500px; height: 250px;" >
                         <ui:repeat value="#{dlgVerProyecto.listarImagenProyecto}"
                                    var="image" id="manuelSwitcherImages"  >
-                            <p:graphicImage value="#{image.rutaImagen}"  style="width: 500px; height: 300px;"
+                            <p:graphicImage value="#{image.rutaImagen}"  style="width: 500px; height: 250px;"
                                             alt="#{image.museoProyectoDetalle.musprodetDescripcion}" 
                                             title="#{image.museoProyectoDetalle.musprodetNombre}"/>
                         </ui:repeat>
                     </p:imageSwitch>
+
+                    <br/>
+
+                    <h:panelGrid class="contenidoformulario">
+                        <p:commandButton id="btnCerrarVer" value="Cerrar" oncomplete="PF('dlgVerProyecto').hide();" icon="ui-icon-check" /> 
+                    </h:panelGrid>
 
                 </p:dialog>
 
