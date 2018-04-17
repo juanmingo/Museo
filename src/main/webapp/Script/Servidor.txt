@@ -21,6 +21,9 @@ sudo -u postgres psql
 
 createuser --interactive
 
+//esto no va
+ALTER ROLE postgres WITH PASSWORD 'postgres';
+
 sudo -u postgres createuser --interactive
 
 Pagina: https://www.digitalocean.com/community/tutorials/como-instalar-y-utilizar-postgresql-en-ubuntu-16-04-es
@@ -62,3 +65,19 @@ sudo apt-get install oracle-java8-set-default
 https://tecadmin.net/install-oracle-java-8-ubuntu-via-ppa/
 
 https://developer-should-know.com/post/134394533957/how-to-install-wildfly-on-ubuntu
+
+
+wget http://download.jboss.org/wildfly/11.0.0.Final/wildfly-11.0.0.Final.tar.gz
+
+wget http://download.jboss.org/wildfly/10.1.0.Final/wildfly-10.1.0.Final.tar.gz
+
+mv cambiar nombre
+
+MuseoSansano clave ademin
+
+export wildfly=/opt/wildfly/bin
+
+
+https://serverfault.com/questions/597516/nginx-as-ssl-reverse-proxy-for-wildfly
+
+https://serverfault.com/questions/597516/nginx-as-ssl-reverse-proxy-for-wildfly
