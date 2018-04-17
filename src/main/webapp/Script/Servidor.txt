@@ -16,3 +16,7 @@ WildFly
 
 museoadmingeo
 mag2k18usm
+
+
+REVISAR
+https://avolpe.github.io/hibernate/2016/06/17/wildfly-10-hibernate-spatial.html

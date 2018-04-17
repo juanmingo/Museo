@@ -105,7 +105,7 @@ Before=nginx.service
 Environment=LAUNCH_JBOSS_IN_BACKGROUND=1
 EnvironmentFile=/etc/default/wildfly
 User=wildfly
-LimitNOFILE=102642
+LimitNOFILE=1026420
 PIDFile=/var/run/wildfly/wildfly.pid
 ExecStart=/opt/wildfly/bin/launch.sh $WILDFLY_MODE $WILDFLY_CONFIG $WILDFLY_BIND
 StandardOutput=null
@@ -179,6 +179,13 @@ location /error {
    proxy_pass http://127.0.0.1:9990;
 }
 
+location /prueba2 {
+   proxy_set_header Host $host;
+   proxy_set_header X-Forwarded-Proto $scheme;
+   add_header Front-End-Https on;
+   proxy_pass http://127.0.0.1:8080/prueba2;
+}
+
 }
 
 Do not forget to replace ‘your-domain.com’ with your actual domain name.
@@ -194,5 +201,11 @@ In order to access the WildFly management console, you need to add a new user. E
 
 /opt/wildfly/bin/add-user.sh
 
-museoadmingeo
-mag2k18usm
+REFERENCIAS
+
+https://www.rosehosting.com/blog/install-wildfly-with-nginx-as-a-reverse-proxy-on-ubuntu-16-04/
+https://tecadmin.net/install-oracle-java-8-ubuntu-via-ppa/
+https://serverfault.com/questions/597516/nginx-as-ssl-reverse-proxy-for-wildfly
+
+
+MODIFICA LimitNOFILE=102642 -> LimitNOFILE=1026420

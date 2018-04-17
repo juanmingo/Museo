@@ -363,6 +363,7 @@
                     <file-store passivation="true" purge="false"/>
                 </local-cache>
             </cache-container>
+            <!--
             <cache-container name="hibernate" module="org.hibernate.infinispan">
                 <local-cache name="entity">
                     <transaction mode="NON_XA"/>
@@ -375,6 +376,7 @@
                 </local-cache>
                 <local-cache name="timestamps"/>
             </cache-container>
+            -->
         </subsystem>
         <subsystem xmlns="urn:jboss:domain:jaxrs:1.0"/>
         <subsystem xmlns="urn:jboss:domain:jca:5.0">
@@ -473,8 +475,10 @@
         <subsystem xmlns="urn:jboss:domain:undertow:4.0">
             <buffer-cache name="default"/>
             <server name="default-server">
-                <http-listener name="default" socket-binding="http" redirect-socket="https" enable-http2="true"/>
-                <https-listener name="https" socket-binding="https" security-realm="ApplicationRealm" enable-http2="true"/>
+                
+                <http-listener max-post-size="50485760" name="default" socket-binding="http" redirect-socket="https" enable-http2="true"/>
+                <https-listener max-post-size="1048576000" name="https" socket-binding="https" security-realm="ApplicationRealm" enable-http2="true"/>                                             
+                
                 <host name="default-host" alias="localhost">
                     <location name="/" handler="welcome-content"/>
                     <filter-ref name="server-header"/>

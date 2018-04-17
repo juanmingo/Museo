@@ -1,1 +1,51 @@
 https://tutel.me/c/programming/questions/43408668/datasource+configuration+in+wildfly+10
+
+1 - Crear carpetas en la la ruta:
+
+cd /opt/wildfly/modules/system/layers/base/org/
+
+sudo mkdir postgresql
+cd postgresql
+sudo mkdir main 
+cd main
+
+2 - Descargar Jar en directorio  /opt/wildfly/modules/system/layers/base/org/postgresql/main
+
+sudo wget https://jdbc.postgresql.org/download/postgresql-42.1.4.jar
+
+3 - crear module.xml
+
+sudo vi /opt/wildfly/modules/system/layers/base/org/postgresql/main/module.xml
+
+<?xml version="1.0" encoding="UTF-8"?>
+<module xmlns="urn:jboss:module:1.3" name="org.postgresql">
+  <resources>
+    <resource-root path="postgresql-42.1.4.jar"/>
+  </resources>
+  <dependencies>
+    <module name="javax.api"/>
+    <module name="javax.transaction.api"/>
+  </dependencies>
+</module>
+
+4 - Agregar Datasource y Driver en standalone.xml
+
+<datasource jta="true" jndi-name="java:/PostgresDS" pool-name="PostgresDS" enabled="true" use-ccm="false">
+	<connection-url>jdbc:postgresql://localhost:5432/Museo</connection-url>
+	<driver-class>org.postgresql.Driver</driver-class>
+	<driver>postgresql</driver>
+	<security>
+		<user-name>postgres</user-name>
+		<password>postgres</password>
+	</security>
+	<validation>
+		<valid-connection-checker class-name="org.jboss.jca.adapters.jdbc.extensions.postgres.PostgreSQLValidConnectionChecker"/>
+		<background-validation>true</background-validation>
+		<exception-sorter class-name="org.jboss.jca.adapters.jdbc.extensions.postgres.PostgreSQLExceptionSorter"/>
+	</validation>
+</datasource>
+
+<driver name="postgresql" module="org.postgresql">
+	<driver-class>org.postgresql.Driver</driver-class>
+	<xa-datasource-class>org.postgresql.xa.PGXADataSource</xa-datasource-class>
+</driver>
