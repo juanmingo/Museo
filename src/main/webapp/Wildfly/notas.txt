@@ -1,1 +1,0 @@
-https://tutel.me/c/programming/questions/43408668/datasource+configuration+in+wildfly+10
