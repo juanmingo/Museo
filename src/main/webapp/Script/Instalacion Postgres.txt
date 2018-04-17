@@ -1,0 +1,117 @@
+1- Instalación
+
+sudo apt-get update
+sudo apt-get install postgresql postgresql-contrib
+
+2 - Cambiando a una Cuenta Postgres
+El procedimiento de instalación creó a un usuario llamado postgres que está asociado con el rol Postgres por defecto. Para utilizar Postgres, puede identificarse con esa cuenta.
+
+Cambie a la cuenta postgres en su servidor escribiendo:
+
+sudo -i -u postgres
+
+Ahora puede acceder a la consola Postgres inmediatamente escribiendo:
+
+psql
+
+Ahora será ingresado y tendrá acceso para interactuar con el sistema de administración de bases de datos.
+
+Salga de la consola PostgreSQL escribiendo:
+
+\q
+
+Ahora debe salir de la consola de postgres a Linux.
+
+3 - Cambiando a una Cuenta Postgres
+El procedimiento de instalación creó a un usuario llamado postgres que está asociado con el rol Postgres por defecto. Para utilizar Postgres, puede identificarse con esa cuenta.
+
+Cambie a la cuenta postgres en su servidor escribiendo:
+
+sudo -i -u postgres
+
+Ahora puede acceder a la consola Postgres inmediatamente escribiendo:
+
+psql
+
+Ahora será ingresado y tendrá acceso para interactuar con el sistema de administración de bases de datos.
+
+Salga de la consola PostgreSQL escribiendo:
+
+\q
+
+Ahora debe salir de la consola de postgres a Linux.
+
+Acceso a la Consola de Postgres sin Cambiar de Cuentas
+También puede ejecutar el comando que desee con la cuenta postgres directamente con sudo.
+
+Por instancia, en el último ejemplo, sólo queríamos llegar a la consola de Postgres. Podríamos hacer esto en un solo paso ejecutando simplemente el comando psql como usuario postgres con sudo como este:
+
+sudo -u postgres psql
+
+Esto lo registrará directamente en Postgres sin el intermediario bash shell en el medio.
+
+Una vez más, puede salir de la sesión interactiva de Postgres escribiendo:
+
+\q
+
+4 - Crear un Nuevo Rol
+Actualmente, sólo tenemos el rol de postgres configurado dentro de la base de datos. Podemos crear nuevos roles desde la línea de comandos con el comando createrole. La bandera --interactive le pedirá los valores necesarios.
+
+Si ha iniciado sesión como cuenta postgres, puede crear un nuevo usuario escribiendo:
+
+createuser --interactive
+
+Si, en cambio, prefiere utilizar sudo para cada comando sin cambiar de su cuenta normal, puede escribir:
+
+sudo -u postgres createuser --interactive
+
+El script le pedirá algunas opciones y, en base a sus respuestas, ejecute los comandos Postgres correctos para crear un usuario según sus especificaciones.
+
+Output
+Enter name of role to add: sammy
+Shall the new role be a superuser? (y/n) y
+
+5 - Crear una Nueva Base de Datos
+De forma predeterminada, otra suposición que hace el sistema de autenticación de Postgres es que habrá una base de datos con el mismo nombre que el rol que se utiliza para iniciar la sesión, a la que el rol tiene acceso.
+
+Así que si en la última sección, creamos un usuario llamado sammy, ese rol intentará conectarse a una base de datos que también se llama sammy por defecto. Puede crear la base de datos apropiada con el comando createdb.
+
+Si ha iniciado sesión en la cuenta postgres, debería escribir algo como:
+
+createdb sammy
+
+Si, en su lugar, prefiere usar sudo para cada comando sin cambiar de su cuenta normal, debería escribir:
+
+sudo -u postgres createdb sammy
+
+
+** https://www.digitalocean.com/community/tutorials/como-instalar-y-utilizar-postgresql-en-ubuntu-16-04-es
+
+PASOS EXTRAS
+
+Despues cambiar contraseña
+
+ALTER ROLE postgres WITH PASSWORD 'postgres';
+
+MODIFICAR SIGUIENTES ARCHIVOS PARA PODER CONECTARSE REMOTAMENTE
+
+postgresql.conf
+
+SE DESCOMENTAN:
+
+sudo vi /etc/postgresql/9.5/main/postgresql.conf
+
+listen_addresses = '*'
+password_encryption = on 
+
+pg_hba.conf
+
+SE AGREGA:
+
+sudo vi /etc/postgresql/9.5/main/pg_hba.conf
+
+host  all  all 0.0.0.0/0 md5
+
+REINICIAR SERVICIO
+
+** /etc/init.d/postgresql restart

@@ -1,0 +1,198 @@
+1. Update your system 
+Let’s start with the installation. Make sure your server OS packages are fully up-to-date:
+
+apt-get update 
+apt-get upgrade
+
+2. Remove Apache server
+Stop and remove Apache, then install nginx using the following commands:
+
+service apache2 stop
+apt-get remove apache2
+apt-get autoremove
+apt-get install nginx
+
+3. Configure Nginx
+Edit the default nginx configuration file:
+
+vi /etc/nginx/sites-enabled/default
+
+Delete the following line:
+
+listen [::]:80 default_server;
+
+4. Enable nginx service
+Enable nginx service to start on boot and start it:
+
+systemctl enable nginx
+systemctl start nginx.service
+
+5. Install Java
+In order to run WildFly, Java has to be installed on the server so run the following command to install the Java Development Kit package (JDK):
+
+sudo add-apt-repository ppa:webupd8team/java
+sudo apt-get update
+sudo apt-get install oracle-java8-installer
+
+sudo apt-get install oracle-java8-set-default
+
+java -version
+
+6. Create WildFly User
+
+groupadd -r wildfly
+
+useradd -r -g wildfly -d /opt/wildfly -s /sbin/nologin wildfly
+
+7. Download WildFly
+Download the latest version of WildFly available at ‘http://wildfly.org/downloads’ to a directory on the server and extract it using the following commands:
+
+cd /opt
+
+wget http://download.jboss.org/wildfly/11.0.0.Final/wildfly-11.0.0.Final.tar.gz
+
+tar -xvzf wildfly-11.0.0.Final.tar.gz
+
+mv wildfly-11.0.0.Final wildfly
+
+8. Configure WildFly
+Create a wildfly configuration file:
+
+vi /etc/default/wildfly
+
+Add the following lines to it:
+
+WILDFLY_USER="wildfly"
+STARTUP_WAIT=180
+SHUTDOWN_WAIT=30
+WILDFLY_CONFIG=standalone.xml
+WILDFLY_MODE=standalone
+WILDFLY_BIND=0.0.0.0
+
+so it will start WildFly 10 using the default web profile configuration in ‘standalone’ mode.
+Create a WildFly startup script, named ‘launch.sh’:
+
+vi /opt/wildfly/bin/launch.sh
+
+#!/bin/sh
+
+if [ "x$WILDFLY_HOME" = "x" ]; then
+    WILDFLY_HOME=/opt/wildfly
+fi
+
+if [ "x$1" = "xdomain" ]; then
+    echo 'Starting Wildfly in domain mode.'
+    $WILDFLY_HOME/bin/domain.sh -c $2 -b $3
+else
+    echo 'Starting Wildfly in standalone mode.'
+    $WILDFLY_HOME/bin/standalone.sh -c $2 -b $3
+fi
+
+Make the startup script executable:
+
+chmod 755 /opt/wildfly/bin/launch.sh
+
+WildFly can be started using the launch.sh script we created in the /opt/wildfly/bin directory or even better, we will create a systemd init file for that purpose:
+
+vi /etc/systemd/system/wildfly.service
+
+[Unit]
+Description=The WildFly Application Server
+After=syslog.target network.target
+Before=nginx.service
+
+[Service]
+Environment=LAUNCH_JBOSS_IN_BACKGROUND=1
+EnvironmentFile=/etc/default/wildfly
+User=wildfly
+LimitNOFILE=102642
+PIDFile=/var/run/wildfly/wildfly.pid
+ExecStart=/opt/wildfly/bin/launch.sh $WILDFLY_MODE $WILDFLY_CONFIG $WILDFLY_BIND
+StandardOutput=null
+
+[Install]
+WantedBy=multi-user.target
+
+Set the proper ownership of files and directories located to the /opt/wildfly directory:
+
+chown wildfly:wildfly -R /opt/wildfly/
+
+Start the WildFly service and enable WildFly to start on boot:
+
+systemctl daemon-reload
+systemctl start wildfly
+systemctl enable wildfly
+
+9. Create a new nginx block
+Create a new nginx block so you can access the WildFly management interface using nginx as a reverse proxy:
+
+vi /etc/nginx/sites-available/wildfly
+
+Add the following lines:
+
+upstream wildfly {
+    server 127.0.0.1:8080;
+}
+
+server {
+    listen      80;
+    server_name 167.99.53.186;
+
+    access_log  /var/log/nginx/wildfly.access.log;
+    error_log   /var/log/nginx/wildfly.error.log;
+
+    proxy_buffers 16 64k;
+    proxy_buffer_size 128k;
+
+location / {
+   proxy_set_header Host $host;
+   proxy_set_header X-Forwarded-Proto $scheme;
+   add_header Front-End-Https on;
+   proxy_pass http://127.0.0.1:8080;
+}
+
+location /management {
+   proxy_set_header Host $host;
+   proxy_set_header X-Forwarded-Proto $scheme;
+   add_header Front-End-Https on;
+   proxy_pass http://127.0.0.1:9990/management;
+}
+
+location /console {
+   proxy_set_header Host $host;
+   proxy_set_header X-Forwarded-Proto $scheme;
+   add_header Front-End-Https on;
+   proxy_pass http://127.0.0.1:9990/console;
+}
+
+location /logout {
+   proxy_set_header Host $host;
+   proxy_set_header X-Forwarded-Proto $scheme;
+   add_header Front-End-Https on;
+   proxy_pass http://127.0.0.1:9990/logout;
+}
+
+location /error {
+   proxy_set_header Host $host;
+   proxy_set_header X-Forwarded-Proto $scheme;
+   add_header Front-End-Https on;
+   proxy_pass http://127.0.0.1:9990;
+}
+
+}
+
+Do not forget to replace ‘your-domain.com’ with your actual domain name.
+
+ln -s /etc/nginx/sites-available/wildfly /etc/nginx/sites-enabled/
+
+Restart nginx for the changes to take effect:
+
+systemctl restart nginx.service
+
+10. Add new user
+In order to access the WildFly management console, you need to add a new user. Execute the add-user.sh script within the bin directory of the WildFly installation and enter the requested information:
+
+/opt/wildfly/bin/add-user.sh
+
+museoadmingeo
+mag2k18usm

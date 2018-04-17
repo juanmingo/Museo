@@ -4,80 +4,15 @@ Username: root
 Password: 1f5e83b8d0a4d3ab423ee933b0
 New Password: museousm
 
+Postgres
+
 rol : geosansano (admin)
+MuseoSansano clave admin (Postgres)
 
-sudo apt-get update
-sudo apt-get install postgresql postgresql-contrib
+postgres
+postgres
 
-sudo -i -u postgres
+WildFly
 
-psql
-
-\q
-
-sudo -u postgres psql
-
-\q
-
-createuser --interactive
-
-//esto no va
-ALTER ROLE postgres WITH PASSWORD 'postgres';
-
-sudo -u postgres createuser --interactive
-
-Pagina: https://www.digitalocean.com/community/tutorials/como-instalar-y-utilizar-postgresql-en-ubuntu-16-04-es
-
-user:postgres
-pas: postgres
-port:5432
-
-postgresql.conf
-
-SE DESCOMENTAN:
-
-sudo vi /etc/postgresql/9.5/main/postgresql.conf
-
-listen_addresses = '*'
-password_encryption = on 
-
-pg_hba.conf
-
-SE AGREGA:
-
-sudo vi /etc/postgresql/9.5/main/pg_hba.conf
-
-host  all  all 0.0.0.0/0 md5
-
-
-** /etc/init.d/postgresql restart
-
-
-******************************************
-JAVA
-
-sudo add-apt-repository ppa:webupd8team/java
-sudo apt-get update
-sudo apt-get install oracle-java8-installer
-
-sudo apt-get install oracle-java8-set-default
-
-https://tecadmin.net/install-oracle-java-8-ubuntu-via-ppa/
-
-https://developer-should-know.com/post/134394533957/how-to-install-wildfly-on-ubuntu
-
-
-wget http://download.jboss.org/wildfly/11.0.0.Final/wildfly-11.0.0.Final.tar.gz
-
-wget http://download.jboss.org/wildfly/10.1.0.Final/wildfly-10.1.0.Final.tar.gz
-
-mv cambiar nombre
-
-MuseoSansano clave ademin
-
-export wildfly=/opt/wildfly/bin
-
-
-https://serverfault.com/questions/597516/nginx-as-ssl-reverse-proxy-for-wildfly
-
-https://serverfault.com/questions/597516/nginx-as-ssl-reverse-proxy-for-wildfly
+museoadmingeo
+mag2k18usm
