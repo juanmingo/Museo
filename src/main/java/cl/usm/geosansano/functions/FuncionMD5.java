@@ -20,5 +20,7 @@ public abstract class FuncionMD5 implements Serializable {
         md.update(password.getBytes(), 0, password.length());
         return new BigInteger(1, md.digest()).toString(16).toUpperCase();
     }
+    
+    
 
 }

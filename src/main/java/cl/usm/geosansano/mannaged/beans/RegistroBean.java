@@ -6,12 +6,14 @@
 package cl.usm.geosansano.mannaged.beans;
 
 import cl.usm.geosansano.comparators.SedeNameComparator;
+import cl.usm.geosansano.correo.EnviarCorreoGmail;
 import cl.usm.geosansano.entity.CarreraImparte;
 import cl.usm.geosansano.entity.MuseoUsuario;
 import cl.usm.geosansano.entity.Sede;
 import cl.usm.geosansano.entity.TipoPerfil;
 import cl.usm.geosansano.entity.TipoRevision;
 import cl.usm.geosansano.entity.TipoVigencia;
+import cl.usm.geosansano.functions.FuncionEncriptado;
 import cl.usm.geosansano.functions.FuncionFecha;
 import cl.usm.geosansano.functions.FuncionMD5;
 import cl.usm.geosansano.sessions.beans.CarreraImparteFacadeLocal;
@@ -21,6 +23,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -28,6 +32,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  *
@@ -96,6 +101,7 @@ public class RegistroBean implements Serializable {
         nuevoUser.setFechaModificacion(FuncionFecha.hoy());
 
         museoUsuarioFacade.create(nuevoUser);
+        enviarCorreoConfirm(correo);
         pass = null;
         confirmPass = null;
         nombres = null;
@@ -106,6 +112,28 @@ public class RegistroBean implements Serializable {
 
         FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuario Registrado con éxito.", "");
         FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+
+    public void enviarCorreoConfirm(String destinatario) {
+        String nombrePersonalFrom = "Registro Geo UTFSM - Sansanos por el Mundo";
+        destinatario = "r.alexander.riquelme@gmail.com";
+        //String copia = "juan.delgado@usm.cl";
+        String asunto = "Prueba Desarrollo USM";
+        HttpServletRequest origRequest = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        String url = origRequest.getRequestURL().substring(0, origRequest.getRequestURL().indexOf(FacesContext.getCurrentInstance().getExternalContext().getRequestServletPath()));
+        FuncionEncriptado f = new FuncionEncriptado();
+        try {
+            f.makeKey();
+            url = url + "/validacionUsuario.jsf?c=" + f.encrypt("textoEncriptado");
+        } catch (Exception ex) {
+            Logger.getLogger(RegistroBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        String mensaje = "Alo!! Probando!! D: <br/>"
+                + "<a href=\"" + url + "\">Validar Cuenta</a>";
+
+        EnviarCorreoGmail objEnviarCorreoGmail = new EnviarCorreoGmail();
+        objEnviarCorreoGmail.correo(nombrePersonalFrom, destinatario, null, asunto, mensaje);
     }
 
     /**
