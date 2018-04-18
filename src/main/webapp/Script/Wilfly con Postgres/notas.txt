@@ -28,7 +28,9 @@ sudo vi /opt/wildfly/modules/system/layers/base/org/postgresql/main/module.xml
   </dependencies>
 </module>
 
-4 - Agregar Datasource y Driver en standalone.xml
+4 - Agregar Datasource y Driver
+
+sudo vi /opt/wildfly/standalone/configuration/standalone.xml
 
 <datasource jta="true" jndi-name="java:/PostgresDS" pool-name="PostgresDS" enabled="true" use-ccm="false">
 	<connection-url>jdbc:postgresql://localhost:5432/Museo</connection-url>
@@ -49,3 +51,6 @@ sudo vi /opt/wildfly/modules/system/layers/base/org/postgresql/main/module.xml
 	<driver-class>org.postgresql.Driver</driver-class>
 	<xa-datasource-class>org.postgresql.xa.PGXADataSource</xa-datasource-class>
 </driver>
+
+
+max-post-size="974247881"

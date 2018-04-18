@@ -17,6 +17,17 @@ WildFly
 museoadmingeo
 mag2k18usm
 
+geosansano.war
+
+http://167.99.53.186/geosansano/
 
 REVISAR
 https://avolpe.github.io/hibernate/2016/06/17/wildfly-10-hibernate-spatial.html
+
+USER APLICACION
+
+juan.delgado@usm.cl
+juan
+
+juan.delgado2@usm.cl
+juan
