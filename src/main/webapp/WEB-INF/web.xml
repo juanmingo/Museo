@@ -31,11 +31,11 @@
     </context-param>
     <context-param>
         <param-name>primefaces.PRIVATE_CAPTCHA_KEY</param-name>
-        <param-value>6LfmjEsUAAAAAO0hXVLe0R5pPGvfDwlueCtmn18v</param-value>
+        <param-value>6LebJFQUAAAAAFgOYzEvpykA2MpjqXo3nvYuYAzS</param-value>
     </context-param>
     <context-param>
         <param-name>primefaces.PUBLIC_CAPTCHA_KEY</param-name>
-        <param-value>6LfmjEsUAAAAAAJdUZ9V7tR9HjNcQI2y0szl2Tso</param-value>
+        <param-value>6LebJFQUAAAAAEyGNLiYk7pMQwqym0TUjEgHRcAh</param-value>
     </context-param>
     
     <servlet-mapping>

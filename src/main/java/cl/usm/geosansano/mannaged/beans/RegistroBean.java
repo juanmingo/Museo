@@ -88,20 +88,32 @@ public class RegistroBean implements Serializable {
 
     public void registrar() {
         System.out.println("****** registrar");
-        Long id = museoUsuarioFacade.querySimple("MuseoUsuario.maxMususuId") + 1;
-        MuseoUsuario nuevoUser = new MuseoUsuario(id);
-        nuevoUser.setMususuNombres(nombres);
-        nuevoUser.setMususuPaterno(paterno);
-        nuevoUser.setMususuMaterno(materno);
-        nuevoUser.setContraseña(FuncionMD5.obtenerHash(pass));
-        nuevoUser.setCorreo(correo);
-        nuevoUser.setCodVigencia(new TipoVigencia(0));
-        nuevoUser.setCodRevision(new TipoRevision(0));
-        nuevoUser.setCodPerfil(new TipoPerfil(2));
-        nuevoUser.setFechaModificacion(FuncionFecha.hoy());
 
-        museoUsuarioFacade.create(nuevoUser);
-        enviarCorreoConfirm(correo);
+        MuseoUsuario nuevoUser = museoUsuarioFacade.findByCorreo(correo);
+        if (nuevoUser == null) {
+            Long id = museoUsuarioFacade.querySimple("MuseoUsuario.maxMususuId") + 1;
+            nuevoUser = new MuseoUsuario(id);
+            nuevoUser.setMususuNombres(nombres);
+            nuevoUser.setMususuPaterno(paterno);
+            nuevoUser.setMususuMaterno(materno);
+            nuevoUser.setContraseña(FuncionMD5.obtenerHash(pass));
+            nuevoUser.setCorreo(correo);
+            nuevoUser.setCodVigencia(new TipoVigencia(0));
+            nuevoUser.setCodRevision(new TipoRevision(0));
+            nuevoUser.setCodPerfil(new TipoPerfil(2));
+            nuevoUser.setFechaModificacion(FuncionFecha.hoy());
+
+            museoUsuarioFacade.create(nuevoUser);
+            String nombre = (nombres == null ? "" : nombres) + (paterno == null ? "" : " " + paterno) + (materno == null ? "" : " " + materno);
+            System.out.println("nombre: " + nombre);
+            enviarCorreoConfirm(correo, nombre, id);
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuario Registrado con éxito.", "Debe activar la cuenta ingresando al link enviado a su correo.");
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+        } else {
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "El correo ingresado ya se encuentra registrado.", "");
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+            return;
+        }
         pass = null;
         confirmPass = null;
         nombres = null;
@@ -110,26 +122,27 @@ public class RegistroBean implements Serializable {
         correo = null;
         correoConfirm = null;
 
-        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuario Registrado con éxito.", "");
-        FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
-    public void enviarCorreoConfirm(String destinatario) {
+    public void enviarCorreoConfirm(String destinatario, String nombre, Long id) {
         String nombrePersonalFrom = "Registro Geo UTFSM - Sansanos por el Mundo";
         destinatario = "r.alexander.riquelme@gmail.com";
         //String copia = "juan.delgado@usm.cl";
         String asunto = "Prueba Desarrollo USM";
         HttpServletRequest origRequest = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         String url = origRequest.getRequestURL().substring(0, origRequest.getRequestURL().indexOf(FacesContext.getCurrentInstance().getExternalContext().getRequestServletPath()));
-        FuncionEncriptado f = new FuncionEncriptado();
         try {
-            f.makeKey();
-            url = url + "/validacionUsuario.jsf?c=" + f.encrypt("textoEncriptado");
+            url = url + "/validacionUsuario.jsf?c=" + FuncionEncriptado.encriptar(id.toString());
         } catch (Exception ex) {
             Logger.getLogger(RegistroBean.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        String mensaje = "Alo!! Probando!! D: <br/>"
+        String mensaje = "Hola<br/>"
+                + "<br/>" + nombre.toUpperCase()
+                + "<br/>"
+                + "Verificación de tu cuenta<br/>"
+                + "<br/>"
+                + "Recientemente  este correo se ha registrado en GeoMuseo UTFSM, antes de ingresar debes primero activar tu cuenta. Para hacerlo por favor sigue este enlace:"
                 + "<a href=\"" + url + "\">Validar Cuenta</a>";
 
         EnviarCorreoGmail objEnviarCorreoGmail = new EnviarCorreoGmail();

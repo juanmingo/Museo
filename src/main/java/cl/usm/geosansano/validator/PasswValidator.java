@@ -25,6 +25,7 @@ public class PasswValidator implements javax.faces.validator.Validator {
         String str = (String) value;
 
         UIInput passUI = (UIInput) component.getAttributes().get("password");
+        String confirm = (String) component.getAttributes().get("confirm");
         String pass = "";
 
         if (passUI != null && passUI.getValue() != null) {
@@ -34,8 +35,11 @@ public class PasswValidator implements javax.faces.validator.Validator {
         System.out.println("str: " + str + " correo: " + pass);
         FacesMessage msg;
 
-        if (str == null || str.trim().equals("")) {
-            msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Debe Ingresar contraseña.", "");
+        if (confirm != null && (str == null || str.trim().equals(""))) {
+            msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Debe Ingresar la Confirmación de la Contraseña.", "");
+            throw new ValidatorException(msg);
+        } else if (str == null || str.trim().equals("")) {
+            msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Debe Ingresar un Contraseña.", "");
             throw new ValidatorException(msg);
         }
 

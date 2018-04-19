@@ -25,26 +25,30 @@ public class EmailValidator implements javax.faces.validator.Validator {
         String str = (String) value;
 
         UIInput correoUI = (UIInput) component.getAttributes().get("mail");
-        String correo = "";
+        String confirm = (String) component.getAttributes().get("confirm");
 
+        String correo = "";
         if (correoUI != null && correoUI.getValue() != null) {
             correo = (String) correoUI.getValue().toString();
         }
 
-        System.out.println("str: " + str + " correo: " + correo);
+        System.out.println("str: " + str + " correo: " + correo + " confirm: " + confirm);
         FacesMessage msg;
 
-        if (str == null || str.trim().equals("")) {
-            msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Debe Ingresar Correo.", "");
+        if (confirm != null && (str == null || str.trim().equals(""))) {
+            msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Debe Ingresar la Confirmación del Correo.", "");
+            throw new ValidatorException(msg);
+        } else if (str == null || str.trim().equals("")) {
+            msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Debe Ingresar un Correo.", "");
             throw new ValidatorException(msg);
         }
 
-        if (!FuncionCorreo.validarCorreo(str)) {
+        if ((confirm == null) && !FuncionCorreo.validarCorreo(str)) {
             msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Debe Ingresar un Correo valido.", "");
             throw new ValidatorException(msg);
         }
 
-        if (correo != null && !correo.trim().equals("") && !correo.trim().equals(str.trim())) {
+        if (confirm != null && confirm.equals("1") && correo != null && !correo.trim().equals("") && !correo.trim().equals(str.trim())) {
             msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Los correos ingresados no coinciden.", "");
             throw new ValidatorException(msg);
         }

@@ -16,8 +16,18 @@
     <ui:define name="contenido">        
         <h:form id="validacion" >
             <p:growl id="growl" sticky="true" showDetail="true"  />
-            <div class="ui-g ui-fluid " >
-                validacion
+            <div class="ui-g ui-fluid" >
+                <div class="ui-g-2 "></div>
+                <div class="ui-g-8 "  >
+                    <div class="testbox">
+                        <div class="ui-g-12" align="center" >
+                            <p:graphicImage value="images/logo_USM.png" class="logo" style="width: 90%;" />
+                        </div>
+                        <div class="ui-g-12" align="center" >
+                            <p:outputLabel value="#{validacionUsuarioBean.mensajeValidacion}" style="color: #13418b;"/>
+                        </div>
+                    </div>
+                </div>
             </div>
         </h:form>
     </ui:define> 

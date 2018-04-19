@@ -13,7 +13,7 @@
 
             <div class="ui-g ui-fluid " >
                 <div class="ui-g-2 "></div>
-                <div class="ui-g-8 " style="height: 610px;" >
+                <div class="ui-g-8 " style="height: 680px;" >
                     <div class="testbox">
                         <div class="ui-g-12" align="center" >
                             <p:graphicImage value="images/logo_USM.png" class="logo" style="width: 90%;" />
@@ -44,6 +44,7 @@
                         <div class="ui-g-12"  >
                             <p:inputText id="mailconfirm" value="#{registroBean.correoConfirm}" placeholder="Confirme Correo" validator="emailValidator">
                                 <f:attribute name="mail" value="#{mail}"  />
+                                <f:attribute name="confirm" value="1"  />
                             </p:inputText>
                         </div>
                         <div class="ui-g-12" ><hr/></div>
@@ -53,18 +54,19 @@
                         <div class="ui-g-12"  >
                             <p:password id="confirmPass" value="#{registroBean.confirmPass}" placeholder="Confirma Contraseña" validator="passwValidator"  >
                                 <f:attribute name="password" value="#{password}"  />
+                                <f:attribute name="confirm" value="1"  />
                             </p:password>
                         </div>
                         <div class="ui-g-12" ><hr/></div>
-                        <div class="ui-g-12" >
-                            <!--p:captcha label="Captcha"  language="es" /-->
+                        <div class="ui-g-12 "  >
+                            <p:captcha label="Captcha"  language="es"  />
                         </div> 
                         <div class="ui-g-12" align="center" >
-                            <p:commandButton value="Registrar" update="growl"  actionListener="#{registroBean.registrar()}" icon="fa fa-check" style="width: 90%;" />
+                            <p:commandButton value="Registrar" update="growl registro"  actionListener="#{registroBean.registrar()}" icon="fa fa-check" style="width: 90%;" />
                         </div>
                     </div>
                 </div>
-               
+
             </div>
         </h:form>
     </ui:define> 
