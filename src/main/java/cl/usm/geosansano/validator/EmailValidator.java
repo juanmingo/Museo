@@ -36,20 +36,20 @@ public class EmailValidator implements javax.faces.validator.Validator {
         FacesMessage msg;
 
         if (confirm != null && (str == null || str.trim().equals(""))) {
-            msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Debe Ingresar la Confirmación del Correo.", "");
+            msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Debe Ingresar la Confirmación del Correo.", "");
             throw new ValidatorException(msg);
         } else if (str == null || str.trim().equals("")) {
-            msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Debe Ingresar un Correo.", "");
+            msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Debe Ingresar un Correo.", "");
             throw new ValidatorException(msg);
         }
 
         if ((confirm == null) && !FuncionCorreo.validarCorreo(str)) {
-            msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Debe Ingresar un Correo valido.", "");
+            msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Debe Ingresar un Correo valido.", "");
             throw new ValidatorException(msg);
         }
 
         if (confirm != null && confirm.equals("1") && correo != null && !correo.trim().equals("") && !correo.trim().equals(str.trim())) {
-            msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Los correos ingresados no coinciden.", "");
+            msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Los correos ingresados no coinciden.", "");
             throw new ValidatorException(msg);
         }
 

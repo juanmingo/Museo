@@ -52,6 +52,9 @@
                             <p:password id="pass" value="#{registroBean.pass}" placeholder="Contraseña" binding="#{password}" validator="passwValidator" />
                         </div>
                         <div class="ui-g-12"  >
+                            <p:outputLabel value="Usa 8 o más caracteres con una combinación de letras mayúsculas, minúsculas y números" />
+                        </div>
+                        <div class="ui-g-12"  >
                             <p:password id="confirmPass" value="#{registroBean.confirmPass}" placeholder="Confirma Contraseña" validator="passwValidator"  >
                                 <f:attribute name="password" value="#{password}"  />
                                 <f:attribute name="confirm" value="1"  />

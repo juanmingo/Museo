@@ -36,4 +36,33 @@ public abstract class FuncionTexto implements Serializable {
         return output;
     }
 
+    public static Boolean validarContraseña(String contraseña) {
+        char clave;
+
+        byte contNumero = 0, contLetraMay = 0, contLetraMin = 0;
+        if (contraseña.length() > 7) {
+            for (byte i = 0; i < contraseña.length(); i++) {
+
+                clave = contraseña.charAt(i);
+
+                String passValue = String.valueOf(clave);
+
+                if (passValue.matches("[A-Z]")) {
+
+                    contLetraMay++;
+
+                } else if (passValue.matches("[a-z]")) {
+
+                    contLetraMin++;
+
+                } else if (passValue.matches("[0-9]")) {
+
+                    contNumero++;
+
+                }
+            }
+        }
+
+        return contraseña.length() > 7 && contLetraMay > 0 && contLetraMin > 0 && contNumero > 0;
+    }
 }

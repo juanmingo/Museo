@@ -22,11 +22,11 @@ public class StringObligatorioValidator implements javax.faces.validator.Validat
     public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
         String str = (String) value;
         String strReturnValidator = (String) component.getAttributes().get("strReturnValidator");
-        System.out.println("str: " + str + " strReturnValidator: " + strReturnValidator);
+        //System.out.println("str: " + str + " strReturnValidator: " + strReturnValidator);
         FacesMessage msg;
 
         if (str == null || str.trim().equals("")) {
-            msg = new FacesMessage(FacesMessage.SEVERITY_WARN, strReturnValidator, "");
+            msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, strReturnValidator, "");
             throw new ValidatorException(msg);
 
         }

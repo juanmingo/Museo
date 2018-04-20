@@ -5,7 +5,7 @@
  */
 package cl.usm.geosansano.validator;
 
-import cl.usm.geosansano.functions.FuncionCorreo;
+import cl.usm.geosansano.functions.FuncionTexto;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIInput;
@@ -36,15 +36,19 @@ public class PasswValidator implements javax.faces.validator.Validator {
         FacesMessage msg;
 
         if (confirm != null && (str == null || str.trim().equals(""))) {
-            msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Debe Ingresar la Confirmación de la Contraseña.", "");
+            msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Debe Ingresar la Confirmación de la Contraseña.", "");
             throw new ValidatorException(msg);
-        } else if (str == null || str.trim().equals("")) {
-            msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Debe Ingresar un Contraseña.", "");
-            throw new ValidatorException(msg);
+        } else {
+            if (str == null || str.trim().equals("")) {
+                msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Debe Ingresar un Contraseña.", "");
+                throw new ValidatorException(msg);
+            } else if (!FuncionTexto.validarContraseña(str)) {
+                msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "La contraseña debe contener por lo menos 1 letra mayúscula, 1 letra minúscula, 1 número y debe tener un largo de 8 caracteres o mas.", "");
+                throw new ValidatorException(msg);
+            }
         }
-
         if (pass != null && !pass.trim().equals("") && !pass.trim().equals(str.trim())) {
-            msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Las contraseñas ingresadas no coinciden.", "");
+            msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Las contraseñas ingresadas no coinciden.", "");
             throw new ValidatorException(msg);
         }
 
