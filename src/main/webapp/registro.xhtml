@@ -48,12 +48,11 @@
                             </p:inputText>
                         </div>
                         <div class="ui-g-12" ><hr/></div>
-                        <div class="ui-g-12"  >
+                        <div class="ui-g-12" style="text-align: center;"   >
                             <p:password id="pass" value="#{registroBean.pass}" placeholder="Contraseña" binding="#{password}" validator="passwValidator" />
+                            <p:outputLabel style="font-size: 0.6em; color: #333" value="Usa 8 o más caracteres con una combinación de letras mayúsculas, minúsculas y números" />
                         </div>
-                        <div class="ui-g-12"  >
-                            <p:outputLabel value="Usa 8 o más caracteres con una combinación de letras mayúsculas, minúsculas y números" />
-                        </div>
+                       
                         <div class="ui-g-12"  >
                             <p:password id="confirmPass" value="#{registroBean.confirmPass}" placeholder="Confirma Contraseña" validator="passwValidator"  >
                                 <f:attribute name="password" value="#{password}"  />
