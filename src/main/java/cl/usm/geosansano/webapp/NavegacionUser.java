@@ -53,19 +53,19 @@ public class NavegacionUser implements Serializable {
         this.mensajeErrorLogin = "";
 
         //this.cuentaUsuario = "juan.delgado2@usm.cl";
-        //this.cuentaUsuario = "juan.delgado@usm.cl";
-        //this.cuentaContraseña = "juan";
+        this.cuentaUsuario = "juan.delgado@usm.cl";
+        this.cuentaContraseña = "juan";
 
         if (!"".equals(FuncionTexto.nvlTexto(this.cuentaUsuario, "")) && !"".equals(FuncionTexto.nvlTexto(this.cuentaContraseña, ""))) {
 
             if (FuncionCorreo.validarCorreo(this.cuentaUsuario)) {
 
-                this.museoUsuario = this.museoUsuarioFacade.findByCuenta(this.cuentaUsuario, FuncionMD5.obtenerHash(this.cuentaContraseña));
+                this.setMuseoUsuario(this.museoUsuarioFacade.findByCuenta(this.cuentaUsuario, FuncionMD5.obtenerHash(this.cuentaContraseña)));
 
-                if (this.museoUsuario == null) {
+                if (this.getMuseoUsuario() == null) {
                     this.mensajeErrorLogin = "¡Usuario y/o Contraseña Incorrectos!";
                 } else {
-                    
+
                     /*
                     String nombrePersonalFrom = "Registro Geo UTFSM - Sansanos por el Mundo";
                     String destinatario = "juan.delgador@gmail.com";
@@ -76,10 +76,9 @@ public class NavegacionUser implements Serializable {
                     EnviarCorreoGmail objEnviarCorreoGmail = new EnviarCorreoGmail();
                     objEnviarCorreoGmail.correo(nombrePersonalFrom, destinatario, null, asunto, mensaje);
                      */
-
                     FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("cuentaUsuario", this.cuentaUsuario);
-                    FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("codPerfil", this.museoUsuario.getCodPerfil());
-                    FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("mususuId", this.museoUsuario.getMususuId());
+                    FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("codPerfil", this.getMuseoUsuario().getCodPerfil());
+                    FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("mususuId", this.getMuseoUsuario().getMususuId());
                     FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("isLoggedIn", "yes");
                     this.mensajeErrorLogin = "";
                     Common.redireccionar(Pagina.PAGINA_MENU_CARGAR_DATOS_SANSANO_MAPA);
@@ -156,4 +155,18 @@ public class NavegacionUser implements Serializable {
         this.mensajeErrorLogin = mensajeErrorLogin;
     }
 //</editor-fold>
+
+    /**
+     * @return the museoUsuario
+     */
+    public MuseoUsuario getMuseoUsuario() {
+        return museoUsuario;
+    }
+
+    /**
+     * @param museoUsuario the museoUsuario to set
+     */
+    public void setMuseoUsuario(MuseoUsuario museoUsuario) {
+        this.museoUsuario = museoUsuario;
+    }
 }
