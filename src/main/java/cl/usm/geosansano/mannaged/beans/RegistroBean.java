@@ -125,12 +125,15 @@ public class RegistroBean implements Serializable {
     }
 
     public void enviarCorreoConfirm(String destinatario, String nombre, Long id) {
-        String nombrePersonalFrom = "Registro Geo UTFSM - Sansanos por el Mundo";
-        destinatario = "r.alexander.riquelme@gmail.com";
+        String nombrePersonalFrom = "Geo Sansano UTFSM";
+        //destinatario = "r.alexander.riquelme@gmail.com";
         //String copia = "juan.delgado@usm.cl";
-        String asunto = "Prueba Desarrollo USM";
+        String asunto = "Activación Cuenta";
         HttpServletRequest origRequest = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         String url = origRequest.getRequestURL().substring(0, origRequest.getRequestURL().indexOf(FacesContext.getCurrentInstance().getExternalContext().getRequestServletPath()));
+
+        
+
         try {
             url = url + "/validacionUsuario.jsf?c=" + FuncionEncriptado.encriptar(id.toString());
         } catch (Exception ex) {

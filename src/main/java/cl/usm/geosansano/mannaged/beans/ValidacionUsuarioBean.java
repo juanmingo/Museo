@@ -42,6 +42,8 @@ public class ValidacionUsuarioBean implements Serializable {
     public void cargar() {
         try {
 
+            codigo = codigo.replace(" ", "+");
+
             System.out.println("codigo encriptado: " + codigo);
             codigo = FuncionEncriptado.desencriptar(codigo);
             System.out.println("codigo desencriptado: " + codigo);

@@ -91,11 +91,12 @@ public class EnviarCorreoGmail implements java.io.Serializable {
 
                 Transport.send(message);
 
+                
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(500);
                 } catch (InterruptedException e) {
                 }
-
+                                
                 //DESARROLLO
                 System.out.println("(Desarrollo) Correo enviado: " + destinatario);
 

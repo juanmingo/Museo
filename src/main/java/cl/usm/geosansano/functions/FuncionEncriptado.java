@@ -29,12 +29,13 @@ public class FuncionEncriptado {
             byte[] base64Bytes = Base64.encodeBase64(buf);
             base64EncryptedString = new String(base64Bytes);
 
-        } catch (Exception ex) {
+        } catch (Exception e) {
+            System.out.println("Error encriptar: " + e.getMessage());
         }
         return base64EncryptedString;
     }
 
-    public static String desencriptar(String textoEncriptado) throws Exception {
+    public static String desencriptar(String textoEncriptado){
 
         String secretKey = "qualityinfosolutions"; //llave para encriptar datos
         String base64EncryptedString = "";
@@ -53,7 +54,8 @@ public class FuncionEncriptado {
 
             base64EncryptedString = new String(plainText, "UTF-8");
 
-        } catch (Exception ex) {
+        } catch (Exception e) {
+            System.out.println("Error desencriptar: " + e.getMessage());
         }
         return base64EncryptedString;
     }

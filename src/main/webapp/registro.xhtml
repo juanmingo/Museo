@@ -57,7 +57,8 @@
                             <p:captcha label="Captcha"  language="es"  />
                         </div> 
                         <div class="ui-g-12" align="center" >
-                            <p:commandButton value="Registrar" update="growl registro"  actionListener="#{registroBean.registrar()}" icon="fa fa-check" style="width: 90%;" />
+                            <p:commandButton value="Registrar" update="growl registro"  onstart="PF('dlgLoading').show();" onsuccess="PF('dlgLoading').hide();"
+                                             actionListener="#{registroBean.registrar()}" icon="fa fa-check" style="width: 90%;" />
                         </div>
                     </div>
                 </div>
