@@ -6,6 +6,7 @@
 package cl.usm.geosansano.mannaged.beans;
 
 import cl.usm.geosansano.entity.MuseoUsuario;
+import cl.usm.geosansano.entity.TipoRevision;
 import cl.usm.geosansano.entity.TipoVigencia;
 import cl.usm.geosansano.functions.FuncionEncriptado;
 import cl.usm.geosansano.sessions.beans.MuseoUsuarioFacadeLocal;
@@ -49,6 +50,7 @@ public class ValidacionUsuarioBean implements Serializable {
                 mensajeValidacion = "Ocurrio un problema al intentar validar su cuenta, por favor comuniquese con un administrador.";
             } else {
                 mu.setCodVigencia(new TipoVigencia(1));
+                mu.setCodRevision(new TipoRevision(1));
                 museoUsuarioFacade.edit(mu);
                 mensajeValidacion = "Su cuenta se activo con éxito !!!";
             }
