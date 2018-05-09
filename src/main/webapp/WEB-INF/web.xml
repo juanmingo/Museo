@@ -38,6 +38,11 @@
         <param-value>6LebJFQUAAAAAEyGNLiYk7pMQwqym0TUjEgHRcAh</param-value>
     </context-param>
     
+    <context-param>
+        <param-name>javax.faces.FACELETS_SKIP_COMMENTS</param-name>
+        <param-value>true</param-value>
+    </context-param>
+    
     <servlet-mapping>
         <servlet-name>Faces Servlet</servlet-name>
         <url-pattern>*.jsf</url-pattern>

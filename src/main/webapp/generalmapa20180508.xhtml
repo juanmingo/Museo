@@ -7,11 +7,15 @@
                 template="./Plantilla/PlantillaInicio.xhtml">
     <ui:define name="contenido">        
 
-        <h:form id="formGeneral" class="formSinBordes" >            
+        <h:form id="formGeneral" class="formSinBordes" >
+
+            <p:growl id="msjProyectosGeneral" showDetail="true" />
+
+            
 
             <f:view contentType="text/html">
                 <p:gmap id="mapGeoGeneral" model="#{generalMapa.mapModel}" center="#{generalMapa.central_latitud}, #{generalMapa.central_longitud}" 
-                        zoom="#{generalMapa.central_zoom}" type="HYBRID" style="width:100%;height:100%" >
+                        zoom="#{generalMapa.central_zoom}" type="HYBRID" style="width:100%;height:92%" >
 
                     <p:ajax event="stateChange" listener="#{generalMapa.onStateChange}"  />
                     <p:ajax event="overlaySelect" listener="#{generalMapa.onMarkerSelect}" />
@@ -42,11 +46,8 @@
         </h:form>
 
         <h:form id="formLogin" class="formSinBordes" >
-
-            <p:growl id="msjLogin" sticky="true" showDetail="true" />
-
             <p:dialog header="Acceso Geo Museo Sansano" id="dlgLoginUsuario" widgetVar="dlgLoginUsuario" 
-                      modal="true" width="310" height="180" draggable="false" resizable="false" class="contenidoformulario">
+                      modal="true" width="290" height="160" draggable="false" resizable="false">
 
                 <br/>
 
@@ -80,27 +81,16 @@
                     <h:panelGrid/>
                     <h:panelGrid/>
                     <p:commandButton value="Entrar"  icon="ui-icon-person" actionListener="#{navegacionUser.validarUsuario()}" 
-                                     onstart="PF('dlgLoading').show();" oncomplete="PF('dlgLoading').hide();"  style="width: 210px;"  />
+                                     onstart="PF('dlgLoading').show();" oncomplete="PF('dlgLoading').hide();"  style="width: 185px;"  />
 
                 </h:panelGrid>
 
-                <h:panelGrid/><h:panelGrid/><h:panelGrid/><h:panelGrid/><h:panelGrid/><h:panelGrid/>
+                <br/>
 
-                <h:panelGrid columns="3" class="contenidoformulario"   >
-                    <p:commandLink onstart="PF('dlgLoading').show();" actionListener="#{navegacionUser.registrar()}" >
-                        <p:graphicImage id="cdlRegistrar" value="./images/icon_accion_registrar.png"  style="width: 25px"  />
-                        <p:tooltip for="cdlRegistrar" value="Registrar Cuenta" trackMouse="true" style="font-size: 12px" />
-                    </p:commandLink> 
-                    <h:panelGrid width="5px" />
-                    <h:commandLink  value="Registrar Cuenta" actionListener="#{navegacionUser.registrar()}" />
+                <h:panelGrid  columns="2" class="contenidoformulario" style="text-align: center; " width="260" >                    
+                    <p:outputLabel id="msjError" value="#{navegacionUser.mensajeErrorLogin}" style="color: red; font-size: 14px; font-weight: bold;" />
                 </h:panelGrid>
 
-
-            </p:dialog>
-
-            <p:dialog id="dlgLoading" widgetVar="dlgLoading"  modal="true" showEffect="explode" hideEffect="explode"  class="dlgLoadingCenter"
-                      closable="false" draggable="false" resizable="false" showHeader="false" style="background: transparent;" >            
-                <h:graphicImage value="./images/icon_loading_v4.gif" width="50px" height="50px"/>            
             </p:dialog>
         </h:form>
 

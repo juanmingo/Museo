@@ -11,6 +11,7 @@ import cl.usm.geosansano.sistema.Common;
 import cl.usm.geosansano.sistema.Pagina;
 import java.io.Serializable;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
@@ -63,39 +64,41 @@ public class NavegacionUser implements Serializable {
                 this.setMuseoUsuario(this.museoUsuarioFacade.findByCuenta(this.cuentaUsuario, FuncionMD5.obtenerHash(this.cuentaContraseña)));
 
                 if (this.getMuseoUsuario() == null) {
+
                     this.mensajeErrorLogin = "¡Usuario y/o Contraseña Incorrectos!";
+
+                    FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Acceso Usuario", this.mensajeErrorLogin);
+                    FacesContext.getCurrentInstance().addMessage(null, msg);
+
                 } else {
 
-                    /*
-                    String nombrePersonalFrom = "Registro Geo UTFSM - Sansanos por el Mundo";
-                    String destinatario = "juan.delgador@gmail.com";
-                    //String copia = "juan.delgado@usm.cl";
-                    String asunto = "Prueba Desarrollo USM";
-                    String mensaje = "Alo!! Probando!! D: <br/>";
-
-                    EnviarCorreoGmail objEnviarCorreoGmail = new EnviarCorreoGmail();
-                    objEnviarCorreoGmail.correo(nombrePersonalFrom, destinatario, null, asunto, mensaje);
-                     */
                     FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("cuentaUsuario", this.cuentaUsuario);
                     FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("codPerfil", this.getMuseoUsuario().getCodPerfil());
                     FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("mususuId", this.getMuseoUsuario().getMususuId());
                     FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("isLoggedIn", "yes");
                     this.mensajeErrorLogin = "";
                     Common.redireccionar(Pagina.PAGINA_MENU_CARGAR_DATOS_SANSANO_MAPA);
+
                 }
 
             } else {
                 this.mensajeErrorLogin = "¡Formato de Correo Incorrecto!";
+
+                FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Acceso Usuario", this.mensajeErrorLogin);
+                FacesContext.getCurrentInstance().addMessage(null, msg);
             }
 
         } else {
             this.mensajeErrorLogin = "¡Ingrese Usuario y Contraseña!";
+
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Acceso Usuario", this.mensajeErrorLogin);
+            FacesContext.getCurrentInstance().addMessage(null, msg);
         }
 
         this.cuentaUsuario = "";
         this.cuentaContraseña = "";
-        context.update("formCuenta:pnLoginUsuario");
-        context.update("formCuenta:msjError");
+        context.update("formLogin:msjLogin");
+        context.update("formLogin:msjError");
         context.execute("PF('dlgLoginUsuario').show()");
     }
 
@@ -110,6 +113,10 @@ public class NavegacionUser implements Serializable {
         if (!Common.isLoggedIn()) {
             Common.redireccionar(Pagina.PAGINA_INDEX);
         }
+    }
+
+    public void registrar() {
+        Common.redireccionar(Pagina.PAGINA_REGISTRO);
     }
 
     public void redirecionarPagina(int codPagina) {

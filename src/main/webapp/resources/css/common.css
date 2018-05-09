@@ -195,7 +195,7 @@ body {
 }
 
 .contenidoformulario {
-    font-size   : 10px;
+    font-size   : 12px;
 }
 
 .contenidoformulario10 {
@@ -444,12 +444,12 @@ body {
     margin-top: 0em;
 }
 .fondoMapa{
-   
+
     background: url(../../images/fondo_mapa_grande5.jpg) no-repeat center center fixed;
-        -webkit-background-size: cover;
-        -moz-background-size: cover;
-        -o-background-size: cover;
-        background-size: cover;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
 }
 .testbox {
 
@@ -503,3 +503,9 @@ hr{
     font-size: x-large;
 }
 
+.ui-dock-container-top {
+    position: absolute !important;
+}
+
+.peliarriba{ position:absolute; z-index:1; } 
+.peliabajo{ position:absolute; z-index:0; } 

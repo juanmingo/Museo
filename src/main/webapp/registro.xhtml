@@ -13,7 +13,7 @@
 
             <div class="ui-g ui-fluid " >
                 <div class="ui-g-2 "></div>
-                <div class="ui-g-8 " style="height: 575px;" >
+                <div class="ui-g-8 " style="height: 630px;" >
                     <div class="testbox">
                         <div class="ui-g-12" align="center" >
                             <p:graphicImage value="images/logo_USM.png" class="logo" style="width: 100%;" />
@@ -59,6 +59,10 @@
                         <div class="ui-g-12" align="center" >
                             <p:commandButton value="Registrar" update="growl registro"  onstart="PF('dlgLoading').show();" onsuccess="PF('dlgLoading').hide();"
                                              actionListener="#{registroBean.registrar()}" icon="fa fa-check" style="width: 90%;" />
+                        </div>
+                        <div class="ui-g-12" align="center" >
+                            <p:commandButton value="Volver"  onstart="PF('dlgLoading').show();" onsuccess="PF('dlgLoading').hide();"
+                                             actionListener="#{generalMapa.cargarMapaGeneral()}" icon="fa fa-chevron-left" style="width: 90%;" />
                         </div>
                     </div>
                 </div>
