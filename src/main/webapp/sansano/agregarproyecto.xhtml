@@ -7,19 +7,20 @@
                 template="./../Plantilla/PlantillaSession.xhtml">
     <ui:define name="contenido">        
 
+        <h:form id="formSansanoAdd" class="formSinBordes contenidoformulario" >
+
+            <f:view contentType="text/html">
 
 
-        <f:view contentType="text/html">
-            <h:form id="formSansanoAdd" >
-
-                <p:gmap id="mapGeoSansanoAdd" center="#{agregarProyecto.central_latitud}, #{agregarProyecto.central_longitud}" zoom="#{agregarProyecto.central_zoom}" type="HYBRID" style="width:100%;height:91.5%"
+                <p:gmap id="mapGeoSansanoAdd" center="#{agregarProyecto.central_latitud}, #{agregarProyecto.central_longitud}" 
+                        zoom="#{agregarProyecto.central_zoom}" type="HYBRID" style="width:100%;height:94%"
                         model="#{agregarProyecto.mapModel}" onPointClick="handlePointClick(event);" widgetVar="map">
 
                     <p:ajax event="overlaySelect" listener="#{agregarProyecto.onMarkerSelect}" />
                     <p:ajax event="stateChange" listener="#{agregarProyecto.onStateChange}"  />
 
-                    <p:gmapInfoWindow id="infoWindow">
-                        <p:outputPanel style="text-align: center; display: block; margin: auto">
+                    <p:gmapInfoWindow id="infoWindow" class="contenidoformulario">
+                        <p:outputPanel style="text-align: center; display: block; margin: auto" class="contenidoformulario">
 
                             <h:outputText value="#{agregarProyecto.museoProyect.musproNombre}" />
                             <break/>
@@ -49,85 +50,86 @@
                         </p:outputPanel>
                     </p:gmapInfoWindow>
 
-                </p:gmap>                
-            </h:form>
+                </p:gmap>         
 
-            <p:growl id="msjAgregarProyecto" showDetail="true" />
+            </f:view>      
 
-            <p:dialog id="dlgAgregarProyecto" widgetVar="dlgAgregarProyecto" header="Agregar Proyecto"
-                      showEffect="fade" modal="true" resizable="false" closable="false" width="50%">
-                <div class="ui-fluid">
-                    <h:form prependId="false" class="formSinBordes contenidoformulario">
-                        <h:panelGrid columns="1" class="contenidoformulario" width="100%">
-                            <h:panelGrid/>
-                            <h:outputLabel for="nombre" value="Nombre" style="font-weight: bold;" />
-                            <h:panelGrid/> <h:panelGrid/>
-                            <p:inputText id="nombre" value="#{agregarProyecto.nombreProyecto}" style="width: 100%;"  />
-                        </h:panelGrid>
+        </h:form>
 
-                        <br/>
-                        <h:panelGrid columns="2" class="contenidoformulario" width="60%">
-                            <p:commandButton value="Aceptar"  actionListener="#{agregarProyecto.addMarker}" 
-                                             update="msjAgregarProyecto" oncomplete="markerAddComplete();"  />
-                            <p:commandButton value="Cancelar" onclick="return cancel()"  />
-                        </h:panelGrid>
+        <p:growl id="msjAgregarProyecto" showDetail="true" />
 
-                        <h:inputHidden id="lat" value="#{agregarProyecto.latitud}" />
-                        <h:inputHidden id="lng" value="#{agregarProyecto.longitud}" />
-                        <h:inputHidden id="icono" value="#{agregarProyecto.iconoAddMarker}" />
+        <p:dialog id="dlgAgregarProyecto" widgetVar="dlgAgregarProyecto" header="Agregar Proyecto"
+                  showEffect="fade" modal="true" resizable="false" closable="false" width="50%"
+                  class="contenidoformulario">
+            <div class="ui-fluid">
+                <h:form prependId="false" class="formSinBordes contenidoformulario">
+                    <h:panelGrid columns="1" class="contenidoformulario" width="100%">
+                        <h:panelGrid/>
+                        <h:outputLabel for="nombre" value="Nombre" style="font-weight: bold;" />
+                        <h:panelGrid/> <h:panelGrid/>
+                        <p:inputText id="nombre" value="#{agregarProyecto.nombreProyecto}" style="width: 100%;"  />
+                    </h:panelGrid>
 
-                    </h:form>
-                </div>
-            </p:dialog>
+                    <br/>
+                    <h:panelGrid columns="2" class="contenidoformulario" width="60%">
+                        <p:commandButton value="Aceptar"  actionListener="#{agregarProyecto.addMarker}" 
+                                         update="msjAgregarProyecto" oncomplete="markerAddComplete();"  />
+                        <p:commandButton value="Cancelar" onclick="return cancel()"  />
+                    </h:panelGrid>
 
-            <ui:insert>
-                <ui:include src="./../DialogGeo/dlgEditarProyecto.xhtml" />
-            </ui:insert>
+                    <h:inputHidden id="lat" value="#{agregarProyecto.latitud}" />
+                    <h:inputHidden id="lng" value="#{agregarProyecto.longitud}" />
+                    <h:inputHidden id="icono" value="#{agregarProyecto.iconoAddMarker}" />
 
-            <script type="text/javascript">
-                var currentMarker = null;
+                </h:form>
+            </div>
+        </p:dialog>
 
-                function handlePointClick(event) {
+        <ui:insert>
+            <ui:include src="./../DialogGeo/dlgEditarProyecto.xhtml" />
+        </ui:insert>
 
-                    if (currentMarker === null) {
+        <script type="text/javascript">
+            var currentMarker = null;
 
-                        document.getElementById('lat').value = event.latLng.lat();
-                        document.getElementById('lng').value = event.latLng.lng();
+            function handlePointClick(event) {
 
-                        currentMarker = new google.maps.Marker({
-                            position: new google.maps.LatLng(event.latLng.lat(), event.latLng.lng()),
-                            icon: document.getElementById('icono').value
-                        });
+                if (currentMarker === null) {
 
-                        PF('map').addOverlay(currentMarker);
+                    document.getElementById('lat').value = event.latLng.lat();
+                    document.getElementById('lng').value = event.latLng.lng();
 
-                        PF('dlgAgregarProyecto').show();
+                    currentMarker = new google.maps.Marker({
+                        position: new google.maps.LatLng(event.latLng.lat(), event.latLng.lng()),
+                        icon: document.getElementById('icono').value
+                    });
+
+                    PF('map').addOverlay(currentMarker);
+
+                    PF('dlgAgregarProyecto').show();
+                }
+            }
+
+            function markerAddComplete() {
+                var nombre = document.getElementById('nombre');
+
+                if (nombre.value !== '') {
+                    if ((nombre !== null)) {
+                        currentMarker.setTitle(nombre.value);
+                        nombre.value = "";
+                        currentMarker = null;
+                        PF('dlgAgregarProyecto').hide();
                     }
                 }
+            }
 
-                function markerAddComplete() {
-                    var nombre = document.getElementById('nombre');
-
-                    if (nombre.value !== '') {
-                        if ((nombre !== null)) {
-                            currentMarker.setTitle(nombre.value);
-                            nombre.value = "";
-                            currentMarker = null;
-                            PF('dlgAgregarProyecto').hide();
-                        }
-                    }
-                }
-
-                function cancel() {
-                    PF('dlgAgregarProyecto').hide();
-                    currentMarker.setMap(null);
-                    currentMarker = null;
-                    return false;
-                }
-            </script>
-
-
-        </f:view>      
+            function cancel() {
+                PF('dlgAgregarProyecto').hide();
+                currentMarker.setMap(null);
+                currentMarker = null;
+                return false;
+            }
+        </script>
 
     </ui:define> 
 </ui:composition>

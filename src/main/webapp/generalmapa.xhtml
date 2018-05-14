@@ -5,13 +5,17 @@
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"              
                 template="./Plantilla/PlantillaInicio.xhtml">
-    <ui:define name="contenido">        
+    <ui:define name="contenido">              
 
-        <h:form id="formGeneral" class="formSinBordes" >            
+        <h:form id="formGeneral" class="formSinBordes" > 
+
+            <p:idleMonitor timeout="120000">
+                <p:ajax event="idle" listener="#{generalMapa.cargarMapaGeneral()}" />
+            </p:idleMonitor>
 
             <f:view contentType="text/html">
                 <p:gmap id="mapGeoGeneral" model="#{generalMapa.mapModel}" center="#{generalMapa.central_latitud}, #{generalMapa.central_longitud}" 
-                        zoom="#{generalMapa.central_zoom}" type="HYBRID" style="width:100%;height:100%" >
+                        zoom="#{generalMapa.central_zoom}" type="HYBRID" style="width:100%;height:95%" >
 
                     <p:ajax event="stateChange" listener="#{generalMapa.onStateChange}"  />
                     <p:ajax event="overlaySelect" listener="#{generalMapa.onMarkerSelect}" />
@@ -46,7 +50,7 @@
             <p:growl id="msjLogin" sticky="true" showDetail="true" />
 
             <p:dialog header="Acceso Geo Museo Sansano" id="dlgLoginUsuario" widgetVar="dlgLoginUsuario" 
-                      modal="true" width="310" height="180" draggable="false" resizable="false" class="contenidoformulario">
+                      modal="true" width="310" height="220" draggable="false" resizable="false" class="contenidoformulario">
 
                 <br/>
 
@@ -88,11 +92,20 @@
 
                 <h:panelGrid columns="3" class="contenidoformulario"   >
                     <p:commandLink onstart="PF('dlgLoading').show();" actionListener="#{navegacionUser.registrar()}" >
-                        <p:graphicImage id="cdlRegistrar" value="./images/icon_accion_registrar.png"  style="width: 25px"  />
+                        <p:graphicImage id="cdlRegistrar" value="./images/icon_accion_registrar.png"  style="width: 30px"  />
                         <p:tooltip for="cdlRegistrar" value="Registrar Cuenta" trackMouse="true" style="font-size: 12px" />
                     </p:commandLink> 
                     <h:panelGrid width="5px" />
                     <h:commandLink  value="Registrar Cuenta" actionListener="#{navegacionUser.registrar()}" />
+                </h:panelGrid>
+
+                <h:panelGrid columns="3" class="contenidoformularioRight"   >                    
+                    <h:commandLink  value="Recuperar Contraseña" actionListener="#{navegacionUser.recuperarContraseña()}" />
+                    <h:panelGrid width="5px" />
+                    <p:commandLink onstart="PF('dlgLoading').show();" actionListener="#{navegacionUser.recuperarContraseña()}" >
+                        <p:graphicImage id="cdlRecuperar" value="./images/icon_accion_recuperar.png"  style="width: 35px"  />
+                        <p:tooltip for="cdlRecuperar" value="Recuperar Contraseña" trackMouse="true" style="font-size: 12px" />
+                    </p:commandLink>                                         
                 </h:panelGrid>
 
 

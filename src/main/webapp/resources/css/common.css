@@ -198,6 +198,16 @@ body {
     font-size   : 12px;
 }
 
+.contenidoformularioLeft {
+    font-size   : 12px;
+    text-align: left;
+}
+
+.contenidoformularioRight {
+    font-size   : 12px;
+    text-align: right;
+}
+
 .contenidoformulario10 {
     font-size   : 10px;
 }

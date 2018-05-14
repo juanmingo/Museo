@@ -129,12 +129,10 @@ public class RegistroBean implements Serializable {
         MuseoUsuario nuevoUser = museoUsuarioFacade.findByCorreo(correo);
         if (nuevoUser != null) {
             pass = FuncionGeneradoraPassword.getPassword();
-            System.out.println("nueva pass encriptada: " + FuncionMD5.obtenerHash(pass));
-            System.out.println("nueva pass: " + pass);
             nuevoUser.setContraseña(FuncionMD5.obtenerHash(pass));
-
             museoUsuarioFacade.edit(nuevoUser);
             enviarCorreoContraseña(correo, nuevoUser.getMususuNombres() + " " + nuevoUser.getMususuPaterno() + " " + nuevoUser.getMususuMaterno());
+            correo = null;
         } else {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "El correo ingresado no se encuentra registrado.", "");
             FacesContext.getCurrentInstance().addMessage(null, msg);
@@ -145,7 +143,7 @@ public class RegistroBean implements Serializable {
 
     public void enviarCorreoContraseña(String destinatario, String nombre) {
         String nombrePersonalFrom = "Geo Sansano UTFSM";
-        destinatario = "r.alexander.riquelme@gmail.com";
+        //destinatario = "r.alexander.riquelme@gmail.com";
         //String copia = "juan.delgado@usm.cl";
         String asunto = "Recuperación de contraseña";
 

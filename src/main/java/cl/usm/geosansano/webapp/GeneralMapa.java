@@ -54,6 +54,8 @@ public class GeneralMapa implements Serializable {
 
     public void cargarMapaGeneral() {
 
+        System.out.println("INI cargarMapaGeneral");
+
         this.mapModel = new DefaultMapModel();
 
         this.central_latitud = Pagina.CENTRAL_LATITUD;

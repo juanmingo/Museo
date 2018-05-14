@@ -48,6 +48,7 @@ public abstract class Pagina implements Serializable {
     public static final String PAGINA_LOGIN = "/index.jsf";
     public static final String PAGINA_INDEX = "/index.jsf";
     public static final String PAGINA_REGISTRO = "/registro.jsf";
+    public static final String PAGINA_RECUPERAR_CONTRASENA = "/recuperarcontrasena.jsf";
     //
     public static final String PAGINA_MENU_CARGAR_DATOS_GENERAL_MAPA = "/generalmapa.jsf";
     public static final String PAGINA_MENU_CARGAR_DATOS_SANSANO_MAPA = "/sansano/mapacd.jsf";

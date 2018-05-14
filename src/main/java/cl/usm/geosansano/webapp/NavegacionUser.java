@@ -39,7 +39,6 @@ public class NavegacionUser implements Serializable {
     private String cuentaContraseña = "";
     private String mensajeErrorLogin = "";
     private Boolean editar = false;
-    
 
     public void limpiarVariables() {
         this.cuentaUsuario = "";
@@ -121,6 +120,10 @@ public class NavegacionUser implements Serializable {
 
     public void registrar() {
         Common.redireccionar(Pagina.PAGINA_REGISTRO);
+    }
+
+    public void recuperarContraseña() {
+        Common.redireccionar(Pagina.PAGINA_RECUPERAR_CONTRASENA);
     }
 
     public void redirecionarPagina(int codPagina) {
