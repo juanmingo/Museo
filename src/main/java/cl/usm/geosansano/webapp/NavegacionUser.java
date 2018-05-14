@@ -4,12 +4,14 @@ package cl.usm.geosansano.webapp;
 import cl.usm.geosansano.correo.EnviarCorreoGmail;
 import cl.usm.geosansano.entity.MuseoUsuario;
 import cl.usm.geosansano.functions.FuncionCorreo;
+import cl.usm.geosansano.functions.FuncionFecha;
 import cl.usm.geosansano.functions.FuncionMD5;
 import cl.usm.geosansano.functions.FuncionTexto;
 import cl.usm.geosansano.sessions.beans.MuseoUsuarioFacadeLocal;
 import cl.usm.geosansano.sistema.Common;
 import cl.usm.geosansano.sistema.Pagina;
 import java.io.Serializable;
+import java.util.Date;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -36,6 +38,8 @@ public class NavegacionUser implements Serializable {
     private String cuentaUsuario = "";
     private String cuentaContraseña = "";
     private String mensajeErrorLogin = "";
+    private Boolean editar = false;
+    
 
     public void limpiarVariables() {
         this.cuentaUsuario = "";
@@ -137,6 +141,14 @@ public class NavegacionUser implements Serializable {
         context.execute("PF('dlgLoading').hide()");
     }
 
+    public void mostrarEditPerfil() {
+        editar = !editar;
+    }
+
+    public String getFechaFormat(Date fecha) {
+        return FuncionFecha.fechaStrFormat(fecha);
+    }
+
     //<editor-fold defaultstate="collapsed" desc="Getter && Setter">
     public String getCuentaUsuario() {
         return cuentaUsuario;
@@ -175,5 +187,19 @@ public class NavegacionUser implements Serializable {
      */
     public void setMuseoUsuario(MuseoUsuario museoUsuario) {
         this.museoUsuario = museoUsuario;
+    }
+
+    /**
+     * @return the editar
+     */
+    public Boolean getEditar() {
+        return editar;
+    }
+
+    /**
+     * @param editar the editar to set
+     */
+    public void setEditar(Boolean editar) {
+        this.editar = editar;
     }
 }

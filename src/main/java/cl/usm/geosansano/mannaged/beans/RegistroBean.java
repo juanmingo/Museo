@@ -15,6 +15,7 @@ import cl.usm.geosansano.entity.TipoRevision;
 import cl.usm.geosansano.entity.TipoVigencia;
 import cl.usm.geosansano.functions.FuncionEncriptado;
 import cl.usm.geosansano.functions.FuncionFecha;
+import cl.usm.geosansano.functions.FuncionGeneradoraPassword;
 import cl.usm.geosansano.functions.FuncionMD5;
 import cl.usm.geosansano.sessions.beans.CarreraImparteFacadeLocal;
 import cl.usm.geosansano.sessions.beans.MuseoUsuarioFacadeLocal;
@@ -124,6 +125,41 @@ public class RegistroBean implements Serializable {
 
     }
 
+    public void recuperarContraseña() {
+        MuseoUsuario nuevoUser = museoUsuarioFacade.findByCorreo(correo);
+        if (nuevoUser != null) {
+            pass = FuncionGeneradoraPassword.getPassword();
+            System.out.println("nueva pass encriptada: " + FuncionMD5.obtenerHash(pass));
+            System.out.println("nueva pass: " + pass);
+            nuevoUser.setContraseña(FuncionMD5.obtenerHash(pass));
+
+            museoUsuarioFacade.edit(nuevoUser);
+            enviarCorreoContraseña(correo, nuevoUser.getMususuNombres() + " " + nuevoUser.getMususuPaterno() + " " + nuevoUser.getMususuMaterno());
+        } else {
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "El correo ingresado no se encuentra registrado.", "");
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+            return;
+        }
+        //aaaa@asd.cl
+    }
+
+    public void enviarCorreoContraseña(String destinatario, String nombre) {
+        String nombrePersonalFrom = "Geo Sansano UTFSM";
+        destinatario = "r.alexander.riquelme@gmail.com";
+        //String copia = "juan.delgado@usm.cl";
+        String asunto = "Recuperación de contraseña";
+
+        String mensaje = "Hola<br/>"
+                + "<br/>" + nombre.toUpperCase()
+                + "<br/>"
+                + "Su nueva contraseña es:<br/>"
+                + "<br/>"
+                + pass;
+
+        EnviarCorreoGmail objEnviarCorreoGmail = new EnviarCorreoGmail();
+        objEnviarCorreoGmail.correo(nombrePersonalFrom, destinatario, null, asunto, mensaje);
+    }
+
     public void enviarCorreoConfirm(String destinatario, String nombre, Long id) {
         String nombrePersonalFrom = "Geo Sansano UTFSM";
         //destinatario = "r.alexander.riquelme@gmail.com";
@@ -131,8 +167,6 @@ public class RegistroBean implements Serializable {
         String asunto = "Activación Cuenta";
         HttpServletRequest origRequest = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         String url = origRequest.getRequestURL().substring(0, origRequest.getRequestURL().indexOf(FacesContext.getCurrentInstance().getExternalContext().getRequestServletPath()));
-
-        
 
         try {
             url = url + "/validacionUsuario.jsf?c=" + FuncionEncriptado.encriptar(id.toString());
