@@ -3,15 +3,18 @@ package cl.usm.geosansano.webapp;
 //<editor-fold defaultstate="collapsed" desc="Imports">
 import cl.usm.geosansano.correo.EnviarCorreoGmail;
 import cl.usm.geosansano.entity.MuseoUsuario;
+import cl.usm.geosansano.entity.Pais;
 import cl.usm.geosansano.functions.FuncionCorreo;
 import cl.usm.geosansano.functions.FuncionFecha;
 import cl.usm.geosansano.functions.FuncionMD5;
 import cl.usm.geosansano.functions.FuncionTexto;
 import cl.usm.geosansano.sessions.beans.MuseoUsuarioFacadeLocal;
+import cl.usm.geosansano.sessions.beans.PaisFacadeLocal;
 import cl.usm.geosansano.sistema.Common;
 import cl.usm.geosansano.sistema.Pagina;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -32,6 +35,8 @@ public class NavegacionUser implements Serializable {
 
     @EJB
     private MuseoUsuarioFacadeLocal museoUsuarioFacade;
+    @EJB
+    private PaisFacadeLocal paisFacade;
     //
     private MuseoUsuario museoUsuario;
     //
@@ -39,11 +44,17 @@ public class NavegacionUser implements Serializable {
     private String cuentaContraseña = "";
     private String mensajeErrorLogin = "";
     private Boolean editar = false;
+    private List<Pais> paises;
+    private String correo;
+    private Integer pais;
+    private Date nacimiento;
+    private String fono;
 
     public void limpiarVariables() {
         this.cuentaUsuario = "";
         this.cuentaContraseña = "";
         this.mensajeErrorLogin = "";
+        this.setPaises(this.paisFacade.findAll());
         RequestContext context = RequestContext.getCurrentInstance();
         context.update("formCuenta:pnLoginUsuario");
         context.update("formCuenta:msjError");
@@ -146,6 +157,23 @@ public class NavegacionUser implements Serializable {
 
     public void mostrarEditPerfil() {
         editar = !editar;
+        this.correo = this.museoUsuario.getCorreo();
+        this.pais = this.museoUsuario.getCodPais().getCodPais();
+        this.nacimiento = this.museoUsuario.getMususuFechaNac();
+        this.fono = this.museoUsuario.getMususuFono();
+
+    }
+
+    public void guardar() {
+        this.museoUsuario.setCorreo(correo);
+        if (this.pais != null) {
+            this.museoUsuario.setCodPais(paisFacade.find(this.pais));
+        }
+        this.museoUsuario.setMususuFechaNac(nacimiento);
+        this.museoUsuario.setMususuFono(fono);
+        this.museoUsuarioFacade.edit(museoUsuario);
+        this.museoUsuario = this.museoUsuarioFacade.find(this.museoUsuario.getMususuId());
+        this.editar = false;
     }
 
     public String getFechaFormat(Date fecha) {
@@ -204,5 +232,75 @@ public class NavegacionUser implements Serializable {
      */
     public void setEditar(Boolean editar) {
         this.editar = editar;
+    }
+
+    /**
+     * @return the paises
+     */
+    public List<Pais> getPaises() {
+        return paises;
+    }
+
+    /**
+     * @param paises the paises to set
+     */
+    public void setPaises(List<Pais> paises) {
+        this.paises = paises;
+    }
+
+    /**
+     * @return the correo
+     */
+    public String getCorreo() {
+        return correo;
+    }
+
+    /**
+     * @param correo the correo to set
+     */
+    public void setCorreo(String correo) {
+        this.correo = correo;
+    }
+
+    /**
+     * @return the pais
+     */
+    public Integer getPais() {
+        return pais;
+    }
+
+    /**
+     * @param pais the pais to set
+     */
+    public void setPais(Integer pais) {
+        this.pais = pais;
+    }
+
+    /**
+     * @return the nacimiento
+     */
+    public Date getNacimiento() {
+        return nacimiento;
+    }
+
+    /**
+     * @param nacimiento the nacimiento to set
+     */
+    public void setNacimiento(Date nacimiento) {
+        this.nacimiento = nacimiento;
+    }
+
+    /**
+     * @return the fono
+     */
+    public String getFono() {
+        return fono;
+    }
+
+    /**
+     * @param fono the fono to set
+     */
+    public void setFono(String fono) {
+        this.fono = fono;
     }
 }

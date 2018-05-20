@@ -19,6 +19,36 @@
 
         <script src="http://maps.google.com/maps/api/js?key=AIzaSyAD7njfN3y6S1zftC8tjVRD4tdwvn2HuR8" type="text/javascript"/>
 
+        <script>
+            
+            
+            PrimeFaces.locales['es'] = {
+                closeText: 'Cerrar',
+                prevText: 'Anterior',
+                nextText: 'Siguiente',
+                monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+                dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+                dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'],
+                dayNamesMin: ['D', 'L', 'M', 'M', 'J', 'V', 'S'],
+                weekHeader: 'Semana',
+                firstDay: 1,
+                isRTL: false,
+                showMonthAfterYear: false,
+                yearSuffix: '',
+                timeOnlyTitle: 'Sólo hora',
+                timeText: 'Tiempo',
+                hourText: 'Hora',
+                minuteText: 'Minuto',
+                secondText: 'Segundo',
+                currentText: 'Fecha actual',
+                ampm: false,
+                month: 'Mes',
+                week: 'Semana',
+                day: 'Día',
+                allDayText: 'Todo el día'
+            };
+        </script>
 
         <title>
             <ui:insert name="titulo">
@@ -74,17 +104,14 @@
 
         <p:sidebar widgetVar="perfilSidebar" position="right" baseZIndex="10000"   >
             <h:form id="formInfoPersonal"  >
+
                 <div class="ui-g ui-fluid " >
                     <div class="ui-g-12" style="text-align: center;">
                         <p:graphicImage value="./../images/sin_foto_perfil.png"  style="width: 10vw"  />
                     </div>
                     <div class="ui-g-12" style="text-align: center; padding: 0.1em; ">
-                        <div class="ui-g-10"  >
-                            <h:outputText value="#{navegacionUser.museoUsuario.mususuNombres} #{navegacionUser.museoUsuario.mususuPaterno} #{navegacionUser.museoUsuario.mususuMaterno}" />
-                        </div>
-                        <div class="ui-g-2"  >
-                            <p:commandButton id="edit"  icon="ui-icon-pencil" title="Editar Información" update=":formInfoPersonal" actionListener="#{navegacionUser.mostrarEditPerfil()}"    />
-                        </div>
+                        <p:outputLabel value="#{navegacionUser.museoUsuario.mususuNombres} #{navegacionUser.museoUsuario.mususuPaterno} #{navegacionUser.museoUsuario.mususuMaterno}  " />
+                        <p:commandButton id="editar" icon="fa fa-pencil" title="Editar" update=":formInfoPersonal" actionListener="#{navegacionUser.mostrarEditPerfil()}" style="width: 20px; height: 20px;" />
                     </div>
                     <div id="infoView"  class="ui-g-12" style="text-align: center; padding: 0.1em; font-size: 0.8em;"  >
                         <div class="ui-g-3" style="text-align: right;" >
@@ -92,7 +119,7 @@
                         </div>
                         <div class="ui-g-9" style="text-align: left;">
                             <p:outputLabel  value="#{navegacionUser.museoUsuario.correo}" rendered="#{!navegacionUser.editar}"  />
-                            <p:inputText  value="#{navegacionUser.museoUsuario.correo}" rendered="#{navegacionUser.editar}" />
+                            <p:inputText  value="#{navegacionUser.correo}" rendered="#{navegacionUser.editar}" />
                         </div>
 
                         <div class="ui-g-3" style="text-align: right;" >
@@ -100,7 +127,7 @@
                         </div>  
                         <div class="ui-g-9" style="text-align: left;">
                             <p:outputLabel  value=" #{navegacionUser.museoUsuario.mususuFono}" rendered="#{!navegacionUser.editar}" />
-                            <p:inputText  value="#{navegacionUser.museoUsuario.mususuFono}" rendered="#{navegacionUser.editar}" />
+                            <p:inputText  value="#{navegacionUser.fono}" rendered="#{navegacionUser.editar}" />
                         </div>
 
                         <div class="ui-g-3" style="text-align: right;" >
@@ -108,8 +135,10 @@
                         </div>
                         <div class="ui-g-9" style="text-align: left;">
                             <p:outputLabel value="#{navegacionUser.museoUsuario.codPais.nomNacionalidad}" rendered="#{!navegacionUser.editar}" />
-                            <p:inputText  value="#{navegacionUser.museoUsuario.codPais.nomNacionalidad}" rendered="#{navegacionUser.editar}" />
-
+                            <p:selectOneMenu id="pais" value="#{navegacionUser.pais}" rendered="#{navegacionUser.editar}">
+                                <f:selectItem itemLabel="seleccione" itemValue="" />
+                                <f:selectItems var="p" value="#{navegacionUser.paises}" itemValue="#{p.codPais}" itemLabel="#{p.nomNacionalidad}" />
+                            </p:selectOneMenu>
                         </div>
 
                         <div class="ui-g-3" style="text-align: right;" >
@@ -117,9 +146,11 @@
                         </div>
                         <div class="ui-g-9" style="text-align: left;">
                             <p:outputLabel value="#{navegacionUser.getFechaFormat(navegacionUser.museoUsuario.mususuFechaNac)}" rendered="#{!navegacionUser.editar}" />
-                            <p:calendar  value="#{navegacionUser.museoUsuario.mususuFechaNac}" rendered="#{navegacionUser.editar}" />
+                            <p:calendar pattern="dd/MM/yyyy" locale="es" mode="popup" value="#{navegacionUser.nacimiento}"  rendered="#{navegacionUser.editar}" />
                         </div>
-
+                        <div class="ui-g-12" style="text-align: center;" >
+                            <p:commandButton id="guardar" actionListener="#{navegacionUser.guardar()}" icon="fa fa-floppy-o" title="Guardar" update=":formInfoPersonal" rendered="#{navegacionUser.editar}" />
+                        </div>
                     </div>
                 </div>
             </h:form>
