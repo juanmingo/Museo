@@ -65,7 +65,29 @@
         <h:form id="form">
             <p:growl id="msj" showDetail="true" />
         </h:form>
-
+        <p:sidebar widgetVar="carreraSidebar" position="right" baseZIndex="1"   >
+            <div class="ui-g ui-fluid " >
+                <div class="ui-g-12" style="text-align: center;">
+                    <p:graphicImage value="./../images/sin_foto_perfil.png"  style="width: 10vw"  />
+                </div>
+                <div class="ui-g-12" style="text-align: center; padding: 0.1em; ">
+                    <p:outputLabel value="#{navegacionUser.museoUsuario.mususuNombres} #{navegacionUser.museoUsuario.mususuPaterno} #{navegacionUser.museoUsuario.mususuMaterno}  " />
+                </div>
+                <div class="ui-g-12" style="text-align: center;" >
+                    <p:dataTable var="car" value="#{navegacionUser.museoUsuario.museoUsuarioCarreraList}" emptyMessage="No tiene Carreras Registradas">
+                        <f:facet name="header">
+                            <p:commandButton id="addCar" icon="fa fa-plus" title="agregar carrera" onclick="PF('dlgAddCar').show();" style="width: 100%; height: 15px;" />
+                        </f:facet>
+                        <p:column headerText="Carrera">
+                            <h:outputText value="#{car.mususuCarrera}" />
+                        </p:column>
+                        <p:column headerText="Sede">
+                            <h:outputText value="#{car.sedCodSedeFisica.sedNomSede} #{car.sedCodSedeFisica.sedNombreCampus eq null ? '':car.sedCodSedeFisica.sedNombreCampus}" />
+                        </p:column>
+                    </p:dataTable>
+                </div>
+            </div>
+        </p:sidebar>
         <p:sidebar widgetVar="perfilSidebar" position="right" baseZIndex="1"   >
             <h:form id="formInfoPersonal"  >
 
@@ -130,19 +152,7 @@
                             <p:outputLabel value="#{navegacionUser.getFechaFormat(navegacionUser.museoUsuario.mususuFechaNac)}" rendered="#{!navegacionUser.editar}" />
                             <p:calendar pattern="dd/MM/yyyy" locale="es" mode="popup" value="#{navegacionUser.nacimiento}"  rendered="#{navegacionUser.editar}" />
                         </div>
-                        <div class="ui-g-12" style="text-align: center;" >
-                            <p:dataTable var="car" value="#{navegacionUser.museoUsuario.museoUsuarioCarreraList}" emptyMessage="No tiene Carreras Registradas">
-                                <f:facet name="header">
-                                    <p:commandButton id="addCar" icon="fa fa-plus" title="agregar carrera" onclick="PF('dlgAddCar').show();" style="width: 100%; height: 15px;" />
-                                </f:facet>
-                                <p:column headerText="Carrera">
-                                    <h:outputText value="#{car.mususuCarrera}" />
-                                </p:column>
-                                <p:column headerText="Sede">
-                                    <h:outputText value="#{car.sedCodSedeFisica.sedNomSede} #{car.sedCodSedeFisica.sedNombreCampus eq null ? '':car.sedCodSedeFisica.sedNombreCampus}" />
-                                </p:column>
-                            </p:dataTable>
-                        </div>
+
                         <div class="ui-g-12" style="text-align: right;" >
                             <p:separator style="z-index: 100" rendered="#{navegacionUser.editar}" />
                         </div>
@@ -192,7 +202,7 @@
                 <p:tooltip for="cdlAddmarker" value="Agregar Proyecto" trackMouse="true" style="font-size: 12px" />
             </p:commandLink>
             <h:panelGrid width="10" />      
-            <p:commandLink id="cdlCarrera" actionListener="#{navegacionUser.openSidebar()}" update=":formInfoPersonal"  oncomplete="PF('perfilSidebar').show()" >
+            <p:commandLink id="cdlCarrera" actionListener="#{navegacionUser.openSidebar()}" update=":formInfoPersonal"  oncomplete="PF('carreraSidebar').show()" >
                 <p:graphicImage value="./../images/icon_perfil_alumno3.png"  style="width: 27px"  />
                 <p:tooltip for="cdlCarrera" value="Carrera" trackMouse="true" style="font-size: 12px" />
             </p:commandLink>
@@ -256,8 +266,21 @@
                   closable="false" draggable="false" resizable="false" showHeader="false"  >     
             <p:panel style="border: 0px">                   
                 <div align="center" >
-                    <p:outputLabel value="agregar" />
+
                     <h:panelGrid columns="3" class="contenidoformulario">
+                        <p:outputLabel value="Sede" />
+                        <h:panelGrid width="5px" />
+                        <p:selectOneMenu   id="sede" value="#{navegacionUser.sedeSelect}" converter="sedeConverter">
+                            <f:selectItem itemLabel="seleccione" itemValue="" />
+                            <f:selectItems var="s" value="#{navegacionUser.sedes}" itemValue="#{s}" itemLabel="#{s.sedNomSede} #{s.sedNombreCampus eq null ?'':s.sedNombreCampus}" />
+                            <p:ajax  event="change"  update="carrera"  />
+                        </p:selectOneMenu>
+                        <p:outputLabel value="Carrera" />
+                        <h:panelGrid width="5px" />
+                        <p:selectOneMenu   id="carrera" value="#{navegacionUser.carreraSelect}" converter="carreraImparteConverter">
+                            <f:selectItem itemLabel="seleccione" itemValue="" />
+                            <f:selectItems var="c" value="#{navegacionUser.sedeSelect.carreraImparteList}" itemValue="#{c.carreraSede}" itemLabel="#{c.carreraSede.nomCarrera}" />
+                        </p:selectOneMenu>
                         <p:commandButton id="btnAddCar" value="Agregar"  onclick="PF('dlgAddCar').hide();" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" title="Agregar" update=":formInfoPersonal :form:msj" />
                         <h:panelGrid width="5px" />
                         <p:commandButton value="Cancelar" onclick="PF('dlgAddCar').hide();" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />

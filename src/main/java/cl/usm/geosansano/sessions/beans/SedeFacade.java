@@ -6,18 +6,19 @@
 package cl.usm.geosansano.sessions.beans;
 
 import cl.usm.geosansano.entity.Sede;
-import javax.ejb.Stateless;
+import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceContextType;
 
 /**
  *
  * @author Juan Delgado
  */
-@Stateless
+@Stateful
 public class SedeFacade extends AbstractFacade<Sede> implements SedeFacadeLocal {
 
-    @PersistenceContext(unitName = "USM_GeoSansano_war_1.0PU")
+    @PersistenceContext(unitName = "USM_GeoSansano_war_1.0PU", type = PersistenceContextType.EXTENDED)
     private EntityManager em;
 
     @Override
@@ -28,5 +29,5 @@ public class SedeFacade extends AbstractFacade<Sede> implements SedeFacadeLocal 
     public SedeFacade() {
         super(Sede.class);
     }
-    
+
 }

@@ -2,9 +2,11 @@ package cl.usm.geosansano.webapp;
 
 //<editor-fold defaultstate="collapsed" desc="Imports">
 import cl.usm.geosansano.correo.EnviarCorreoGmail;
+import cl.usm.geosansano.entity.CarreraImparte;
 import cl.usm.geosansano.entity.CarreraSede;
 import cl.usm.geosansano.entity.MuseoUsuario;
 import cl.usm.geosansano.entity.Pais;
+import cl.usm.geosansano.entity.Sede;
 import cl.usm.geosansano.functions.FuncionCorreo;
 import cl.usm.geosansano.functions.FuncionFecha;
 import cl.usm.geosansano.functions.FuncionMD5;
@@ -42,8 +44,6 @@ public class NavegacionUser implements Serializable {
     @EJB
     private SedeFacadeLocal sedeFacade;
 
-
-
     //
     private MuseoUsuario museoUsuario;
     //
@@ -62,12 +62,16 @@ public class NavegacionUser implements Serializable {
     private String contraseña;
     private String newContraseña;
     private String confirmNewContraseña;
+    private List<Sede> sedes;
+    private Sede sedeSelect;
+    private CarreraImparte carreraSelect;
 
     public void limpiarVariables() {
         this.cuentaUsuario = "";
         this.cuentaContraseña = "";
         this.mensajeErrorLogin = "";
         this.setPaises(this.paisFacade.findAll());
+        this.setSedes(sedeFacade.findAll());
         RequestContext context = RequestContext.getCurrentInstance();
         context.update("formCuenta:pnLoginUsuario");
         context.update("formCuenta:msjError");
@@ -445,5 +449,47 @@ public class NavegacionUser implements Serializable {
      */
     public void setConfirmNewContraseña(String confirmNewContraseña) {
         this.confirmNewContraseña = confirmNewContraseña;
+    }
+
+    /**
+     * @return the sedes
+     */
+    public List<Sede> getSedes() {
+        return sedes;
+    }
+
+    /**
+     * @param sedes the sedes to set
+     */
+    public void setSedes(List<Sede> sedes) {
+        this.sedes = sedes;
+    }
+
+    /**
+     * @return the sedeSelect
+     */
+    public Sede getSedeSelect() {
+        return sedeSelect;
+    }
+
+    /**
+     * @param sedeSelect the sedeSelect to set
+     */
+    public void setSedeSelect(Sede sedeSelect) {
+        this.sedeSelect = sedeSelect;
+    }
+
+    /**
+     * @return the carreraSelect
+     */
+    public CarreraImparte getCarreraSelect() {
+        return carreraSelect;
+    }
+
+    /**
+     * @param carreraSelect the carreraSelect to set
+     */
+    public void setCarreraSelect(CarreraImparte carreraSelect) {
+        this.carreraSelect = carreraSelect;
     }
 }

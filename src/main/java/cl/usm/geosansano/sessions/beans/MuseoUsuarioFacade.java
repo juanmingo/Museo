@@ -24,7 +24,7 @@ public class MuseoUsuarioFacade extends AbstractFacade<MuseoUsuario> implements 
     private EntityManager em;
 
     @Override
-    protected EntityManager getEntityManager() {
+    protected EntityManager getEntityManager() { 
         return em;
     }
 
