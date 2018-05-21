@@ -49,6 +49,12 @@ public class NavegacionUser implements Serializable {
     private Integer pais;
     private Date nacimiento;
     private String fono;
+    private String nombre;
+    private String paterno;
+    private String materno;
+    private String contraseña;
+    private String newContraseña;
+    private String confirmNewContraseña;
 
     public void limpiarVariables() {
         this.cuentaUsuario = "";
@@ -161,18 +167,60 @@ public class NavegacionUser implements Serializable {
         this.pais = this.museoUsuario.getCodPais().getCodPais();
         this.nacimiento = this.museoUsuario.getMususuFechaNac();
         this.fono = this.museoUsuario.getMususuFono();
+        this.nombre = this.museoUsuario.getMususuNombres();
+        this.paterno = this.museoUsuario.getMususuPaterno();
+        this.materno = this.museoUsuario.getMususuMaterno();
+        this.contraseña = "";
+        this.newContraseña = "";
+        this.confirmNewContraseña = "";
 
     }
 
+    public void preGuardar() {
+        System.out.println("newContraseña: " + newContraseña);
+        if (this.newContraseña == null || this.newContraseña.trim().equals("")) {
+            guardar();
+        } else {
+
+            RequestContext context = RequestContext.getCurrentInstance();
+
+            context.execute("PF('dlgPass').show();");
+
+        }
+    }
+
     public void guardar() {
+
+        if (this.newContraseña != null && !this.newContraseña.trim().equals("")
+                && !FuncionMD5.obtenerHash(this.contraseña).equals(this.museoUsuario.getContraseña())) {
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Contraseña actual Incorrecta", "");
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+            return;
+        }
+        if (this.newContraseña != null && !this.newContraseña.trim().equals("") && !this.newContraseña.equals(confirmNewContraseña)) {
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "las contraseñas nuevas no coinciden", "");
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+            return;
+        }
+        if (this.newContraseña != null && !this.newContraseña.trim().equals("")) {
+            this.museoUsuario.setContraseña(FuncionMD5.obtenerHash(this.newContraseña));
+        }
         this.museoUsuario.setCorreo(correo);
         if (this.pais != null) {
             this.museoUsuario.setCodPais(paisFacade.find(this.pais));
         }
         this.museoUsuario.setMususuFechaNac(nacimiento);
         this.museoUsuario.setMususuFono(fono);
+        this.museoUsuario.setMususuNombres(nombre);
+        this.museoUsuario.setMususuPaterno(paterno);
+        this.museoUsuario.setMususuMaterno(materno);
         this.museoUsuarioFacade.edit(museoUsuario);
         this.museoUsuario = this.museoUsuarioFacade.find(this.museoUsuario.getMususuId());
+        this.openSidebar();
+
+    }
+
+    public void openSidebar() {
         this.editar = false;
     }
 
@@ -302,5 +350,89 @@ public class NavegacionUser implements Serializable {
      */
     public void setFono(String fono) {
         this.fono = fono;
+    }
+
+    /**
+     * @return the nombre
+     */
+    public String getNombre() {
+        return nombre;
+    }
+
+    /**
+     * @param nombre the nombre to set
+     */
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    /**
+     * @return the paterno
+     */
+    public String getPaterno() {
+        return paterno;
+    }
+
+    /**
+     * @param paterno the paterno to set
+     */
+    public void setPaterno(String paterno) {
+        this.paterno = paterno;
+    }
+
+    /**
+     * @return the materno
+     */
+    public String getMaterno() {
+        return materno;
+    }
+
+    /**
+     * @param materno the materno to set
+     */
+    public void setMaterno(String materno) {
+        this.materno = materno;
+    }
+
+    /**
+     * @return the contraseña
+     */
+    public String getContraseña() {
+        return contraseña;
+    }
+
+    /**
+     * @param contraseña the contraseña to set
+     */
+    public void setContraseña(String contraseña) {
+        this.contraseña = contraseña;
+    }
+
+    /**
+     * @return the newContraseña
+     */
+    public String getNewContraseña() {
+        return newContraseña;
+    }
+
+    /**
+     * @param newContraseña the newContraseña to set
+     */
+    public void setNewContraseña(String newContraseña) {
+        this.newContraseña = newContraseña;
+    }
+
+    /**
+     * @return the confirmNewContraseña
+     */
+    public String getConfirmNewContraseña() {
+        return confirmNewContraseña;
+    }
+
+    /**
+     * @param confirmNewContraseña the confirmNewContraseña to set
+     */
+    public void setConfirmNewContraseña(String confirmNewContraseña) {
+        this.confirmNewContraseña = confirmNewContraseña;
     }
 }

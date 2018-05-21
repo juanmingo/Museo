@@ -62,7 +62,9 @@
         <f:metadata>
             <f:event type="preRenderView" listener="#{navegacionUser.validarSession()}"/>
         </f:metadata>
-
+        <h:form id="form">
+            <p:growl id="msj" showDetail="true" />
+        </h:form>
         <p:sidebar widgetVar="perfilSidebar" position="right" baseZIndex="1"   >
             <h:form id="formInfoPersonal"  >
 
@@ -75,6 +77,24 @@
                         <p:commandButton id="editar" icon="fa fa-pencil" title="Editar" update=":formInfoPersonal" actionListener="#{navegacionUser.mostrarEditPerfil()}" style="width: 20px; height: 20px;" />
                     </div>
                     <div id="infoView"  class="ui-g-12" style="text-align: center; padding: 0.1em; font-size: 0.8em;"  >
+                        <div class="ui-g-3" style="text-align: right;"  >
+                            <p:outputLabel rendered="#{navegacionUser.editar}"> <i class="fa fa-user" ></i></p:outputLabel>
+                        </div>
+                        <div class="ui-g-9" style="text-align: left;">
+                            <p:inputText  value="#{navegacionUser.nombre}" rendered="#{navegacionUser.editar}" />
+                        </div>
+                        <div class="ui-g-3" style="text-align: right;" >
+                            <p:outputLabel rendered="#{navegacionUser.editar}"> <i class="fa fa-male" ></i></p:outputLabel>
+                        </div>
+                        <div class="ui-g-9" style="text-align: left;">
+                            <p:inputText  value="#{navegacionUser.paterno}" rendered="#{navegacionUser.editar}" />
+                        </div>
+                        <div class="ui-g-3" style="text-align: right;" >
+                            <p:outputLabel rendered="#{navegacionUser.editar}"> <i class="fa fa-female" ></i></p:outputLabel>
+                        </div>
+                        <div class="ui-g-9" style="text-align: left;">
+                            <p:inputText  value="#{navegacionUser.materno}" rendered="#{navegacionUser.editar}" />
+                        </div>
                         <div class="ui-g-3" style="text-align: right;" >
                             <i class="fa fa-envelope-o"></i>
                         </div>
@@ -109,8 +129,32 @@
                             <p:outputLabel value="#{navegacionUser.getFechaFormat(navegacionUser.museoUsuario.mususuFechaNac)}" rendered="#{!navegacionUser.editar}" />
                             <p:calendar pattern="dd/MM/yyyy" locale="es" mode="popup" value="#{navegacionUser.nacimiento}"  rendered="#{navegacionUser.editar}" />
                         </div>
+                        <div class="ui-g-12" style="text-align: right;" >
+                            <p:separator style="z-index: 100" rendered="#{navegacionUser.editar}" />
+                        </div>
+                        <div class="ui-g-3" style="text-align: right;"  >
+                            <p:outputLabel rendered="#{navegacionUser.editar}"> <i class="fa fa-key" ></i></p:outputLabel>
+                        </div>
+                        <div class="ui-g-9" style="text-align: left;">
+                            <p:password id="passActual" value="#{navegacionUser.contraseña}" rendered="#{navegacionUser.editar}" />
+                            <p:watermark for="passActual" value="contraseña actual"  />
+                        </div>
+                        <div class="ui-g-3" style="text-align: right;"  >
+                            <p:outputLabel rendered="#{navegacionUser.editar}"> <i class="fa fa-key" ></i></p:outputLabel>
+                        </div>
+                        <div class="ui-g-9" style="text-align: left;">
+                            <p:password id="newPass" value="#{navegacionUser.newContraseña}" rendered="#{navegacionUser.editar}" />
+                            <p:watermark for="newPass" value="nueva contraseña"  />
+                        </div>
+                        <div class="ui-g-3" style="text-align: right;"  >
+                            <p:outputLabel rendered="#{navegacionUser.editar}"> <i class="fa fa-key" ></i></p:outputLabel>
+                        </div>
+                        <div class="ui-g-9" style="text-align: left;">
+                            <p:password id="confirmNewPass" value="#{navegacionUser.confirmNewContraseña}" rendered="#{navegacionUser.editar}" />
+                            <p:watermark for="confirmNewPass" value="Confirme nueva contraseña" />
+                        </div>
                         <div class="ui-g-12" style="text-align: center;" >
-                            <p:commandButton id="guardar" actionListener="#{navegacionUser.guardar()}" icon="fa fa-floppy-o" title="Guardar" update=":formInfoPersonal" rendered="#{navegacionUser.editar}" />
+                            <p:commandButton id="guardar"  actionListener="#{navegacionUser.preGuardar()}" icon="fa fa-floppy-o" title="Guardar" update=":formInfoPersonal" rendered="#{navegacionUser.editar}" />
                         </div>
                     </div>
                 </div>
@@ -134,7 +178,7 @@
                 <p:tooltip for="cdlAddmarker" value="Agregar Proyecto" trackMouse="true" style="font-size: 12px" />
             </p:commandLink>
             <h:panelGrid width="10" />      
-            <p:commandLink id="cdlPerfil"  onclick="PF('perfilSidebar').show()" >
+            <p:commandLink id="cdlPerfil" actionListener="#{navegacionUser.openSidebar()}" update=":formInfoPersonal"  oncomplete="PF('perfilSidebar').show()" >
                 <p:graphicImage value="./../images/icono_login4.png"  style="width: 25px"  />
                 <p:tooltip for="cdlPerfil" value="Perfil" trackMouse="true" style="font-size: 12px" />
             </p:commandLink>
@@ -175,6 +219,20 @@
             <h:graphicImage value="./../images/icon_loading_v4.gif" width="50px" height="50px"/>            
         </p:dialog>
 
+        <p:dialog id="dlgPass" widgetVar="dlgPass"  modal="true" showEffect="explode" hideEffect="explode"  class="dlgLoadingCenter"
+                  closable="false" draggable="false" resizable="false" showHeader="false"  >     
+            <p:panel style="border: 0px">                   
+                <div align="center" >
+                    <p:outputLabel value="Confirme si desea cambiar su contraseña actual" />
+                    <br/> 
+                    <h:panelGrid columns="3" class="contenidoformulario">
+                        <p:commandButton id="guardar" value="Si"  onclick="PF('dlgPass').hide();" actionListener="#{navegacionUser.guardar()}"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" title="Guardar" update=":formInfoPersonal :form:msj" />
+                        <h:panelGrid width="5px" />
+                        <p:commandButton value="No" onclick="PF('dlgPass').hide();" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                    </h:panelGrid>
+                </div>
+            </p:panel> 
+        </p:dialog>
     </h:body>
 
 </html>
