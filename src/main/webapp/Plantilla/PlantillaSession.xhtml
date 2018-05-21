@@ -129,6 +129,19 @@
                             <p:outputLabel value="#{navegacionUser.getFechaFormat(navegacionUser.museoUsuario.mususuFechaNac)}" rendered="#{!navegacionUser.editar}" />
                             <p:calendar pattern="dd/MM/yyyy" locale="es" mode="popup" value="#{navegacionUser.nacimiento}"  rendered="#{navegacionUser.editar}" />
                         </div>
+                        <div class="ui-g-12" style="text-align: center;" >
+                            <p:dataTable var="car" value="#{navegacionUser.museoUsuario.museoUsuarioCarreraList}" emptyMessage="No tiene Carreras Registradas">
+                                <f:facet name="header">
+                                    <p:commandButton id="addCar" icon="fa fa-plus" title="agregar carrera" onclick="PF('dlgAddCar').show();" style="width: 100%; height: 15px;" />
+                                </f:facet>
+                                <p:column headerText="Carrera">
+                                    <h:outputText value="#{car.mususuCarrera}" />
+                                </p:column>
+                                <p:column headerText="Sede">
+                                    <h:outputText value="#{car.sedCodSedeFisica.sedNomSede} #{car.sedCodSedeFisica.sedNombreCampus eq null ? '':car.sedCodSedeFisica.sedNombreCampus}" />
+                                </p:column>
+                            </p:dataTable>
+                        </div>
                         <div class="ui-g-12" style="text-align: right;" >
                             <p:separator style="z-index: 100" rendered="#{navegacionUser.editar}" />
                         </div>
@@ -229,6 +242,19 @@
                         <p:commandButton id="guardar" value="Si"  onclick="PF('dlgPass').hide();" actionListener="#{navegacionUser.guardar()}"  styleClass="ui-confirmdialog-yes" icon="ui-icon-check" title="Guardar" update=":formInfoPersonal :form:msj" />
                         <h:panelGrid width="5px" />
                         <p:commandButton value="No" onclick="PF('dlgPass').hide();" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                    </h:panelGrid>
+                </div>
+            </p:panel> 
+        </p:dialog>
+        <p:dialog id="dlgAddCar" widgetVar="dlgAddCar"  modal="true" showEffect="explode" hideEffect="explode"  class="dlgLoadingCenter"
+                  closable="false" draggable="false" resizable="false" showHeader="false"  >     
+            <p:panel style="border: 0px">                   
+                <div align="center" >
+                    <p:outputLabel value="agregar" />
+                    <h:panelGrid columns="3" class="contenidoformulario">
+                        <p:commandButton id="btnAddCar" value="Agregar"  onclick="PF('dlgAddCar').hide();" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" title="Agregar" update=":formInfoPersonal :form:msj" />
+                        <h:panelGrid width="5px" />
+                        <p:commandButton value="Cancelar" onclick="PF('dlgAddCar').hide();" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
                     </h:panelGrid>
                 </div>
             </p:panel> 

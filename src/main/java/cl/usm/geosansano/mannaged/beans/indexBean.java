@@ -40,6 +40,7 @@ public class indexBean implements Serializable {
     private SedeFacadeLocal sedeListFacade;
     private List<Sede> sedeList;
 
+    
     /**
      * Creates a new instance of indexBean
      */

@@ -6,19 +6,21 @@
 package cl.usm.geosansano.sessions.beans;
 
 import cl.usm.geosansano.entity.MuseoUsuario;
+import javax.ejb.Stateful;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceContextType;
 
 /**
  *
  * @author Juan Delgado
  */
-@Stateless
+@Stateful
 public class MuseoUsuarioFacade extends AbstractFacade<MuseoUsuario> implements MuseoUsuarioFacadeLocal {
 
-    @PersistenceContext(unitName = "USM_GeoSansano_war_1.0PU")
+    @PersistenceContext(unitName = "USM_GeoSansano_war_1.0PU", type = PersistenceContextType.EXTENDED)
     private EntityManager em;
 
     @Override
@@ -29,7 +31,7 @@ public class MuseoUsuarioFacade extends AbstractFacade<MuseoUsuario> implements 
     public MuseoUsuarioFacade() {
         super(MuseoUsuario.class);
     }
-    
+
     @Override
     public MuseoUsuario findByCuenta(String correo, String contraseña) {
         try {

@@ -2,6 +2,7 @@ package cl.usm.geosansano.webapp;
 
 //<editor-fold defaultstate="collapsed" desc="Imports">
 import cl.usm.geosansano.correo.EnviarCorreoGmail;
+import cl.usm.geosansano.entity.CarreraSede;
 import cl.usm.geosansano.entity.MuseoUsuario;
 import cl.usm.geosansano.entity.Pais;
 import cl.usm.geosansano.functions.FuncionCorreo;
@@ -10,6 +11,7 @@ import cl.usm.geosansano.functions.FuncionMD5;
 import cl.usm.geosansano.functions.FuncionTexto;
 import cl.usm.geosansano.sessions.beans.MuseoUsuarioFacadeLocal;
 import cl.usm.geosansano.sessions.beans.PaisFacadeLocal;
+import cl.usm.geosansano.sessions.beans.SedeFacadeLocal;
 import cl.usm.geosansano.sistema.Common;
 import cl.usm.geosansano.sistema.Pagina;
 import java.io.Serializable;
@@ -37,6 +39,11 @@ public class NavegacionUser implements Serializable {
     private MuseoUsuarioFacadeLocal museoUsuarioFacade;
     @EJB
     private PaisFacadeLocal paisFacade;
+    @EJB
+    private SedeFacadeLocal sedeFacade;
+
+
+
     //
     private MuseoUsuario museoUsuario;
     //
@@ -127,6 +134,10 @@ public class NavegacionUser implements Serializable {
             Common.eliminarSession();
         }
         Common.redireccionar(Pagina.PAGINA_INDEX);
+    }
+
+    public void addCarrera() {
+
     }
 
     public void validarSession() {
