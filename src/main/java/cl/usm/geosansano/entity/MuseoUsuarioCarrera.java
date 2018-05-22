@@ -39,6 +39,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "MuseoUsuarioCarrera.findByMususuIdUsu", query = "SELECT m FROM MuseoUsuarioCarrera m WHERE m.mususuIdUsu = :mususuIdUsu")
     , @NamedQuery(name = "MuseoUsuarioCarrera.findByFechaModificacion", query = "SELECT m FROM MuseoUsuarioCarrera m WHERE m.fechaModificacion = :fechaModificacion")
     , @NamedQuery(name = "MuseoUsuarioCarrera.findMaxIdForUser", query = "SELECT  NULLIF(MAX(m.mususuIdUsu),0) FROM MuseoUsuarioCarrera m ")
+    , @NamedQuery(name = "MuseoUsuarioCarrera.findByCodCarreraBySedCodSede", query = "SELECT m FROM MuseoUsuarioCarrera m WHERE m.museoUsuarioCarreraPK.mususuId = :mususuId AND m.museoUsuarioCarreraPK.codCarrera = :codCarrera AND  m.museoUsuarioCarreraPK.sedCodSede = :sedCodSede")
 })
 public class MuseoUsuarioCarrera implements Serializable {
 

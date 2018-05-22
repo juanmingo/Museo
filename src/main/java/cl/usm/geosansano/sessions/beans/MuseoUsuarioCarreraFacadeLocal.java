@@ -29,5 +29,8 @@ public interface MuseoUsuarioCarreraFacadeLocal {
     List<MuseoUsuarioCarrera> findRange(int[] range);
 
     int count();
-    
+
+    Long querySimple(String query);
+
+    MuseoUsuarioCarrera findBy_By_By(String query, String field, Object param, String field1, Object param1, String field2, Object param2);
 }

@@ -66,6 +66,14 @@ public abstract class AbstractFacade<T> {
         return getEntityManager().createNamedQuery(query).setParameter(field, param).getResultList();
     }
 
+    public List<T> findBy_By(String query, String field, Object param, String field1, Object param1) {
+        return getEntityManager().createNamedQuery(query).setParameter(field, param).setParameter(field1, param1).getResultList();
+    }
+
+    public T findBy_By_By(String query, String field, Object param, String field1, Object param1, String field2, Object param2) {
+        return (T) getEntityManager().createNamedQuery(query).setParameter(field, param).setParameter(field1, param1).getSingleResult();
+    }
+
     public Long querySimple(String query) {
         Long retorno;
         try {

@@ -5,12 +5,16 @@ import cl.usm.geosansano.correo.EnviarCorreoGmail;
 import cl.usm.geosansano.entity.CarreraImparte;
 import cl.usm.geosansano.entity.CarreraSede;
 import cl.usm.geosansano.entity.MuseoUsuario;
+import cl.usm.geosansano.entity.MuseoUsuarioCarrera;
+import cl.usm.geosansano.entity.MuseoUsuarioCarreraPK;
 import cl.usm.geosansano.entity.Pais;
 import cl.usm.geosansano.entity.Sede;
 import cl.usm.geosansano.functions.FuncionCorreo;
 import cl.usm.geosansano.functions.FuncionFecha;
 import cl.usm.geosansano.functions.FuncionMD5;
 import cl.usm.geosansano.functions.FuncionTexto;
+import cl.usm.geosansano.sessions.beans.CarreraImparteFacadeLocal;
+import cl.usm.geosansano.sessions.beans.MuseoUsuarioCarreraFacadeLocal;
 import cl.usm.geosansano.sessions.beans.MuseoUsuarioFacadeLocal;
 import cl.usm.geosansano.sessions.beans.PaisFacadeLocal;
 import cl.usm.geosansano.sessions.beans.SedeFacadeLocal;
@@ -40,7 +44,11 @@ public class NavegacionUser implements Serializable {
     @EJB
     private MuseoUsuarioFacadeLocal museoUsuarioFacade;
     @EJB
+    private MuseoUsuarioCarreraFacadeLocal museoUsuarioCarreraFacade;
+    @EJB
     private PaisFacadeLocal paisFacade;
+    @EJB
+    private CarreraImparteFacadeLocal carreraImparteFacade;
     @EJB
     private SedeFacadeLocal sedeFacade;
 
@@ -51,6 +59,7 @@ public class NavegacionUser implements Serializable {
     private String cuentaContraseña = "";
     private String mensajeErrorLogin = "";
     private Boolean editar = false;
+    private Boolean addCarrera = false;
     private List<Pais> paises;
     private String correo;
     private Integer pais;
@@ -63,6 +72,7 @@ public class NavegacionUser implements Serializable {
     private String newContraseña;
     private String confirmNewContraseña;
     private List<Sede> sedes;
+    private List<CarreraImparte> carreras;
     private Sede sedeSelect;
     private CarreraImparte carreraSelect;
 
@@ -75,6 +85,10 @@ public class NavegacionUser implements Serializable {
         RequestContext context = RequestContext.getCurrentInstance();
         context.update("formCuenta:pnLoginUsuario");
         context.update("formCuenta:msjError");
+    }
+
+    public void cargaCarreras() {
+        carreras = carreraImparteFacade.findBy("CarreraImparte.findByCodSedeImparte", "codSedeImparte", sedeSelect.getSedCodSede());
     }
 
     public void validarUsuario() {
@@ -142,6 +156,30 @@ public class NavegacionUser implements Serializable {
 
     public void addCarrera() {
 
+        if (carreraSelect != null && sedeSelect != null) {
+
+            MuseoUsuarioCarreraPK mucpk = new MuseoUsuarioCarreraPK(museoUsuario.getMususuId(), carreraSelect.getCarreraImpartePK().getCodSedeImparte(), carreraSelect.getCarreraImpartePK().getCodCarrera());
+
+            MuseoUsuarioCarrera listMuc = museoUsuarioCarreraFacade.find(mucpk);
+            if (listMuc != null) {
+                FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "El usuario ya contiene esta carrera.", "");
+                FacesContext.getCurrentInstance().addMessage(null, msg);
+                return;
+            }
+            MuseoUsuarioCarrera muc = new MuseoUsuarioCarrera(mucpk);
+            muc.setFechaModificacion(new Date());
+            muc.setMususuCarrera(carreraSelect.getCarreraSede().getNomCarrera());
+            muc.setSedCodSedeFisica(sedeSelect);
+            museoUsuarioCarreraFacade.create(muc);
+            museoUsuario.getMuseoUsuarioCarreraList().add(muc);
+            museoUsuarioFacade.edit(museoUsuario);
+            museoUsuario = museoUsuarioFacade.find(museoUsuario.getMususuId());
+            carreraSelect = null;
+            sedeSelect = null;
+        } else {
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Debe seleccionar Sede y Carrera.", "");
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+        }
     }
 
     public void validarSession() {
@@ -174,6 +212,10 @@ public class NavegacionUser implements Serializable {
 
         RequestContext context = RequestContext.getCurrentInstance();
         context.execute("PF('dlgLoading').hide()");
+    }
+
+    public void mostrarAddCarrera() {
+
     }
 
     public void mostrarEditPerfil() {
@@ -491,5 +533,33 @@ public class NavegacionUser implements Serializable {
      */
     public void setCarreraSelect(CarreraImparte carreraSelect) {
         this.carreraSelect = carreraSelect;
+    }
+
+    /**
+     * @return the addCarrera
+     */
+    public Boolean getAddCarrera() {
+        return addCarrera;
+    }
+
+    /**
+     * @param addCarrera the addCarrera to set
+     */
+    public void setAddCarrera(Boolean addCarrera) {
+        this.addCarrera = addCarrera;
+    }
+
+    /**
+     * @return the carreras
+     */
+    public List<CarreraImparte> getCarreras() {
+        return carreras;
+    }
+
+    /**
+     * @param carreras the carreras to set
+     */
+    public void setCarreras(List<CarreraImparte> carreras) {
+        this.carreras = carreras;
     }
 }
