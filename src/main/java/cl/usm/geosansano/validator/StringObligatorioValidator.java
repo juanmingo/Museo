@@ -20,9 +20,12 @@ public class StringObligatorioValidator implements javax.faces.validator.Validat
 
     @Override
     public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
+
+        System.out.println("stringObligatorioValidator");
+
         String str = (String) value;
         String strReturnValidator = (String) component.getAttributes().get("strReturnValidator");
-        //System.out.println("str: " + str + " strReturnValidator: " + strReturnValidator);
+        System.out.println("str: " + str + " strReturnValidator: " + strReturnValidator);
         FacesMessage msg;
 
         if (str == null || str.trim().equals("")) {

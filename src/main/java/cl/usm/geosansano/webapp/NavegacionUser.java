@@ -89,6 +89,7 @@ public class NavegacionUser implements Serializable {
 
     public void cargaCarreras() {
         carreras = carreraImparteFacade.findBy("CarreraImparte.findByCodSedeImparte", "codSedeImparte", sedeSelect.getSedCodSede());
+        
     }
 
     public void validarUsuario() {

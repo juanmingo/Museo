@@ -82,7 +82,7 @@
                         <p:selectOneMenu style="max-width: 250px;"  id="sede" value="#{navegacionUser.sedeSelect}" converter="sedeConverter" >
                             <f:selectItem itemLabel="seleccione" itemValue="" />
                             <f:selectItems var="s" value="#{navegacionUser.sedes}" itemValue="#{s}" itemLabel="#{s.sedNomSede} #{s.sedNombreCampus eq null ?'':s.sedNombreCampus}" />
-                            <p:ajax  event="change"  update=":formInfoCarrera:carrera"  />
+                            <p:ajax  event="change" listener="#{navegacionUser.cargaCarreras()}"  update=":formInfoCarrera:carrera"  />
                         </p:selectOneMenu>
                     </div>
                     <div class="ui-g-1" style="text-align: right;"  >
@@ -91,7 +91,7 @@
                     <div class="ui-g-4" style="text-align: left;">
                         <p:selectOneMenu style="max-width: 250px;"  id="carrera" value="#{navegacionUser.carreraSelect}" converter="carreraImparteConverter">
                             <f:selectItem itemLabel="seleccione" itemValue="" />
-                            <f:selectItems var="c" value="#{navegacionUser.sedeSelect.carreraImparteList}" itemValue="#{c}" itemLabel="#{c.carreraSede.nomCarrera}" />
+                            <f:selectItems var="c" value="#{navegacionUser.carreras}" itemValue="#{c}" itemLabel="#{c.carreraSede.nomCarrera}" />
                         </p:selectOneMenu>
                     </div>
                     <div class="ui-g-2" style="text-align: left;">
