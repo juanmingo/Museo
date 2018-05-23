@@ -75,40 +75,41 @@
                         <p:outputLabel value="#{navegacionUser.museoUsuario.mususuNombres} #{navegacionUser.museoUsuario.mususuPaterno} #{navegacionUser.museoUsuario.mususuMaterno}  " />
                     </div>
                     <div class="ui-g-12" style="text-align: center;"></div>
-                    <div class="ui-g-1" style="text-align: right;"  >
+                    <div class="ui-g-3" style="text-align: right;"  >
                         <p:outputLabel > <i class="fa fa-university" ></i></p:outputLabel>
                     </div>
-                    <div class="ui-g-3" style="text-align: left;">
-                        <p:selectOneMenu style="max-width: 250px;"  id="sede" value="#{navegacionUser.sedeSelect}" converter="sedeConverter" >
+                    <div class="ui-g-9" style="text-align: left;">
+                        <p:selectOneMenu   id="sede" value="#{navegacionUser.sedeSelect}" converter="sedeConverter" >
                             <f:selectItem itemLabel="seleccione" itemValue="" />
                             <f:selectItems var="s" value="#{navegacionUser.sedes}" itemValue="#{s}" itemLabel="#{s.sedNomSede} #{s.sedNombreCampus eq null ?'':s.sedNombreCampus}" />
                             <p:ajax  event="change" listener="#{navegacionUser.cargaCarreras()}"  update=":formInfoCarrera:carrera"  />
                         </p:selectOneMenu>
                     </div>
-                    <div class="ui-g-1" style="text-align: right;"  >
+                    <div class="ui-g-3" style="text-align: right;"  >
                         <p:outputLabel > <i class="fa fa-graduation-cap" ></i></p:outputLabel>
                     </div>
-                    <div class="ui-g-3" style="text-align: left;">
-                        <p:selectOneMenu style="max-width: 250px;"  id="carrera" value="#{navegacionUser.carreraSelect}" converter="carreraImparteConverter">
+                    <div class="ui-g-9" style="text-align: left;">
+                        <p:selectOneMenu   id="carrera" value="#{navegacionUser.carreraSelect}" converter="carreraImparteConverter">
                             <f:selectItem itemLabel="seleccione" itemValue="" />
                             <f:selectItems var="c" value="#{navegacionUser.carreras}" itemValue="#{c}" itemLabel="#{c.carreraSede.nomCarrera}" />
                         </p:selectOneMenu>
                     </div>
-                    <div class="ui-g-1" style="text-align: right;"  >
+                    <div class="ui-g-3" style="text-align: right;"  >
                         <p:outputLabel > <i class="fa fa-calendar" ></i></p:outputLabel>
                     </div>
-                    <div class="ui-g-2" style="text-align: left;">
-                        <p:selectOneMenu style="max-width: 250px;" value="#{navegacionUser.ingreso}" id="ingreso" >
+                    <div class="ui-g-9" style="text-align: left;">
+                        <p:selectOneMenu  value="#{navegacionUser.ingreso}" id="ingreso" >
                             <f:selectItems var="a" value="#{navegacionUser.años}" itemValue="#{a}" itemLabel="#{a}" />
                         </p:selectOneMenu>
                     </div>
-                    <div class="ui-g-1" style="text-align: left;">
-                        <p:commandButton id="addCar" style="height: 26px;" actionListener="#{navegacionUser.addCarrera()}" icon="fa fa-plus" title="agregar carrera" update=":formInfoCarrera :formInfoCarrera:carrerasUser :form:msj "  />
+                    <div class="ui-g-3" style="text-align: right;"  ></div>
+                    <div class="ui-g-9" style="text-align: center;">
+                        <p:commandButton id="addCar" style="max-height: 26px;" actionListener="#{navegacionUser.addCarrera()}" icon="fa fa-floppy-o" title="agregar carrera" update=":formInfoCarrera :formInfoCarrera:carrerasUser :form:msj "  />
                     </div>
 
                     <div class="ui-g-12" style="text-align: center;" >
                         <p:dataGrid var="car" value="#{navegacionUser.museoUsuario.museoUsuarioCarreraList}" columns="1" layout="grid"
-                                    rows="2" paginator="true" id="carrerasUser" 
+                                    rows="2" paginator="true" id="carrerasUser" emptyMessage="No tiene carreras ingresadas"
                                     paginatorTemplate="{CurrentPageReport} {PreviousPageLink} {PageLinks} {NextPageLink}"
                                     >
 
@@ -117,6 +118,11 @@
                                 <h:panelGrid columns="1" style="width:100%">
                                     <h:outputText value="Sede: #{car.sedCodSedeFisica.sedNomSede}" />
                                     <h:outputText value="Ingreso: #{car.mususuIngreso}" />
+                                    <p:commandButton icon="ui-icon-trash" title="Eliminar"   update=":formInfoCarrera :formInfoCarrera:carrerasUser :form:msj" 
+                                                     action="#{navegacionUser.eliminar()}"                                                   >
+                                        <f:setPropertyActionListener value="#{car}" target="#{navegacionUser.elimCarr}" />
+                                        <p:confirm header="Confirmación" message="¿Esta seguro que desea eliminar esta carrera ?" icon="ui-icon-alert" />
+                                    </p:commandButton>
                                 </h:panelGrid>
                             </p:panel>
                             <f:facet name="footer" >
@@ -125,6 +131,10 @@
                         </p:dataGrid>
                     </div>
                 </div>
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                    <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                </p:confirmDialog>
             </h:form>
         </p:sidebar>
         <p:sidebar widgetVar="perfilSidebar" position="right" baseZIndex="1"   >
@@ -217,7 +227,7 @@
                             <p:watermark for="confirmNewPass" value="Confirme nueva contraseña" />
                         </div>
                         <div class="ui-g-12" style="text-align: center;" >
-                            <p:commandButton id="guardar"  actionListener="#{navegacionUser.preGuardar()}" icon="fa fa-floppy-o" title="Guardar" update=":formInfoPersonal" rendered="#{navegacionUser.editar}" />
+                            <p:commandButton id="guardar" style="max-height: 26px;" actionListener="#{navegacionUser.preGuardar()}" icon="fa fa-floppy-o" title="Guardar" update=":formInfoPersonal" rendered="#{navegacionUser.editar}" />
                         </div>
                     </div>
                 </div>

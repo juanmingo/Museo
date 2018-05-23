@@ -79,6 +79,7 @@ public class NavegacionUser implements Serializable {
     private CarreraImparte carreraSelect;
     private List<Integer> años;
     private Integer ingreso;
+    private MuseoUsuarioCarrera elimCarr;
 
     public void limpiarVariables() {
         this.cuentaUsuario = "";
@@ -90,7 +91,7 @@ public class NavegacionUser implements Serializable {
 
         setIngreso((Integer) cal.get(Calendar.YEAR));
         años = new ArrayList<>();
-        for (int i = getIngreso(); i > 1950; i--) {
+        for (int i = getIngreso(); i > 1925; i--) {
             System.out.println("i: " + i);
             años.add(i);
         }
@@ -101,6 +102,16 @@ public class NavegacionUser implements Serializable {
 
     public void cargaCarreras() {
         carreras = carreraImparteFacade.findBy("CarreraImparte.findByCodSedeImparte", "codSedeImparte", sedeSelect.getSedCodSede());
+
+    }
+
+    public void eliminar() {
+
+        this.museoUsuario.getMuseoUsuarioCarreraList().remove(elimCarr);
+        this.museoUsuarioFacade.edit(museoUsuario);
+        museoUsuario = this.museoUsuarioFacade.find(museoUsuario.getMususuId());
+        museoUsuarioCarreraFacade.remove(elimCarr);
+        
 
     }
 
@@ -603,5 +614,19 @@ public class NavegacionUser implements Serializable {
      */
     public void setIngreso(Integer ingreso) {
         this.ingreso = ingreso;
+    }
+
+    /**
+     * @return the elimCarr
+     */
+    public MuseoUsuarioCarrera getElimCarr() {
+        return elimCarr;
+    }
+
+    /**
+     * @param elimCarr the elimCarr to set
+     */
+    public void setElimCarr(MuseoUsuarioCarrera elimCarr) {
+        this.elimCarr = elimCarr;
     }
 }
