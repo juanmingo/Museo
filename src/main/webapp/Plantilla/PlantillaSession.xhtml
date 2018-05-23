@@ -65,7 +65,7 @@
         <h:form id="form">
             <p:growl id="msj" showDetail="true" />
         </h:form>
-        <p:sidebar widgetVar="carreraSidebar" position="right" baseZIndex="1"  style="width: 30em;" >
+        <p:sidebar widgetVar="carreraSidebar" position="right" baseZIndex="1" blockScroll="true" style="width: 35em;" >
             <h:form id="formInfoCarrera"  >
                 <div class="ui-g ui-fluid " >
                     <div class="ui-g-12" style="text-align: center;">
@@ -78,7 +78,7 @@
                     <div class="ui-g-1" style="text-align: right;"  >
                         <p:outputLabel > <i class="fa fa-university" ></i></p:outputLabel>
                     </div>
-                    <div class="ui-g-4" style="text-align: left;">
+                    <div class="ui-g-3" style="text-align: left;">
                         <p:selectOneMenu style="max-width: 250px;"  id="sede" value="#{navegacionUser.sedeSelect}" converter="sedeConverter" >
                             <f:selectItem itemLabel="seleccione" itemValue="" />
                             <f:selectItems var="s" value="#{navegacionUser.sedes}" itemValue="#{s}" itemLabel="#{s.sedNomSede} #{s.sedNombreCampus eq null ?'':s.sedNombreCampus}" />
@@ -88,25 +88,41 @@
                     <div class="ui-g-1" style="text-align: right;"  >
                         <p:outputLabel > <i class="fa fa-graduation-cap" ></i></p:outputLabel>
                     </div>
-                    <div class="ui-g-4" style="text-align: left;">
+                    <div class="ui-g-3" style="text-align: left;">
                         <p:selectOneMenu style="max-width: 250px;"  id="carrera" value="#{navegacionUser.carreraSelect}" converter="carreraImparteConverter">
                             <f:selectItem itemLabel="seleccione" itemValue="" />
                             <f:selectItems var="c" value="#{navegacionUser.carreras}" itemValue="#{c}" itemLabel="#{c.carreraSede.nomCarrera}" />
                         </p:selectOneMenu>
                     </div>
+                    <div class="ui-g-1" style="text-align: right;"  >
+                        <p:outputLabel > <i class="fa fa-calendar" ></i></p:outputLabel>
+                    </div>
                     <div class="ui-g-2" style="text-align: left;">
+                        <p:selectOneMenu style="max-width: 250px;" value="#{navegacionUser.ingreso}" id="ingreso" >
+                            <f:selectItems var="a" value="#{navegacionUser.años}" itemValue="#{a}" itemLabel="#{a}" />
+                        </p:selectOneMenu>
+                    </div>
+                    <div class="ui-g-1" style="text-align: left;">
                         <p:commandButton id="addCar" style="height: 26px;" actionListener="#{navegacionUser.addCarrera()}" icon="fa fa-plus" title="agregar carrera" update=":formInfoCarrera :formInfoCarrera:carrerasUser :form:msj "  />
                     </div>
-                    <div class="ui-g-12" style="text-align: center;" >
-                        <p:dataTable id="carrerasUser" var="car" value="#{navegacionUser.museoUsuario.museoUsuarioCarreraList}" emptyMessage="No tiene Carreras Registradas">
 
-                            <p:column headerText="Carrera">
-                                <h:outputText value="#{car.mususuCarrera}" />
-                            </p:column>
-                            <p:column headerText="Sede">
-                                <h:outputText value="#{car.sedCodSedeFisica.sedNomSede} #{car.sedCodSedeFisica.sedNombreCampus eq null ? '':car.sedCodSedeFisica.sedNombreCampus}" />
-                            </p:column>
-                        </p:dataTable>
+                    <div class="ui-g-12" style="text-align: center;" >
+                        <p:dataGrid var="car" value="#{navegacionUser.museoUsuario.museoUsuarioCarreraList}" columns="1" layout="grid"
+                                    rows="2" paginator="true" id="carrerasUser" 
+                                    paginatorTemplate="{CurrentPageReport} {PreviousPageLink} {PageLinks} {NextPageLink}"
+                                    >
+
+                            <p:panel header="#{car.mususuCarrera}" 
+                                     style="text-align:center">
+                                <h:panelGrid columns="1" style="width:100%">
+                                    <h:outputText value="Sede: #{car.sedCodSedeFisica.sedNomSede}" />
+                                    <h:outputText value="Ingreso: #{car.mususuIngreso}" />
+                                </h:panelGrid>
+                            </p:panel>
+                            <f:facet name="footer" >
+                                Tiene #{navegacionUser.museoUsuario.museoUsuarioCarreraList!=null ?navegacionUser.museoUsuario.museoUsuarioCarreraList.size():'0'} carreras ingresadas.
+                            </f:facet>
+                        </p:dataGrid>
                     </div>
                 </div>
             </h:form>

@@ -21,6 +21,8 @@ import cl.usm.geosansano.sessions.beans.SedeFacadeLocal;
 import cl.usm.geosansano.sistema.Common;
 import cl.usm.geosansano.sistema.Pagina;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
@@ -75,6 +77,8 @@ public class NavegacionUser implements Serializable {
     private List<CarreraImparte> carreras;
     private Sede sedeSelect;
     private CarreraImparte carreraSelect;
+    private List<Integer> años;
+    private Integer ingreso;
 
     public void limpiarVariables() {
         this.cuentaUsuario = "";
@@ -82,6 +86,14 @@ public class NavegacionUser implements Serializable {
         this.mensajeErrorLogin = "";
         this.setPaises(this.paisFacade.findAll());
         this.setSedes(sedeFacade.findAll());
+        Calendar cal = Calendar.getInstance();
+
+        setIngreso((Integer) cal.get(Calendar.YEAR));
+        años = new ArrayList<>();
+        for (int i = getIngreso(); i > 1950; i--) {
+            System.out.println("i: " + i);
+            años.add(i);
+        }
         RequestContext context = RequestContext.getCurrentInstance();
         context.update("formCuenta:pnLoginUsuario");
         context.update("formCuenta:msjError");
@@ -89,7 +101,7 @@ public class NavegacionUser implements Serializable {
 
     public void cargaCarreras() {
         carreras = carreraImparteFacade.findBy("CarreraImparte.findByCodSedeImparte", "codSedeImparte", sedeSelect.getSedCodSede());
-        
+
     }
 
     public void validarUsuario() {
@@ -157,7 +169,7 @@ public class NavegacionUser implements Serializable {
 
     public void addCarrera() {
 
-        if (carreraSelect != null && sedeSelect != null) {
+        if (carreraSelect != null && sedeSelect != null && ingreso != null) {
 
             MuseoUsuarioCarreraPK mucpk = new MuseoUsuarioCarreraPK(museoUsuario.getMususuId(), carreraSelect.getCarreraImpartePK().getCodSedeImparte(), carreraSelect.getCarreraImpartePK().getCodCarrera());
 
@@ -171,6 +183,7 @@ public class NavegacionUser implements Serializable {
             muc.setFechaModificacion(new Date());
             muc.setMususuCarrera(carreraSelect.getCarreraSede().getNomCarrera());
             muc.setSedCodSedeFisica(sedeSelect);
+            muc.setMususuIngreso(ingreso);
             museoUsuarioCarreraFacade.create(muc);
             museoUsuario.getMuseoUsuarioCarreraList().add(muc);
             museoUsuarioFacade.edit(museoUsuario);
@@ -178,7 +191,7 @@ public class NavegacionUser implements Serializable {
             carreraSelect = null;
             sedeSelect = null;
         } else {
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Debe seleccionar Sede y Carrera.", "");
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Debe seleccionar Sede, Carrera e Ingreso.", "");
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
     }
@@ -562,5 +575,33 @@ public class NavegacionUser implements Serializable {
      */
     public void setCarreras(List<CarreraImparte> carreras) {
         this.carreras = carreras;
+    }
+
+    /**
+     * @return the años
+     */
+    public List<Integer> getAños() {
+        return años;
+    }
+
+    /**
+     * @param años the años to set
+     */
+    public void setAños(List<Integer> años) {
+        this.años = años;
+    }
+
+    /**
+     * @return the ingreso
+     */
+    public Integer getIngreso() {
+        return ingreso;
+    }
+
+    /**
+     * @param ingreso the ingreso to set
+     */
+    public void setIngreso(Integer ingreso) {
+        this.ingreso = ingreso;
     }
 }
