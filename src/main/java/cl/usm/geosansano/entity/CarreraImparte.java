@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "CarreraImparte.findAll", query = "SELECT c FROM CarreraImparte c")
     , @NamedQuery(name = "CarreraImparte.findByCodSedeCarrera", query = "SELECT c FROM CarreraImparte c WHERE c.carreraImpartePK.codSedeCarrera = :codSedeCarrera")
     , @NamedQuery(name = "CarreraImparte.findByCodCarrera", query = "SELECT c FROM CarreraImparte c WHERE c.carreraImpartePK.codCarrera = :codCarrera")
-    , @NamedQuery(name = "CarreraImparte.findByCodSedeImparte", query = "SELECT c FROM CarreraImparte c WHERE c.carreraImpartePK.codSedeImparte = :codSedeImparte AND c.carreraImpartePK.codMencion = 0")
+    , @NamedQuery(name = "CarreraImparte.findByCodSedeImparte", query = "SELECT c FROM CarreraImparte c WHERE c.carreraImpartePK.codSedeImparte = :codSedeImparte AND c.carreraImpartePK.codMencion = 0 ORDER BY c.carreraSede.nomCarrera")
     , @NamedQuery(name = "CarreraImparte.findByCodMencion", query = "SELECT c FROM CarreraImparte c WHERE c.carreraImpartePK.codMencion = :codMencion")})
 public class CarreraImparte implements Serializable {
 
@@ -102,5 +102,5 @@ public class CarreraImparte implements Serializable {
     public String toString() {
         return "cl.usm.geosansano.entity.CarreraImparte[ carreraImpartePK=" + carreraImpartePK + " ]";
     }
-    
+
 }
