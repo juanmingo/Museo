@@ -26,8 +26,10 @@ public interface SedeFacadeLocal {
 
     List<Sede> findAll();
 
+    List<Sede> findCampusSede();
+
     List<Sede> findRange(int[] range);
 
     int count();
-    
+
 }

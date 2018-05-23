@@ -86,7 +86,10 @@ public class NavegacionUser implements Serializable {
         this.cuentaContraseña = "";
         this.mensajeErrorLogin = "";
         this.setPaises(this.paisFacade.findAll());
-        this.setSedes(sedeFacade.findAll());
+        this.setSedes(sedeFacade.findCampusSede());
+
+        System.out.println("**sedes: " + sedes.size());
+
         Calendar cal = Calendar.getInstance();
 
         setIngreso((Integer) cal.get(Calendar.YEAR));
@@ -111,7 +114,6 @@ public class NavegacionUser implements Serializable {
         this.museoUsuarioFacade.edit(museoUsuario);
         museoUsuario = this.museoUsuarioFacade.find(museoUsuario.getMususuId());
         museoUsuarioCarreraFacade.remove(elimCarr);
-        
 
     }
 

@@ -6,8 +6,10 @@
 package cl.usm.geosansano.sessions.beans;
 
 import cl.usm.geosansano.entity.Sede;
+import java.util.List;
 import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 
@@ -30,4 +32,9 @@ public class SedeFacade extends AbstractFacade<Sede> implements SedeFacadeLocal 
         super(Sede.class);
     }
 
+    @Override
+    public List<Sede> findCampusSede() {
+        return em.createNamedQuery("Sede.findCampusSede")
+                .getResultList();
+    }
 }

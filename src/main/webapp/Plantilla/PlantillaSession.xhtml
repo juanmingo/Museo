@@ -65,15 +65,10 @@
         <h:form id="form">
             <p:growl id="msj" showDetail="true" />
         </h:form>
-        <p:sidebar widgetVar="carreraSidebar" position="right" baseZIndex="1" blockScroll="true" style="width: 35em;" >
+        <p:sidebar widgetVar="carreraSidebar" position="right" baseZIndex="1">
             <h:form id="formInfoCarrera"  >
                 <div class="ui-g ui-fluid " >
-                    <div class="ui-g-12" style="text-align: center;">
-                        <p:graphicImage value="./../images/sin_foto_perfil.png"  style="width: 10vw"  />
-                    </div>
-                    <div class="ui-g-12" style="text-align: center; padding: 0.1em; ">
-                        <p:outputLabel value="#{navegacionUser.museoUsuario.mususuNombres} #{navegacionUser.museoUsuario.mususuPaterno} #{navegacionUser.museoUsuario.mususuMaterno}  " />
-                    </div>
+             
                     <div class="ui-g-12" style="text-align: center;"></div>
                     <div class="ui-g-3" style="text-align: right;"  >
                         <p:outputLabel > <i class="fa fa-university" ></i></p:outputLabel>
@@ -89,7 +84,7 @@
                         <p:outputLabel > <i class="fa fa-graduation-cap" ></i></p:outputLabel>
                     </div>
                     <div class="ui-g-9" style="text-align: left;">
-                        <p:selectOneMenu   id="carrera" value="#{navegacionUser.carreraSelect}" converter="carreraImparteConverter">
+                        <p:selectOneMenu   id="carrera" value="#{navegacionUser.carreraSelect}" converter="carreraImparteConverter" autoWidth="false" >
                             <f:selectItem itemLabel="seleccione" itemValue="" />
                             <f:selectItems var="c" value="#{navegacionUser.carreras}" itemValue="#{c}" itemLabel="#{c.carreraSede.nomCarrera}" />
                         </p:selectOneMenu>
@@ -107,28 +102,31 @@
                         <p:commandButton id="addCar" style="max-height: 26px;" actionListener="#{navegacionUser.addCarrera()}" icon="fa fa-floppy-o" title="agregar carrera" update=":formInfoCarrera :formInfoCarrera:carrerasUser :form:msj "  />
                     </div>
 
-                    <div class="ui-g-12" style="text-align: center;" >
-                        <p:dataGrid var="car" value="#{navegacionUser.museoUsuario.museoUsuarioCarreraList}" columns="1" layout="grid"
-                                    rows="2" paginator="true" id="carrerasUser" emptyMessage="No tiene carreras ingresadas"
-                                    paginatorTemplate="{CurrentPageReport} {PreviousPageLink} {PageLinks} {NextPageLink}"
-                                    >
+                    <div class="ui-g-12" style="text-align: center;"/>
 
-                            <p:panel header="#{car.mususuCarrera}" 
-                                     style="text-align:center">
-                                <h:panelGrid columns="1" style="width:100%">
-                                    <h:outputText value="Sede: #{car.sedCodSedeFisica.sedNomSede}" />
-                                    <h:outputText value="Ingreso: #{car.mususuIngreso}" />
-                                    <p:commandButton icon="ui-icon-trash" title="Eliminar"   update=":formInfoCarrera :formInfoCarrera:carrerasUser :form:msj" 
-                                                     action="#{navegacionUser.eliminar()}"                                                   >
-                                        <f:setPropertyActionListener value="#{car}" target="#{navegacionUser.elimCarr}" />
-                                        <p:confirm header="Confirmación" message="¿Esta seguro que desea eliminar esta carrera ?" icon="ui-icon-alert" />
-                                    </p:commandButton>
+                    <div class="ui-g-3" style="text-align: right;"  >
+                        <p:outputLabel > <i class="fa fa-bookmark" ></i></p:outputLabel>
+                    </div>
+                    <div class="ui-g-9" style="text-align: left;">
+                        <p:scrollPanel style=" border: 0px ; width: 100%; height:65%"  class="contenidoformulario" >
+                            <p:dataGrid var="car" value="#{navegacionUser.museoUsuario.museoUsuarioCarreraList}" columns="1" layout="grid" class="contenidoformulario"
+                                        id="carrerasUser" emptyMessage="No tiene carreras ingresadas"  >
+
+                                <h:panelGrid columns="1" style="width:100%" class="contenidoformulario" columnClasses="alignTop alignTop" >                                  
+                                    <h:outputText value="#{car.mususuCarrera}" />
+                                    <h:outputText value="#{car.sedCodSedeFisica.sedNomSede}" />
+                                    <h:outputText value="#{car.mususuIngreso}" />
+
                                 </h:panelGrid>
-                            </p:panel>
-                            <f:facet name="footer" >
-                                Tiene #{navegacionUser.museoUsuario.museoUsuarioCarreraList!=null ?navegacionUser.museoUsuario.museoUsuarioCarreraList.size():'0'} carreras ingresadas.
-                            </f:facet>
-                        </p:dataGrid>
+                                <p:commandButton icon="ui-icon-trash" title="Eliminar"   update=":formInfoCarrera :formInfoCarrera:carrerasUser :form:msj" 
+                                                 action="#{navegacionUser.eliminar()}"        style="max-height: 26px;"                                           >
+                                    <f:setPropertyActionListener value="#{car}" target="#{navegacionUser.elimCarr}" />
+                                    <p:confirm header="Confirmación" message="¿Esta seguro que desea eliminar esta carrera ?" icon="ui-icon-alert" />
+                                </p:commandButton>
+
+
+                            </p:dataGrid>
+                        </p:scrollPanel>
                     </div>
                 </div>
                 <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">

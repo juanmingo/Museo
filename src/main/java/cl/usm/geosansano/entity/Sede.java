@@ -29,6 +29,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Sede.findAll", query = "SELECT s FROM Sede s")
+    ,@NamedQuery(name = "Sede.findCampusSede", query = "SELECT s FROM Sede s WHERE s.sedCodSede IN (1,2,3,4,6,7) ORDER BY s.sedNomSede, s.sedNombreCampus")
     , @NamedQuery(name = "Sede.findBySedCodSede", query = "SELECT s FROM Sede s WHERE s.sedCodSede = :sedCodSede")
     , @NamedQuery(name = "Sede.findBySedNomSede", query = "SELECT s FROM Sede s WHERE s.sedNomSede = :sedNomSede")
     , @NamedQuery(name = "Sede.findBySedDireccion", query = "SELECT s FROM Sede s WHERE s.sedDireccion = :sedDireccion")
@@ -161,5 +162,5 @@ public class Sede implements Serializable {
     public String toString() {
         return "cl.usm.geosansano.entity.Sede[ sedCodSede=" + sedCodSede + " ]";
     }
-    
+
 }
